@@ -3,7 +3,7 @@ name: Maven Project
 on:
   push:
     paths:
-      - '.\MyMusic'
+      - './MyMusic/**'
     branches:
       - main
       - develop
