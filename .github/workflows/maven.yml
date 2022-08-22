@@ -2,17 +2,17 @@ name: Maven Project
 
 on:
   push:
-    paths:
-      - 'MyMusic/'
     branches:
       - main
       - develop
+    paths:
+      - 'MyMusic/**'
   pull_request:
-    paths:
-      - 'MyMusic/'
     branches:
       - main
       - develop
+    paths:
+      - 'MyMusic/**'
 
 jobs:
   compile:
