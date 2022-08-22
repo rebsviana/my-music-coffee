@@ -2,10 +2,14 @@ name: Maven Project
 
 on:
   push:
+    paths:
+      - 'MyMusic/'
     branches:
       - main
       - develop
   pull_request:
+    paths:
+      - 'MyMusic/'
     branches:
       - main
       - develop
