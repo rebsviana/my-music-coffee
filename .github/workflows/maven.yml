@@ -12,6 +12,7 @@ on:
       - 'MyMusic/'
     branches:
       - main
+      - develop
 
 jobs:
   compile:
