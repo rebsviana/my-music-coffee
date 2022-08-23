@@ -171,7 +171,7 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://miro.medium.com/max/360/0*1SkS3mSorArvY9kS.jpg" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <img src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/08/lebron-jams-nba-lakers-rep-1-628x353.jpg" width=100px; alt="Foto do Steve Jobs"/><br>
         <sub>
           <b>Peter Leite</b>
         </sub>
