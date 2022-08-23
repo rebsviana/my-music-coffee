@@ -144,3 +144,5 @@ mvnw.cmd
 HELP.md
 .idea
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij
+
+*.iml
