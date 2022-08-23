@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "Artista")
+@Table(name = "Musica")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
