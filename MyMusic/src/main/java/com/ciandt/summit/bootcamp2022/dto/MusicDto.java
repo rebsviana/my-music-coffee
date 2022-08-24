@@ -7,7 +7,7 @@ public class MusicDto {
 
     String id;
 
-    @Length(min = 3, message = "The name have to be three characters")
+    @Length(min = 3, message = "The name have must have three or more than three characters")
     @NotNull(message = "Name can't be null")
     String name;
 
