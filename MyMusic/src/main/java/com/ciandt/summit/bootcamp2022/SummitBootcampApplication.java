@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 public class SummitBootcampApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(SummitBootcampApplication.class, args);
 	}

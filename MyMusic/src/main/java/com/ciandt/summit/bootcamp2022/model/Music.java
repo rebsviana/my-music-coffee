@@ -24,7 +24,7 @@ public class Music {
     private String id;
 
     @Column(name = "Nome")
-    private String nome;
+    private String name;
 
     @OneToOne
     @JoinColumn(name = "ArtistaId", referencedColumnName = "Id")
