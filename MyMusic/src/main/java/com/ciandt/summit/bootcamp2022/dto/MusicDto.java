@@ -1,8 +1,13 @@
 package com.ciandt.summit.bootcamp2022.dto;
 
+import com.ciandt.summit.bootcamp2022.model.Artist;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 
+@AllArgsConstructor
+@Getter
 public class MusicDto {
 
     String id;
@@ -11,5 +16,6 @@ public class MusicDto {
     @NotNull(message = "Name can't be null")
     String name;
 
-    String artistId;
+    Artist artistId;
 }
+

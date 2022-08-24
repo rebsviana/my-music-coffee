@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages="com.ciandt.summit.bootcamp2022.model")
-@EnableJpaRepositories(basePackageClasses ={
+@EnableJpaRepositories(basePackageClasses={
 		MusicRepository.class,
 		ArtistRepository.class
 })

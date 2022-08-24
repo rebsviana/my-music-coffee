@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class Music {
 
     @Id
@@ -29,5 +28,4 @@ public class Music {
     @OneToOne
     @JoinColumn(name = "ArtistaId", referencedColumnName = "Id")
     private Artist artistId;
-
 }
