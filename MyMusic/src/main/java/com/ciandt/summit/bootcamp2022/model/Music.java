@@ -27,7 +27,7 @@ public class Music {
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "ArtistaId")
+    @JoinColumn(name = "ArtistaId", referencedColumnName = "Id")
     private Artist artistId;
 
 }
