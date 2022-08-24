@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Artista")
+@Table(name = "Artistas")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

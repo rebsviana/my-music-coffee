@@ -24,10 +24,10 @@ public class Music {
     private String id;
 
     @Column(name = "Nome")
-    private String name;
+    private String nome;
 
     @OneToOne
-    @JoinColumn(name = "ArtistaId")
+    @JoinColumn(name = "ArtistaId", referencedColumnName = "Id")
     private Artist artistId;
 
 }

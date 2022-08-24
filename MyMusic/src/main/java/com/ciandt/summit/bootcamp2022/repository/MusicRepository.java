@@ -7,13 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MusicRepository extends JpaRepository<Music, String> {
 
     @Query(
-            "SELECT * FROM Artistas a INNER JOIN Musicas m ON a.Id = m.ArtistaId WHERE a.Nome LIKE " +
-            " '%:name%' OR m.nome LIKE '%:name%' ORDER BY a.nome ASC, m.nome ASC;"
+            value = "SELECT * FROM Artistas a INNER JOIN Musicas m ON a.Id = m.ArtistaId WHERE a.Nome LIKE " +
+            " '%:name%' OR m.nome LIKE '%:name%' ORDER BY a.nome ASC, m.nome ASC;", nativeQuery = true
     )
-    List<Music>  searchMusicNameOrArtistName(@Param("name") String name);
+    Optional<Music> searchMusicNameOrArtistName(@Param("name") String name);
 }
