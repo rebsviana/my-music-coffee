@@ -12,10 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Artistas")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
-@Setter
 public class Artist {
 
     @Id
@@ -24,5 +23,4 @@ public class Artist {
 
     @Column(name = "Nome")
     private String name;
-
 }
