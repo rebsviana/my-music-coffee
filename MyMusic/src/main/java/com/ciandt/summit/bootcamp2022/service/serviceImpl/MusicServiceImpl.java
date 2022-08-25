@@ -22,13 +22,13 @@ public class MusicServiceImpl implements MusicService {
     private final ObjectMapper mapper;
 
     @Override
-    public List<MusicDto> searchMusicNameOrArtistName(String name) {
+    public List<MusicDto> getMusicByNameOrArtist(String name) {
         checkNotNull(name, "Name can not be null");
 
         if (name.length() < 3)
             throw new MinLengthRequiredException();
 
-        var musicEntity = musicRepository.searchMusicNameOrArtistName(name);
+        var musicEntity = musicRepository.findMusicByNameOrArtist(name);
 
         if (musicEntity.isEmpty())
             throw new NoContentException();

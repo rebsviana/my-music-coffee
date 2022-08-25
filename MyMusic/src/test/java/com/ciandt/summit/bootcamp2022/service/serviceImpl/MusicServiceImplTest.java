@@ -49,13 +49,13 @@ class MusicServiceImplTest {
 
     @Test
     void whenSearchMusicNameOrArtistNameThenReturnListOfMusicDto() {
-        when(musicRepository.searchMusicNameOrArtistName(anyString()))
+        when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of(music));
 
         when(mapper.convertValue(music, MusicDto.class))
                 .thenReturn(musicDto);
 
-        var list = service.searchMusicNameOrArtistName("Harley");
+        var list = service.getMusicByNameOrArtist("Harley");
 
         assertThat(list.get(0).getName(), containsString("Harley"));
         assertNotEquals(list.get(0).getArtistId().getName(), containsString("Harley"));
@@ -67,22 +67,22 @@ class MusicServiceImplTest {
     @DisplayName("When the name has less than three characters then return MinLengthRequiredException")
     void whenSearchMusicNameOrArtistNameThenReturnMinLengthRequiredException() {
         var exception = assertThrows(MinLengthRequiredException.class,
-                () -> service.searchMusicNameOrArtistName("aa"));
+                () -> service.getMusicByNameOrArtist("aa"));
 
         assertNotNull(exception);
         assertEquals(MinLengthRequiredException.MESSAGE, exception.getMessage());
         assertEquals(MinLengthRequiredException.class, exception.getClass());
-        verify(musicRepository, times(0)).searchMusicNameOrArtistName(anyString());
+        verify(musicRepository, times(0)).findMusicByNameOrArtist(anyString());
     }
 
     @Test
     @DisplayName("When the list is empty then return NoContentException")
     void whenSearchMusicNameOrArtistNameThenReturnNoContentException() {
-        when(musicRepository.searchMusicNameOrArtistName(anyString()))
+        when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of());
 
         var exception = assertThrows(NoContentException.class,
-                () -> service.searchMusicNameOrArtistName("rebeca"));
+                () -> service.getMusicByNameOrArtist("rebeca"));
 
         assertNotNull(exception);
         assertEquals(NoContentException.MESSAGE, exception.getMessage());

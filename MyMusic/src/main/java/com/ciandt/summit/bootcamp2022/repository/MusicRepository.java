@@ -16,5 +16,5 @@ public interface MusicRepository extends JpaRepository<Music, String> {
             " '%:name%' OR m.nome LIKE '%:name%' ORDER BY a.nome ASC, m.nome ASC;",
              nativeQuery = true
     )
-    List<Music> searchMusicNameOrArtistName(@Param("name") String name);
+    List<Music> findMusicByNameOrArtist(@Param("name") String name);
 }
