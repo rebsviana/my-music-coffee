@@ -12,9 +12,9 @@ import java.util.List;
 public interface MusicRepository extends JpaRepository<Music, String> {
 
     @Query(
-            value = "SELECT * FROM Artistas a INNER JOIN Musicas m ON a.Id = m.ArtistaId WHERE a.Nome LIKE " +
-            " '%:name%' OR m.nome LIKE '%:name%' ORDER BY a.nome ASC, m.nome ASC;",
-             nativeQuery = true
+            value = "SELECT DISTINCT * FROM Musicas m INNER JOIN Artistas a ON a.Id =  m.ArtistaId WHERE UPPER(a.nome) " +
+                    "LIKE UPPER ('%' || :name || '%') OR UPPER(m.nome) LIKE UPPER ('%' || :name || '%') ORDER BY m.nome, a.nome"
+            , nativeQuery = true
     )
     List<Music> findMusicByNameOrArtist(@Param("name") String name);
 }
