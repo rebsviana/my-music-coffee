@@ -43,7 +43,7 @@ class MusicControllerTest {
     }
 
     @Test
-    @DisplayName("when search some music with tilter then return response entity with list of MusicDto")
+    @DisplayName("When search some music with filter then return response entity with list of MusicDto")
     void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto(){
         when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(List.of(musicDto));
 
@@ -54,5 +54,4 @@ class MusicControllerTest {
         assertEquals(ResponseEntity.class, response.getClass());
         assertEquals(List.of(musicDto), response.getBody());
     }
-
 }
