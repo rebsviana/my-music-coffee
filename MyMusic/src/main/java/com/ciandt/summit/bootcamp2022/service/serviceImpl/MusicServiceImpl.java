@@ -12,14 +12,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+
 @Service
 @RequiredArgsConstructor
 public class MusicServiceImpl implements MusicService {
-    private MusicRepository musicRepository;
-    private ObjectMapper mapper;
+    private final MusicRepository musicRepository;
+    private final ObjectMapper mapper;
 
     @Override
     public List<MusicDto> searchMusicNameOrArtistName(String name) {
+        checkNotNull(name, "Name can not be null");
+
         if (name.length() < 3)
             throw new MinLengthRequiredException();
 
