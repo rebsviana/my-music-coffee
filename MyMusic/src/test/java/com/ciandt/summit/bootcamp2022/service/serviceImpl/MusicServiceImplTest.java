@@ -12,17 +12,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 class MusicServiceImplTest {
@@ -46,10 +49,10 @@ class MusicServiceImplTest {
 
     @Test
     void whenSearchMusicNameOrArtistNameThenReturnListOfMusicDto() {
-        Mockito.when(musicRepository.searchMusicNameOrArtistName(anyString()))
+        when(musicRepository.searchMusicNameOrArtistName(anyString()))
                 .thenReturn(List.of(music));
 
-        Mockito.when(mapper.convertValue(music, MusicDto.class))
+        when(mapper.convertValue(music, MusicDto.class))
                 .thenReturn(musicDto);
 
         var list = service.searchMusicNameOrArtistName("Harley");
@@ -75,7 +78,7 @@ class MusicServiceImplTest {
     @Test
     @DisplayName("When the list is empty then return NoContentException")
     void whenSearchMusicNameOrArtistNameThenReturnNoContentException() {
-        Mockito.when(musicRepository.searchMusicNameOrArtistName(anyString()))
+        when(musicRepository.searchMusicNameOrArtistName(anyString()))
                 .thenReturn(List.of());
 
         var exception = assertThrows(NoContentException.class,
