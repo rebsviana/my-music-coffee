@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MinLengthRequiredException.class)
-    public ResponseEntity<ErrorDto> handleMinRequiredException(MinLengthRequiredException e) {
-        log.error("The name must have three or more than three characters");
+    public ResponseEntity<ErrorDto> handleMinRequiredException(MinLengthRequiredException exception) {
+        log.error("MinLengthRequiredException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
-                .message(e.getMessage())
+                .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
     @ExceptionHandler(value = NoContentException.class)
-    public ResponseEntity<ErrorDto> handleNoContentException(NoContentException e) {
-        log.error("No results found!");
+    public ResponseEntity<ErrorDto> handleNoContentException(NoContentException exception) {
+        log.error("NoContentException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
-                .message(e.getMessage())
+                .message(exception.getMessage())
                 .error(HttpStatus.NO_CONTENT)
                 .build();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(errorDto);
     }
 
     @ExceptionHandler(value = UnauthorizedAccessException.class)
-    public ResponseEntity<ErrorDto> handleUnauthorizedAccessException(UnauthorizedAccessException e) {
-        log.error("You have not the rights to access this function!");
+    public ResponseEntity<ErrorDto> handleUnauthorizedAccessException(UnauthorizedAccessException exception) {
+        log.error("UnauthorizedAccessException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
-                .message(e.getMessage())
+                .message(exception.getMessage())
                 .error(HttpStatus.UNAUTHORIZED)
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);

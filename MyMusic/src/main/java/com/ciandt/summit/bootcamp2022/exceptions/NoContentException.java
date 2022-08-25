@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NO_CONTENT)
 public class NoContentException extends RuntimeException{
 
-    private static final String MESSAGE = "No results found!";
+    public static final String MESSAGE = "No results found!";
 
     public NoContentException(){
         super(MESSAGE);

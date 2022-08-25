@@ -2,6 +2,8 @@ package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
+import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +23,38 @@ class GlobalExceptionHandlerTest {
     private GlobalExceptionHandler globalExceptionHandler;
 
     @Test
-    @DisplayName("Argument size is lass than three")
-    void whenLenghtLessThanThreeThanReturnResponseEntity(){
+    @DisplayName("When argument size is less than three then return MinLengthRequiredException ")
+    void whenLenghtLessThenThreeThenReturnResponseEntity(){
 
         ResponseEntity<ErrorDto> error = globalExceptionHandler
                 .handleMinRequiredException(new MinLengthRequiredException());
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
-        assertEquals("The name must have three or more than three characters", error.getBody().getMessage());
+        assertEquals(MinLengthRequiredException.MESSAGE, error.getBody().getMessage());
     }
 
+    @Test
+    @DisplayName("When argument is not found on the Database then return NoContentException")
+    void whenArgumentNotFoundThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleNoContentException(new NoContentException());
+
+        assertEquals(HttpStatus.NO_CONTENT, error.getStatusCode());
+        assertEquals(204, error.getStatusCodeValue());
+        assertEquals(NoContentException.MESSAGE, error.getBody().getMessage());
+    }
+
+    @Test
+    @DisplayName("When user has not the rights then return UnauthorizedAccessException")
+    void whenUserHasNotTheRightsThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleUnauthorizedAccessException(new UnauthorizedAccessException());
+
+        assertEquals(HttpStatus.UNAUTHORIZED, error.getStatusCode());
+        assertEquals(401, error.getStatusCodeValue());
+        assertEquals(UnauthorizedAccessException.MESSAGE, error.getBody().getMessage());
+    }
 }

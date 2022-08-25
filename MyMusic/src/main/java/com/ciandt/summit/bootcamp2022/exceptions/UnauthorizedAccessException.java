@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class UnauthorizedAccessException extends RuntimeException{
 
-    private static final String MESSAGE = "You have not the rights to access this function!";
+    public static final String MESSAGE = "You have not the rights to access this function!";
 
     public UnauthorizedAccessException(){
         super(MESSAGE);
