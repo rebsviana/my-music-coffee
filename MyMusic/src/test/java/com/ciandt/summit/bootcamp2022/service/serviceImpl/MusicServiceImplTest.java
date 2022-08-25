@@ -48,7 +48,8 @@ class MusicServiceImplTest {
     }
 
     @Test
-    void whenSearchMusicNameOrArtistNameThenReturnListOfMusicDto() {
+    @DisplayName("When find music by name or artist then return list of MusicDto")
+    void whenFindMusicByNameOrArtistThenReturnListOfMusicDto() {
         when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of(music));
 
@@ -65,7 +66,7 @@ class MusicServiceImplTest {
 
     @Test
     @DisplayName("When the name has less than three characters then return MinLengthRequiredException")
-    void whenSearchMusicNameOrArtistNameThenReturnMinLengthRequiredException() {
+    void whenGetMusicByNameOrArtistThenReturnMinLengthRequiredException() {
         var exception = assertThrows(MinLengthRequiredException.class,
                 () -> service.getMusicByNameOrArtist("aa"));
 
@@ -77,7 +78,7 @@ class MusicServiceImplTest {
 
     @Test
     @DisplayName("When the list is empty then return NoContentException")
-    void whenSearchMusicNameOrArtistNameThenReturnNoContentException() {
+    void whenGetMusicByNameOrArtistThenReturnNoContentException() {
         when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of());
 
