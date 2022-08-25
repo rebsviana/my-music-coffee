@@ -68,6 +68,11 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.2.3.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>31.1-jre</version>
+		</dependency>
 	</dependencies>
 
 	<build>

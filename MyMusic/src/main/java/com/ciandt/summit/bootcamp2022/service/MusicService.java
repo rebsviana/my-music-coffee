@@ -4,5 +4,5 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 
 import java.util.List;
 public interface MusicService {
-    public List<MusicDto> searchMusicNameOrArtistName(String name);
+    public List<MusicDto> getMusicByNameOrArtist(String name);
 }
