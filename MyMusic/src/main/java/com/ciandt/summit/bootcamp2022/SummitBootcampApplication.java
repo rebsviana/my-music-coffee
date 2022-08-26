@@ -12,7 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.ciandt.summit.bootcamp2022.dto",
 		"com.ciandt.summit.bootcamp2022.exceptions",
 		"com.ciandt.summit.bootcamp2022.repository",
-		"com.ciandt.summit.bootcamp2022.service"
+		"com.ciandt.summit.bootcamp2022.service",
+		"com.ciandt.summit.bootcamp2022.config.swagger"
 })
 @EnableJpaRepositories(basePackageClasses={
 		MusicRepository.class,
