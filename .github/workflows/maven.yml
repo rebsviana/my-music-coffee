@@ -71,4 +71,4 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
           DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
-        run: mvn -f MyMusic/pom.xml package jib:build -DskipTests
+        run: mvn -f MyMusic/pom.xml package jib:build -Djib.to.auth.username=${{secrets.DOCKERHUB_USERNAME}} -Djib.to.auth.password=${{secrets.DOCKERHUB_TOKEN}} -DskipTests
