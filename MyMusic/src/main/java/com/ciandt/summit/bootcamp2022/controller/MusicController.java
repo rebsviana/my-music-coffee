@@ -27,7 +27,7 @@ public class MusicController {
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @GetMapping
     public ResponseEntity<List<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName){
-        var result = tokenProviderService.createTokenAuthorizer(new CreateAuthorizerRequest(new CreateAuthorizerRequestData("luana", "YXk2Dz6Ap2mbz5f0YPs8ODFVLtzDg5z2u9sveejnq/fSTwuZyUYK6Ku+JGtz0wY0")));
+        var result = tokenProviderService.createTokenAuthorizer(new CreateAuthorizerRequest(new CreateAuthorizerRequestData("luana", "+pVOQbAvq0ydKtTCrBCgpLkS3lCNyz5kFfxPN3RIYTi6O3CfZSrenDIRKeC02h+d")));
         var listMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(listMusicDto);

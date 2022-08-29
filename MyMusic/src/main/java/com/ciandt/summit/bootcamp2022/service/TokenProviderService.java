@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "tokenprovider", url = "http://localhost:8081/api/v1/token/authorizer")
+@FeignClient(value = "tokenprovider", url = "http://localhost:8081/api/v1/token/authorizer")
 public interface TokenProviderService {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
