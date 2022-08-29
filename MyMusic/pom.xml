@@ -151,7 +151,7 @@
 						<image>rebsviana/${project.artifactId}:${project.version}</image>
 						<auth>
 							<username>${{secrets.DOCKERHUB_USERNAME}}</username>
-							<password>d${{secrets.DOCKERHUB_TOKEN}}</password>
+							<password>${{secrets.DOCKERHUB_TOKEN}}</password>
 						</auth>
 					</to>
 					<container>
