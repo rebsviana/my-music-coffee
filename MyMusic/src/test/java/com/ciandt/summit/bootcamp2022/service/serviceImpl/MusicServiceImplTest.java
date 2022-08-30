@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
+import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
@@ -35,16 +36,17 @@ class MusicServiceImplTest {
     private ObjectMapper mapper;
     @InjectMocks
     private MusicServiceImpl service;
-
     private Music music;
     private MusicDto musicDto;
     private Artist artist;
+    private ArtistDto artistDto;
 
     @BeforeEach
     void setup() {
         artist = new Artist("1344", "David");
         music = new Music("12343", "Harley", artist);
-        musicDto = new MusicDto("12343", "Harley", artist);
+        artistDto = new ArtistDto("1344", "David");
+        musicDto = new MusicDto("12343", "Harley", artistDto);
     }
 
     @Test
@@ -53,13 +55,9 @@ class MusicServiceImplTest {
         when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of(music));
 
-        when(mapper.convertValue(music, MusicDto.class))
-                .thenReturn(musicDto);
-
         var list = service.getMusicByNameOrArtist("Harley");
 
         assertThat(list.get(0).getName(), containsString("Harley"));
-        assertNotEquals(list.get(0).getArtistId().getName(), containsString("Harley"));
 
         //TODO: Buscar metodo para comparar se há pelo menos um dos dois
     }

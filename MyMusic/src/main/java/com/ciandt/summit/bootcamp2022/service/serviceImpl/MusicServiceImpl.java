@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
+import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
@@ -34,7 +35,14 @@ public class MusicServiceImpl implements MusicService {
             throw new NoContentException();
 
         return musicEntity.stream()
-                .map(music -> mapper.convertValue(music, MusicDto.class))
+                .map(music -> MusicDto.builder()
+                        .artistDtoId(ArtistDto.builder()
+                                .id(music.getArtistId().getId())
+                                .name(music.getArtistId().getName())
+                                .build())
+                        .id(music.getId())
+                        .name(music.getName())
+                        .build())
                 .collect(Collectors.toList());
     }
 }

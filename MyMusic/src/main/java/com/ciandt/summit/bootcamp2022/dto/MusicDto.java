@@ -1,12 +1,13 @@
 package com.ciandt.summit.bootcamp2022.dto;
 
-import com.ciandt.summit.bootcamp2022.model.Artist;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 
+@Builder
 @AllArgsConstructor
 @Getter
 public class MusicDto {
@@ -20,6 +21,6 @@ public class MusicDto {
     String name;
 
     @ApiModelProperty(example = "9ac9d58b-ad3a-49f7-8911-74e3777cc8ab")
-    Artist artistId;
+    ArtistDto artistDtoId;
 }
 
