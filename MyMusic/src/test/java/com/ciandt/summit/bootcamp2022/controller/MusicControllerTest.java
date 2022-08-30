@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
+import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
@@ -39,7 +40,7 @@ class MusicControllerTest {
 
     @BeforeEach
     void setup() {
-        musicDto = new MusicDto(ID_MUSIC, NAME_MUSIC, new Artist(ID_ARTIST, NAME_ARTIST));
+        musicDto = new MusicDto(ID_MUSIC, NAME_MUSIC, new ArtistDto(ID_ARTIST, NAME_ARTIST));
     }
 
     @Test
