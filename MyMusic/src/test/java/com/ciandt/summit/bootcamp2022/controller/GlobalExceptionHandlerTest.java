@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
+import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
@@ -18,6 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 class GlobalExceptionHandlerTest {
+
+    public static final String MESSAGE_BAD_REQUEST_MUSIC = "Music doesn't exist";
+    public static final String MESSAGE_BAD_REQUEST_PLAYLIST = "Playlist doesn't exist";
+    public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect";
 
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
@@ -56,5 +61,41 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.UNAUTHORIZED, error.getStatusCode());
         assertEquals(401, error.getStatusCodeValue());
         assertEquals(UnauthorizedAccessException.MESSAGE, error.getBody().getMessage());
+    }
+
+    @Test
+    @DisplayName("When music doesn't exist then return BadRequestPlaylistException")
+    void whenMusicDoesntExisThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleBadRequestPlaylistException(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_MUSIC));
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MESSAGE_BAD_REQUEST_MUSIC, error.getBody().getMessage());
+    }
+
+    @Test
+    @DisplayName("When playlist doesn't exist then return BadRequestPlaylistException")
+    void whenPlaylistDoesntExistThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleBadRequestPlaylistException(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_PLAYLIST));
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MESSAGE_BAD_REQUEST_PLAYLIST, error.getBody().getMessage());
+    }
+
+    @Test
+    @DisplayName("When payload body incorrect then return BadRequestPlaylistException")
+    void whenPayloadBodyIncorrectThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleBadRequestPlaylistException(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_PAYLOAD));
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MESSAGE_BAD_REQUEST_PAYLOAD, error.getBody().getMessage());
     }
 }
