@@ -172,5 +172,3 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-[JQuery-url]: https://jquery.com 
-
