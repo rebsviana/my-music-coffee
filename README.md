@@ -38,7 +38,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-It's an API that allows it's users to search his favorites artists and music and save them into a personal playlist.
+It's an API that allows users to search for his favorites artists and musics and save them into a personal playlist.
 
 <br>
 <br>
