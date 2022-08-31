@@ -23,7 +23,6 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public PlaylistDto getPlaylistById(String id) {
-
         checkNotNull(id,"Id cannot be null");
 
         var playlistEntity = playlistsRepository.findById(id).orElseThrow(() -> new BadRequestPlaylistException("Playlist doesn't exist"));
@@ -32,13 +31,11 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public void saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
-
         checkNotNull(playlistId,"Playlist doesn't exist");
-
-        checkNotNull(musicDto.getId(),"Payload body incorrect");
-        checkNotNull(musicDto.getName(),"Payload body incorrect");
-        checkNotNull(musicDto.getArtistDtoId().getId(),"Payload body incorrect");
-        checkNotNull(musicDto.getArtistDtoId().getName(),"Payload body incorrect");
+        checkNotNull(musicDto.getId(),"Payload body incorrect: id of music is null");
+        checkNotNull(musicDto.getName(),"Payload body incorrect: name of music is null");
+        checkNotNull(musicDto.getArtistDtoId().getId(),"Payload body incorrect: id of artist is null");
+        checkNotNull(musicDto.getArtistDtoId().getName(),"Payload body incorrect: name of artist is null");
 
         Music music = mapper.convertValue(musicService.getMusicById(musicDto.getId()), Music.class);
         Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
