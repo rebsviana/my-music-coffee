@@ -25,7 +25,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     public PlaylistDto getPlaylistById(String id) {
         checkNotNull(id,"Id cannot be null");
 
-        var playlistEntity = playlistsRepository.findById(id).orElseThrow(() -> new BadRequestPlaylistException("Playlist doesn't exist"));
+        var playlistEntity = playlistsRepository.findById(id)
+                .orElseThrow(() -> new BadRequestPlaylistException("Playlist doesn't exist"));
         return mapper.convertValue(playlistEntity, PlaylistDto.class);
     }
 
