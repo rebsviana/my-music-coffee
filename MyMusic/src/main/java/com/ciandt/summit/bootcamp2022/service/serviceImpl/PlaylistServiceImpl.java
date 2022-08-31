@@ -1,24 +1,28 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
+import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
+import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
 import com.ciandt.summit.bootcamp2022.service.PlaylistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
-@RequiredArgsConstructor
 public class PlaylistServiceImpl implements PlaylistService {
 
+    @Autowired
     private PlaylistsRepository playlistsRepository;
+    @Autowired
     private MusicServiceImpl musicService;
+    @Autowired
     private ObjectMapper mapper;
 
     @Override
@@ -30,19 +34,26 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
+    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
         checkNotNull(playlistId,"Playlist doesn't exist");
         checkNotNull(musicDto.getId(),"Payload body incorrect: id of music is null");
         checkNotNull(musicDto.getName(),"Payload body incorrect: name of music is null");
         checkNotNull(musicDto.getArtistDtoId().getId(),"Payload body incorrect: id of artist is null");
         checkNotNull(musicDto.getArtistDtoId().getName(),"Payload body incorrect: name of artist is null");
 
-        Music music = mapper.convertValue(musicService.getMusicById(musicDto.getId()), Music.class);
+        musicService.getMusicById(musicDto.getId());
+        Music music = Music.builder()
+                .name(musicDto.getName())
+                .id(musicDto.getId())
+                .artistId(Artist.builder()
+                        .id(musicDto.getArtistDtoId().getId())
+                        .name(musicDto.getArtistDtoId().getName())
+                        .build()
+                ).build();
         Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
 
         playlist.getMusics().add(music);
-        music.getPlaylists().add(playlist);
 
-        playlistsRepository.save(playlist);
+        return mapper.convertValue(playlistsRepository.save(playlist), PlaylistDto.class);
     }
 }

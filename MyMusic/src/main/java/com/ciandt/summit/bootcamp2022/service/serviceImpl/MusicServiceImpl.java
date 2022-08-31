@@ -52,6 +52,13 @@ public class MusicServiceImpl implements MusicService {
         checkNotNull(id, "Id cannot be null");
 
         var musicEntity = musicRepository.findById(id).orElseThrow(() -> new BadRequestPlaylistException("Music doesn't exist"));
-        return mapper.convertValue(musicEntity, MusicDto.class);
+        return MusicDto.builder()
+                .name(musicEntity.getName())
+                .id(musicEntity.getId())
+                .artistDtoId(ArtistDto.builder()
+                        .id(musicEntity.getArtistId().getId())
+                        .name(musicEntity.getArtistId().getName())
+                        .build()
+                ).build();
     }
 }

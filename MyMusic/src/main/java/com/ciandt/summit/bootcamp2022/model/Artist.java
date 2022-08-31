@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 public class Artist {
 
     @Id
