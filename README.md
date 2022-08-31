@@ -160,7 +160,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://miro.medium.com/max/360/0*1SkS3mSorArvY9kS.jpg" width="100px;" alt="Foto do Steve Jobs"/><br>
+        <img src="https://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" alt="Foto da Rebeca Baptista"/><br>
         <sub>
           <b>Rebeca Baptista</b>
         </sub>
