@@ -37,7 +37,7 @@ public class MusicServiceImpl implements MusicService {
 
         return musicEntity.stream()
                 .map(music -> MusicDto.builder()
-                        .artistDtoId(ArtistDto.builder()
+                        .artistId(ArtistDto.builder()
                                 .id(music.getArtistId().getId())
                                 .name(music.getArtistId().getName())
                                 .build())
@@ -55,7 +55,7 @@ public class MusicServiceImpl implements MusicService {
         return MusicDto.builder()
                 .name(musicEntity.getName())
                 .id(musicEntity.getId())
-                .artistDtoId(ArtistDto.builder()
+                .artistId(ArtistDto.builder()
                         .id(musicEntity.getArtistId().getId())
                         .name(musicEntity.getArtistId().getName())
                         .build()
