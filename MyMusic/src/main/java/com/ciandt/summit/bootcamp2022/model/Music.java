@@ -4,18 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Musicas")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class Music {
 
     @Id
@@ -28,4 +33,13 @@ public class Music {
     @OneToOne
     @JoinColumn(name = "Artistaid", referencedColumnName = "Id")
     private Artist artistId;
+
+    @ManyToMany(mappedBy = "musics")
+    private Set<Playlist> playlists = new HashSet<>();
+
+    public Music(String id, String name, Artist artistId) {
+        this.id = id;
+        this.name = name;
+        this.artistId = artistId;
+    }
 }
