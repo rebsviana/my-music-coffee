@@ -2,6 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
@@ -24,7 +25,7 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public List<MusicDto> getMusicByNameOrArtist(String name) {
-        checkNotNull(name, "Name can not be null");
+        checkNotNull(name, "Name cannot be null");
 
         if (name.length() < 3)
             throw new MinLengthRequiredException();
@@ -44,5 +45,13 @@ public class MusicServiceImpl implements MusicService {
                         .name(music.getName())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public MusicDto getMusicById(String id) {
+        checkNotNull(id, "Id cannot be null");
+
+        var musicEntity = musicRepository.findById(id).orElseThrow(() -> new BadRequestPlaylistException("Music doesn't exist"));
+        return mapper.convertValue(musicEntity, MusicDto.class);
     }
 }
