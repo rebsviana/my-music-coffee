@@ -2,6 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
@@ -16,11 +17,11 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,6 +31,10 @@ import static org.mockito.Mockito.times;
 
 @SpringBootTest
 class MusicServiceImplTest {
+    public static final String MUSIC_ID = "12343";
+    public static final String MUSIC_NAME = "Harley";
+    public static final String ARTIST_ID = "1344";
+    public static final String ARTIST_NAME = "David";
     @Mock
     private MusicRepository musicRepository;
     @Mock
@@ -43,10 +48,10 @@ class MusicServiceImplTest {
 
     @BeforeEach
     void setup() {
-        artist = new Artist("1344", "David");
-        music = new Music("12343", "Harley", artist);
-        artistDto = new ArtistDto("1344", "David");
-        musicDto = new MusicDto("12343", "Harley", artistDto);
+        artist = new Artist(ARTIST_ID, ARTIST_NAME);
+        music = new Music(MUSIC_ID, MUSIC_NAME, artist);
+        artistDto = new ArtistDto(ARTIST_ID, ARTIST_NAME);
+        musicDto = new MusicDto(MUSIC_ID, MUSIC_NAME, artistDto);
     }
 
     @Test
@@ -86,5 +91,39 @@ class MusicServiceImplTest {
         assertNotNull(exception);
         assertEquals(NoContentException.MESSAGE, exception.getMessage());
         assertEquals(NoContentException.class, exception.getClass());
+    }
+
+    @Test
+    @DisplayName("When find music by id then return a music")
+    void whenGetMusicByIdThenReturnAMusic() {
+        when(musicRepository.findById(anyString()))
+                .thenReturn(Optional.ofNullable(music));
+
+        when(mapper.convertValue(music, MusicDto.class))
+                .thenReturn(musicDto);
+
+        var response = service.getMusicById(MUSIC_ID);
+
+        assertNotNull(response);
+        assertEquals(musicDto, response);
+        assertEquals(MusicDto.class, response.getClass());
+        assertEquals(MUSIC_ID, response.getId());
+        assertEquals(MUSIC_NAME, response.getName());
+        assertEquals(ARTIST_ID, response.getArtistDtoId().getId());
+        assertEquals(ARTIST_NAME, response.getArtistDtoId().getName());
+    }
+
+    @Test
+    @DisplayName("When find music by id and music doesn't exist then return BadRequestPlaylistException")
+    void whenGetMusicByIdAndMusicDoesntExistThenReturnBadRequestPlaylistException() {
+        when(musicRepository.findById(anyString()))
+                .thenThrow(new BadRequestPlaylistException("Music doesn't exist"));
+
+        var exception = assertThrows(BadRequestPlaylistException.class,
+                () -> service.getMusicById(MUSIC_ID));
+
+        assertNotNull(exception);
+        assertEquals("Music doesn't exist", exception.getMessage());
+        assertEquals(BadRequestPlaylistException.class, exception.getClass());
     }
 }
