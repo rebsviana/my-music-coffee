@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
+import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
@@ -43,5 +44,13 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
     }
-
+    @ExceptionHandler(value = BadRequestPlaylistException.class)
+    public ResponseEntity<ErrorDto> handleBadRequestPlaylistException(BadRequestPlaylistException exception) {
+        log.error("BadRequestPlaylistException: {}",exception.getMessage());
+        var errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .error(HttpStatus.BAD_REQUEST)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
 }
