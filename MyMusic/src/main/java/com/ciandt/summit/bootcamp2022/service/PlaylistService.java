@@ -1,9 +1,10 @@
 package com.ciandt.summit.bootcamp2022.service;
 
-import org.springframework.stereotype.Service;
+import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 
-@Service
-public class PlaylistService {
+public interface PlaylistService {
+    public PlaylistDto getPlaylistById(String id);
 
-
+    public void saveMusicInPlaylist(MusicDto musicDto, String playlistId);
 }
