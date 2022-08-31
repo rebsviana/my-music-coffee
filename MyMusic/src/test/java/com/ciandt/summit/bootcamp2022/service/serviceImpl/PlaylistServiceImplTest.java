@@ -1,7 +1,11 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
+import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
+import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
+import com.ciandt.summit.bootcamp2022.model.Artist;
+import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +30,7 @@ import static org.mockito.Mockito.when;
 class PlaylistServiceImplTest {
 
     @Mock
-    private MusicServiceImpl musicService;
+    private MusicServiceImpl musicServiceImpl;
 
     @Mock
     private ObjectMapper mapper;
@@ -38,13 +42,21 @@ class PlaylistServiceImplTest {
     private PlaylistServiceImpl playlistService;
     private Playlist playlist;
     private PlaylistDto playlistDto;
+    private MusicDto musicDto;
+    private Music music;
     private static final String PLAYLIST_ID = "123456";
     public static final String ID_NOT_EXIST = "789456";
+    public static final String MUSIC_ID = "12343";
+    public static final String MUSIC_NAME = "Harley";
+    public static final String ARTIST_ID = "1344";
+    public static final String ARTIST_NAME = "David";
 
     @BeforeEach
     void setup(){
         playlist = new Playlist(PLAYLIST_ID);
         playlistDto = new PlaylistDto(PLAYLIST_ID);
+        musicDto = new MusicDto(MUSIC_ID, MUSIC_NAME, new ArtistDto(ARTIST_ID, ARTIST_NAME));
+        music = new Music(MUSIC_ID, MUSIC_NAME, new Artist(ARTIST_ID, ARTIST_NAME));
     }
 
     @Test
@@ -81,4 +93,33 @@ class PlaylistServiceImplTest {
         verify(mapper, times(0)).convertValue(playlist, PlaylistDto.class);
     }
 
+    @Test
+    @DisplayName("When save music in playlist then add music to the playlist")
+    void whenSaveMusicInPlaylistThenAddMusicToThePlaylist() {
+        when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
+
+        when(mapper.convertValue(musicDto, Music.class)).thenReturn(music);
+
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
+
+        when(playlistService.getPlaylistById(anyString())).thenReturn(playlistDto);
+
+        when(mapper.convertValue(playlistDto, Playlist.class)).thenReturn(playlist);
+
+        when(mapper.convertValue(playlist, PlaylistDto.class)).thenReturn(playlistDto);
+
+        when(playlistsRepository.save(playlist)).thenReturn(playlist);
+
+        var response = playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID);
+
+        assertNotNull(response);
+        assertEquals(playlistDto, response);
+        assertEquals(PlaylistDto.class, response.getClass());
+        assertEquals(PLAYLIST_ID, response.getId());
+        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(1)).save(playlist);
+        verify(mapper, times(1)).convertValue(musicDto, Music.class);
+        verify(mapper, times(2)).convertValue(playlist, PlaylistDto.class);
+        verify(mapper, times(1)).convertValue(playlistDto, Playlist.class);
+    }
 }
