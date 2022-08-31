@@ -144,7 +144,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://s2.glbimg.com/FUcw2usZfSTL6yCCGj3L3v3SpJ8=/smart/e.glbimg.com/og/ed/f/original/2019/04/25/zuckerberg_podcast.jpg" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
+        <img src="https://user-images.githubusercontent.com/108896697/187672817-4942f97b-c2e2-4f59-9472-ea775ed14f0b.jpg" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
         <sub>
           <b>Luana Lima</b>
         </sub>
@@ -160,7 +160,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" alt="Foto da Rebeca Baptista"/><br>
+        <img src="https://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" height="100px" update Rebeca's photoalt="Foto da Rebeca Baptista"/><br>
         <sub>
           <b>Rebeca Baptista</b>
         </sub>
