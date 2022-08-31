@@ -1,6 +1,8 @@
 package com.ciandt.summit.bootcamp2022.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Music {
 
     @Id
@@ -35,6 +38,7 @@ public class Music {
     private Artist artistId;
 
     @ManyToMany(mappedBy = "musics")
+    @JsonIgnore
     private Set<Playlist> playlists = new HashSet<>();
 
     public Music(String id, String name, Artist artistId) {

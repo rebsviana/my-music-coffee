@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +29,13 @@ public class Playlist {
     @Column(name = "Id")
     private String id;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "PlaylistMusicas",
-            joinColumns = { @JoinColumn(name = "Playlistid") },
-            inverseJoinColumns = { @JoinColumn(name = "Musicaid") }
+            name = "Playlistmusicas",
+            joinColumns =  @JoinColumn(name = "Playlistid"),
+            inverseJoinColumns =  @JoinColumn(name = "Musicaid")
     )
+    @JsonIgnore
     Set<Music> musics = new HashSet<>();
 
     public Playlist(String id) {

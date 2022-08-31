@@ -21,6 +21,6 @@ public class MusicDto {
     String name;
 
     @ApiModelProperty(example = "9ac9d58b-ad3a-49f7-8911-74e3777cc8ab")
-    ArtistDto artistDtoId;
+    ArtistDto artistId;
 }
 
