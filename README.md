@@ -97,6 +97,11 @@ _With the docker installed and running you can follow the next steps:_
 
          http://localhost:8081/my-music/api/v1
 
+6. Run mutation test
+   ```
+   mvn org.pitest:pitest-maven:mutationCoverage
+   ```
+   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
