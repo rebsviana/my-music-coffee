@@ -169,7 +169,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
   <tr>
     <td align="center">
       <a href="#">
-        <img src="https://avatars3.githubusercontent.com/u/31936044" width="100px;" alt="Foto do Claiver Carmo"/><br>
+        <img src="https://user-images.githubusercontent.com/108896697/187929100-4934b217-da7e-4eb9-879a-ef450689e6db.jpg" width="100px;" alt="Foto do Claiver Carmo"/><br>
         <sub>
           <b>Claiver Carmo</b>
         </sub>
@@ -177,7 +177,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://user-images.githubusercontent.com/108896697/187672817-4942f97b-c2e2-4f59-9472-ea775ed14f0b.jpg" width="100px;" alt="Foto da Luana Lima"/><br>
+        <img src="https://i.imgur.com/PyOpPyC.png" width="100px;" alt="Foto da Luana Lima"/><br>
         <sub>
           <b>Luana Lima</b>
         </sub>
@@ -185,7 +185,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/08/lebron-jams-nba-lakers-rep-1-628x353.jpg" width=100px; alt="Foto do Peter Leite"/><br>
+        <img src="https://i.imgur.com/PQwE8Is.png" width=100px; alt="Foto do Peter Leite"/><br>
         <sub>
           <b>Peter Leite</b>
         </sub>
@@ -193,7 +193,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" alt="Foto da Rebeca Baptista"/><br>
+        <img src="https://i.imgur.com/rRL0CGU.pnghttps://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" alt="Foto da Rebeca Baptista"/><br>
         <sub>
           <b>Rebeca Baptista</b>
         </sub>
