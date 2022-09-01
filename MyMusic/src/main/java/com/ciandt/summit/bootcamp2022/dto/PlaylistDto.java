@@ -6,15 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
-
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class PlaylistDto {
 
-    @NotNull
     @ApiModelProperty(example = "a39926f4-6acb-4497-884f-d4e5296ef652")
     String id;
 }
