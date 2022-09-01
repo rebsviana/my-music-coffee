@@ -31,7 +31,6 @@
     <li><a href="#Contat">Contact</a></li>
   </ol>
 </details>
-<br>
 <hr>
 
 <!-- ABOUT THE PROJECT -->
@@ -39,7 +38,6 @@
 
 It's an API that allows users to search for his favorites artists and musics and save them into a personal playlist.
 
-<br>
 <br>
 
 ### Features
@@ -50,16 +48,14 @@ It's an API that allows users to search for his favorites artists and musics and
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<br>
-<br>
 
 ### Built With
 
-* Java
-* Maven
-* Spring Boot
-* SQLite
-* Docker
+* ![image](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+* [![Maven Central](https://maven-badges-generator.herokuapp.com/maven-central/tech.iooo.coco/iooo-distribution-config/badge.svg?color=orange&style=flat-square)](https://maven-badges-generator.herokuapp.com/maven-central/tech.iooo.coco/iooo-distribution-config)
+* ![image](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
+* ![image](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+* ![image](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -78,7 +74,6 @@ This is an example of how to list things you need to use the software and how to
 You can download Docker to Mac, Windows or Linux [here](https://www.docker.com/get-started/#h_installation).
 
 <br>
-
 
 ### Installation
 
@@ -103,7 +98,6 @@ _With the docker installed and running you can follow the next steps:_
          http://localhost:8081/my-music/api/v1
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- USAGE EXAMPLES -->
