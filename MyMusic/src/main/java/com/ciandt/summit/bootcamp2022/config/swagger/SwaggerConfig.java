@@ -20,10 +20,11 @@ import java.util.Arrays;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-
     private final ResponseMessage MSG_200 = simpleMessage(200, "OK");
+    private final ResponseMessage MSG_201 = simpleMessage(201, "Created");
     private final ResponseMessage MSG_NO_CONTENT_204 = simpleMessage(204, NoContentException.MESSAGE);
     private final ResponseMessage MSG_MIN_LENGTH_400 = simpleMessage(404, MinLengthRequiredException.MESSAGE);
+    private final ResponseMessage MSG_BAD_REQUEST_400 = simpleMessage(400, "Music or Playslit doesn't exist");
     private final ResponseMessage MSG_500 = simpleMessage(500, "Internal Server Error");
 
     private ResponseMessage simpleMessage(int code, String message) {
@@ -35,6 +36,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, Arrays.asList(MSG_200, MSG_NO_CONTENT_204, MSG_MIN_LENGTH_400, MSG_500))
+                .globalResponseMessage(RequestMethod.POST, Arrays.asList(MSG_201, MSG_BAD_REQUEST_400, MSG_500))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ciandt.summit.bootcamp2022.controller"))
                 .paths(PathSelectors.any())
