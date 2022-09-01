@@ -7,7 +7,6 @@ import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.service.MusicService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +15,10 @@ import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-
 @Service
 @RequiredArgsConstructor
 public class MusicServiceImpl implements MusicService {
     private final MusicRepository musicRepository;
-    private final ObjectMapper mapper;
 
     @Override
     public List<MusicDto> getMusicByNameOrArtist(String name) {
@@ -51,7 +48,9 @@ public class MusicServiceImpl implements MusicService {
     public MusicDto getMusicById(String id) {
         checkNotNull(id, "Id cannot be null");
 
-        var musicEntity = musicRepository.findById(id).orElseThrow(() -> new BadRequestPlaylistException("Music doesn't exist"));
+        var musicEntity = musicRepository.findById(id)
+                .orElseThrow(() -> new BadRequestPlaylistException("Music doesn't exist"));
+
         return MusicDto.builder()
                 .name(musicEntity.getName())
                 .id(musicEntity.getId())

@@ -4,6 +4,7 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/music", produces = "application/json")
+@Log4j2
 public class MusicController {
 
     @Autowired
@@ -27,9 +29,11 @@ public class MusicController {
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @GetMapping
     public ResponseEntity<List<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
-                                                                           @RequestHeader(value="name") String name,
-                                                                           @RequestHeader(value="token") String token){
-        tokenAuthorizerService.verifyTokenAuthorizer(name, token);
+                                                                           @RequestHeader(value="name") String userName,
+                                                                           @RequestHeader(value="token") String userToken){
+        log.info("Starting the route search new music with filter " + filterName);
+        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        log.info("Authorized user:" + userName);
         var listMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(listMusicDto);
