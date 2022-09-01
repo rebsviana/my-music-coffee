@@ -2,14 +2,12 @@ package com.ciandt.summit.bootcamp2022.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
+@Getter
 public class ErrorDto {
 
         private String message;

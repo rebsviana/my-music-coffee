@@ -1,11 +1,8 @@
 package com.ciandt.summit.bootcamp2022.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,10 +16,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Playlists")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class Playlist {
 
     @Id

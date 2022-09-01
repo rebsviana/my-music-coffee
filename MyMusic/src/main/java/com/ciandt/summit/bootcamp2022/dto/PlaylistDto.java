@@ -2,13 +2,9 @@ package com.ciandt.summit.bootcamp2022.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Builder
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class PlaylistDto {
 
