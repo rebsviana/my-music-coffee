@@ -33,6 +33,10 @@ class TokenAuthorizerServiceTest {
 
     private CreateAuthorizerRequest createAuthorizerRequest;
 
+    public static final String NAME_TOKEN = "Bruno";
+
+    public static final String TOKEN = "123456789";
+
     @BeforeEach
     void setup() {
         createAuthorizerRequest = new CreateAuthorizerRequest(new CreateAuthorizerRequestData
@@ -47,7 +51,7 @@ class TokenAuthorizerServiceTest {
         when(tokenProviderService.createTokenAuthorizer(createAuthorizerRequest))
                 .thenReturn(responseEntity);
 
-        var response = tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString());
+        var response = tokenAuthorizerService.verifyTokenAuthorizer(NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -62,7 +66,7 @@ class TokenAuthorizerServiceTest {
                 .thenThrow(new UnauthorizedAccessException());
 
         var exception = assertThrows(UnauthorizedAccessException.class,
-                () -> tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString()));
+                () -> tokenAuthorizerService.verifyTokenAuthorizer(NAME_TOKEN, TOKEN));
 
         assertNotNull(exception);
         assertEquals(UnauthorizedAccessException.MESSAGE, exception.getMessage());
