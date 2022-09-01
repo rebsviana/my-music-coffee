@@ -22,7 +22,7 @@ class GlobalExceptionHandlerTest {
 
     public static final String MESSAGE_BAD_REQUEST_MUSIC = "Music doesn't exist";
     public static final String MESSAGE_BAD_REQUEST_PLAYLIST = "Playlist doesn't exist";
-    public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect";
+    public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: id of music is null";
 
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
@@ -88,11 +88,11 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("When payload body incorrect then return BadRequestPlaylistException")
+    @DisplayName("When payload body incorrect then return NullPointerException")
     void whenPayloadBodyIncorrectThenReturnResponseEntity(){
 
         ResponseEntity<ErrorDto> error = globalExceptionHandler
-                .handleBadRequestPlaylistException(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_PAYLOAD));
+                .handleNullPointerException(new NullPointerException(MESSAGE_BAD_REQUEST_PAYLOAD));
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
