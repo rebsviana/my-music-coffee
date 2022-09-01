@@ -31,9 +31,7 @@
     <li><a href="#Contat">Contact</a></li>
   </ol>
 </details>
-<br>
 <hr>
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -41,35 +39,25 @@
 It's an API that allows users to search for his favorites artists and musics and save them into a personal playlist.
 
 <br>
-<br>
-
-
-
 
 ### Features
 - [x]  Allow the user to search for new music in the database: 
-- [ ]  Allow the user to pick a song from and add it to his playlist; 
+- [x]  Allow the user to pick a song from and add it to his playlist; 
 - [ ]  Allow the user to remove a song his playlist: 
 - [ ]  Create two types of users: Premium and common.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<br>
-<br>
-
 
 ### Built With
 
-* Java
-* Maven
-* Spring Boot
-* SQLite
-* Docker
-
+* ![image](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+* [![Maven Central](https://maven-badges-generator.herokuapp.com/maven-central/tech.iooo.coco/iooo-distribution-config/badge.svg?color=orange&style=flat-square)](https://maven-badges-generator.herokuapp.com/maven-central/tech.iooo.coco/iooo-distribution-config)
+* ![image](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot)
+* ![image](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+* ![image](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -86,7 +74,6 @@ This is an example of how to list things you need to use the software and how to
 You can download Docker to Mac, Windows or Linux [here](https://www.docker.com/get-started/#h_installation).
 
 <br>
-
 
 ### Installation
 
@@ -113,22 +100,68 @@ _With the docker installed and running you can follow the next steps:_
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- USAGE EXAMPLES -->
 ## Routes
 
 In this space will be showed examples of the routes that are usable on this API
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Search new music
+
+#### Request
+
+```
+GET http://localhost:8080/api/v1/music?filtro={filtro}
+
+Run this example: GET http://localhost:8080/api/v1/music?filtro=bruno
+```
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Status: 200 OK
+    Content-Type: application/json
+
+    {
+    "id": "12659604-a4a1-4c4c-8a5f-29fff1ad2ac5",
+    "name": "24K Magic",
+    "artistId": {
+      "id": "88ac7b00-9489-49ae-a5b1-79d3ba7fc2e6",
+      "name": "Bruno Mars"
+    }
+
+### Add new music to playlist
+
+#### Request
+
+```
+POST http://localhost:8080/api/playlists/{playlistId}/musicas
+
+Run this example: POST http://localhost:8080/api/playlists/a39926f4-6acb-4497-884f-d4e5296ef652/musicas
+
+ {
+ "id": "12659604-a4a1-4c4c-8a5f-29fff1ad2ac5",
+ "name": "24K Magic",
+ "artistId": {
+   "id": "88ac7b00-9489-49ae-a5b1-79d3ba7fc2e6",
+   "name": "Bruno Mars"
+ }
+```
+
+#### Response
+
+    HTTP/1.1 201 Created
+    Status: 201 Created
+    Content-Type: application/json
+    Location: http://localhost:8080/api/playlists/a39926f4-6acb-4497-884f-d4e5296ef652/musicas/12659604-a4a1-4c4c-8a5f-29fff1ad2ac5
+
+    []
+
+_For more examples, please refer to the [Documentation](https://docs.google.com/document/d/1fEzrdsFtBViF5x-4h2T7BrSUCHZqf9nVHXdaVnIRC4Q/edit?usp=sharing)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-
 <!-- CONTACT -->
 ## Contact
-
 
 Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/rebsviana/my-music-coffee)
 
@@ -136,7 +169,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
   <tr>
     <td align="center">
       <a href="#">
-        <img src="https://avatars3.githubusercontent.com/u/31936044" width="100px;" alt="Foto do Iuri Silva no GitHub"/><br>
+        <img src="https://user-images.githubusercontent.com/108896697/187929100-4934b217-da7e-4eb9-879a-ef450689e6db.jpg" width="100px;" alt="Foto do Claiver Carmo"/><br>
         <sub>
           <b>Claiver Carmo</b>
         </sub>
@@ -144,7 +177,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://user-images.githubusercontent.com/108896697/187672817-4942f97b-c2e2-4f59-9472-ea775ed14f0b.jpg" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
+        <img src="https://i.imgur.com/PyOpPyC.png" width="100px;" alt="Foto da Luana Lima"/><br>
         <sub>
           <b>Luana Lima</b>
         </sub>
@@ -152,7 +185,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://media.seudinheiro.com/cdn-cgi/image/fit=contain,width=640&,format=auto/uploads/2022/08/lebron-jams-nba-lakers-rep-1-628x353.jpg" width=100px; alt="Foto do Steve Jobs"/><br>
+        <img src="https://i.imgur.com/PQwE8Is.png" width=100px; alt="Foto do Peter Leite"/><br>
         <sub>
           <b>Peter Leite</b>
         </sub>
@@ -160,7 +193,7 @@ Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" height="100px" update Rebeca's photoalt="Foto da Rebeca Baptista"/><br>
+        <img src="https://i.imgur.com/rRL0CGU.pnghttps://user-images.githubusercontent.com/108896697/187672107-20aa04b1-2478-4396-862a-defcd86d1e26.jpeg" width="100px;" alt="Foto da Rebeca Baptista"/><br>
         <sub>
           <b>Rebeca Baptista</b>
         </sub>
