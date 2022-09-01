@@ -1,6 +1,6 @@
 package com.ciandt.summit.bootcamp2022.service;
 
-import com.ciandt.summit.bootcamp2022.dto.token.CreateAuthorizerRequest;
+import com.ciandt.summit.bootcamp2022.model.token.CreateAuthorizerRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
