@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,8 +27,11 @@ public class PlaylistController {
 
     @ApiOperation(value = "Save music in playlist", notes = "Saved new music in playlist")
     @PostMapping("/{playlistId}/musicas")
-    public ResponseEntity<Void> saveMusicInPlaylist (@Valid @RequestBody MusicDto musicDto, @PathVariable("playlistId") String playlistId){
-        tokenAuthorizerService.verifyTokenAuthorizer();
+    public ResponseEntity<Void> saveMusicInPlaylist (@Valid @RequestBody MusicDto musicDto,
+                                                     @PathVariable("playlistId") String playlistId,
+                                                     @RequestHeader(value="name") String name,
+                                                     @RequestHeader(value="token") String token){
+        tokenAuthorizerService.verifyTokenAuthorizer(name, token);
         var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId);
 
         final var uri = ServletUriComponentsBuilder.fromCurrentRequest()

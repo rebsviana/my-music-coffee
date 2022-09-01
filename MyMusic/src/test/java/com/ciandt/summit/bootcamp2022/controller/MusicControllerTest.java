@@ -3,7 +3,6 @@ package com.ciandt.summit.bootcamp2022.controller;
 import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
-import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +32,8 @@ class MusicControllerTest {
     public static final String NAME_MUSIC = "Can't Come Back";
     public static final String ID_ARTIST = "123465";
     public static final String NAME_ARTIST = "Bruno";
+    public static final String NAME_TOKEN = "Bruno";
+    public static final String TOKEN = "123456789";
     @InjectMocks
     private MusicController controller;
 
@@ -54,11 +55,11 @@ class MusicControllerTest {
     void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto(){
         ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
 
-        when(tokenAuthorizerService.verifyTokenAuthorizer()).thenReturn(responseEntity);
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
         when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(List.of(musicDto));
 
-        var response = controller.getMusicByNameOrArtistWithFilter("Bruno");
+        var response = controller.getMusicByNameOrArtistWithFilter(NAME_MUSIC, NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -69,10 +70,10 @@ class MusicControllerTest {
     @Test
     @DisplayName("When search some music with filter and token unauthorized then return UnauthorizedAccessException")
     void whenGetMusicByNameOrArtistWithFilterThenReturnUnauthorizedAccessException(){
-        when(tokenAuthorizerService.verifyTokenAuthorizer()).thenThrow(new UnauthorizedAccessException());
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenThrow(new UnauthorizedAccessException());
 
         var exception = assertThrows(UnauthorizedAccessException.class,
-                () -> controller.getMusicByNameOrArtistWithFilter("Bruno"));
+                () -> controller.getMusicByNameOrArtistWithFilter(NAME_MUSIC, NAME_TOKEN, TOKEN));
 
         assertNotNull(exception);
         assertEquals(UnauthorizedAccessException.MESSAGE, exception.getMessage());

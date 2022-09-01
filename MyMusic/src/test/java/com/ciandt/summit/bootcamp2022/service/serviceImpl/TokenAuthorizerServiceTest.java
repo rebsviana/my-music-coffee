@@ -15,7 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -29,6 +32,10 @@ class TokenAuthorizerServiceTest {
     private TokenAuthorizerService tokenAuthorizerService;
 
     private CreateAuthorizerRequest createAuthorizerRequest;
+
+    public static final String NAME_TOKEN = "Bruno";
+
+    public static final String TOKEN = "123456789";
 
     @BeforeEach
     void setup() {
@@ -44,7 +51,7 @@ class TokenAuthorizerServiceTest {
         when(tokenProviderService.createTokenAuthorizer(createAuthorizerRequest))
                 .thenReturn(responseEntity);
 
-        var response = tokenAuthorizerService.verifyTokenAuthorizer();
+        var response = tokenAuthorizerService.verifyTokenAuthorizer(NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -59,7 +66,7 @@ class TokenAuthorizerServiceTest {
                 .thenThrow(new UnauthorizedAccessException());
 
         var exception = assertThrows(UnauthorizedAccessException.class,
-                () -> tokenAuthorizerService.verifyTokenAuthorizer());
+                () -> tokenAuthorizerService.verifyTokenAuthorizer(NAME_TOKEN, TOKEN));
 
         assertNotNull(exception);
         assertEquals(UnauthorizedAccessException.MESSAGE, exception.getMessage());

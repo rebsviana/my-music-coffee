@@ -14,13 +14,12 @@ public class TokenAuthorizerService {
     @Autowired
     private TokenProviderService tokenProviderService;
 
-    public ResponseEntity<String> verifyTokenAuthorizer(){
-        // TODO: Name and token are fixed
+    public ResponseEntity<String> verifyTokenAuthorizer(String name, String token){
         try {
             return tokenProviderService.createTokenAuthorizer
                     (new CreateAuthorizerRequest
                             (new CreateAuthorizerRequestData
-                                    ("luana", "cIiFbpf5KfJidwxVNSKf3aJf4BMkemvXMo+DFWgrwKGM5cY6wyCTcczSPhn/H/Y")));
+                                    (name, token)));
         } catch (Exception e){
             throw new UnauthorizedAccessException();
         }
