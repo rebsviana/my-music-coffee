@@ -34,7 +34,6 @@
 <br>
 <hr>
 
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -43,12 +42,9 @@ It's an API that allows users to search for his favorites artists and musics and
 <br>
 <br>
 
-
-
-
 ### Features
 - [x]  Allow the user to search for new music in the database: 
-- [ ]  Allow the user to pick a song from and add it to his playlist; 
+- [x]  Allow the user to pick a song from and add it to his playlist; 
 - [ ]  Allow the user to remove a song his playlist: 
 - [ ]  Create two types of users: Premium and common.
 
@@ -56,7 +52,6 @@ It's an API that allows users to search for his favorites artists and musics and
 
 <br>
 <br>
-
 
 ### Built With
 
@@ -66,10 +61,7 @@ It's an API that allows users to search for his favorites artists and musics and
 * SQLite
 * Docker
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -119,16 +111,47 @@ _With the docker installed and running you can follow the next steps:_
 
 In this space will be showed examples of the routes that are usable on this API
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Search new music
+
+#### Request
+
+`GET http://localhost:8080/api/v1/music?filtro={filtro}`
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Status: 200 OK
+    Content-Type: application/json
+
+    {
+    "id": "12659604-a4a1-4c4c-8a5f-29fff1ad2ac5",
+    "name": "24K Magic",
+    "artistId": {
+      "id": "88ac7b00-9489-49ae-a5b1-79d3ba7fc2e6",
+      "name": "Bruno Mars"
+    }
+
+### Add new music to playlist
+
+#### Request
+
+`POST http://localhost:8080/api/playlists/{playlistId}/musicas`
+
+#### Response
+
+    HTTP/1.1 201 Created
+    Status: 201 Created
+    Content-Type: application/json
+    Location: /thing/1
+
+    []
+
+_For more examples, please refer to the [Documentation](https://docs.google.com/document/d/1fEzrdsFtBViF5x-4h2T7BrSUCHZqf9nVHXdaVnIRC4Q/edit?usp=sharing)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
-
 <!-- CONTACT -->
 ## Contact
-
 
 Project Link: [https://github.com/rebsviana/my-music-coffee](https://github.com/rebsviana/my-music-coffee)
 
