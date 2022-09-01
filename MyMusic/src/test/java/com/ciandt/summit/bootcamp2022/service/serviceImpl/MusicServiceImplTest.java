@@ -99,18 +99,14 @@ class MusicServiceImplTest {
         when(musicRepository.findById(anyString()))
                 .thenReturn(Optional.ofNullable(music));
 
-        when(mapper.convertValue(music, MusicDto.class))
-                .thenReturn(musicDto);
-
         var response = service.getMusicById(MUSIC_ID);
 
         assertNotNull(response);
-        assertEquals(musicDto, response);
         assertEquals(MusicDto.class, response.getClass());
         assertEquals(MUSIC_ID, response.getId());
         assertEquals(MUSIC_NAME, response.getName());
-        assertEquals(ARTIST_ID, response.getArtistDtoId().getId());
-        assertEquals(ARTIST_NAME, response.getArtistDtoId().getName());
+        assertEquals(ARTIST_ID, response.getArtistId().getId());
+        assertEquals(ARTIST_NAME, response.getArtistId().getName());
     }
 
     @Test

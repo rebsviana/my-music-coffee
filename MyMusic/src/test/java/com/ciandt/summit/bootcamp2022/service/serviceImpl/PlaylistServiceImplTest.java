@@ -98,8 +98,6 @@ class PlaylistServiceImplTest {
     void whenSaveMusicInPlaylistThenAddMusicToThePlaylist() {
         when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
 
-        when(mapper.convertValue(musicDto, Music.class)).thenReturn(music);
-
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
 
         when(playlistService.getPlaylistById(anyString())).thenReturn(playlistDto);
@@ -118,7 +116,6 @@ class PlaylistServiceImplTest {
         assertEquals(PLAYLIST_ID, response.getId());
         verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).save(playlist);
-        verify(mapper, times(1)).convertValue(musicDto, Music.class);
         verify(mapper, times(2)).convertValue(playlist, PlaylistDto.class);
         verify(mapper, times(1)).convertValue(playlistDto, Playlist.class);
     }
