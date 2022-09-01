@@ -1,57 +1,45 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
-import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
-import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ciandt.summit.bootcamp2022.tests.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.List;
 import java.util.Optional;
-
+import static com.ciandt.summit.bootcamp2022.tests.Factory.ARTIST_ID;
+import static com.ciandt.summit.bootcamp2022.tests.Factory.ARTIST_NAME;
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_ID;
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
 
 @SpringBootTest
 class MusicServiceImplTest {
-    public static final String MUSIC_ID = "12343";
-    public static final String MUSIC_NAME = "Harley";
-    public static final String ARTIST_ID = "1344";
-    public static final String ARTIST_NAME = "David";
     @Mock
     private MusicRepository musicRepository;
-    @Mock
-    private ObjectMapper mapper;
     @InjectMocks
     private MusicServiceImpl service;
     private Music music;
-    private MusicDto musicDto;
-    private Artist artist;
-    private ArtistDto artistDto;
 
     @BeforeEach
     void setup() {
-        artist = new Artist(ARTIST_ID, ARTIST_NAME);
-        music = new Music(MUSIC_ID, MUSIC_NAME, artist);
-        artistDto = new ArtistDto(ARTIST_ID, ARTIST_NAME);
-        musicDto = new MusicDto(MUSIC_ID, MUSIC_NAME, artistDto);
+        music = Factory.createMusic();
     }
 
     @Test

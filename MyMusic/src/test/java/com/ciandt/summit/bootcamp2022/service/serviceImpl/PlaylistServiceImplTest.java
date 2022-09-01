@@ -1,13 +1,11 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
-import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
-import com.ciandt.summit.bootcamp2022.model.Artist;
-import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
+import com.ciandt.summit.bootcamp2022.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.Optional;
-
+import static com.ciandt.summit.bootcamp2022.tests.Factory.PLAYLIST_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,7 +25,6 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class PlaylistServiceImplTest {
-
     @Mock
     private MusicServiceImpl musicServiceImpl;
 
@@ -43,20 +39,14 @@ class PlaylistServiceImplTest {
     private Playlist playlist;
     private PlaylistDto playlistDto;
     private MusicDto musicDto;
-    private Music music;
-    private static final String PLAYLIST_ID = "123456";
+
     public static final String ID_NOT_EXIST = "789456";
-    public static final String MUSIC_ID = "12343";
-    public static final String MUSIC_NAME = "Harley";
-    public static final String ARTIST_ID = "1344";
-    public static final String ARTIST_NAME = "David";
 
     @BeforeEach
     void setup(){
-        playlist = new Playlist(PLAYLIST_ID);
-        playlistDto = new PlaylistDto(PLAYLIST_ID);
-        musicDto = new MusicDto(MUSIC_ID, MUSIC_NAME, new ArtistDto(ARTIST_ID, ARTIST_NAME));
-        music = new Music(MUSIC_ID, MUSIC_NAME, new Artist(ARTIST_ID, ARTIST_NAME));
+        playlist = Factory.createPlaylist();
+        playlistDto = Factory.createPlaylistDto();
+        musicDto = Factory.createMusicDto();
     }
 
     @Test

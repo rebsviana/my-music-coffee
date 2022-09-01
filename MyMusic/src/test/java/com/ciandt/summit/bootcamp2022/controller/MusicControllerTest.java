@@ -1,10 +1,10 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
-import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
+import com.ciandt.summit.bootcamp2022.tests.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,9 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
-
+import static com.ciandt.summit.bootcamp2022.tests.Factory.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,27 +26,17 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 class MusicControllerTest {
-
-    public static final String ID_MUSIC = "123456";
-    public static final String NAME_MUSIC = "Can't Come Back";
-    public static final String ID_ARTIST = "123465";
-    public static final String NAME_ARTIST = "Bruno";
-    public static final String NAME_TOKEN = "Bruno";
-    public static final String TOKEN = "123456789";
     @InjectMocks
     private MusicController controller;
-
     @Mock
     private MusicServiceImpl musicService;
-
     @Mock
     private TokenAuthorizerService tokenAuthorizerService;
-
     private MusicDto musicDto;
 
     @BeforeEach
     void setup() {
-        musicDto = new MusicDto(ID_MUSIC, NAME_MUSIC, new ArtistDto(ID_ARTIST, NAME_ARTIST));
+        musicDto = Factory.createMusicDto();
     }
 
     @Test
@@ -59,7 +48,7 @@ class MusicControllerTest {
 
         when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(List.of(musicDto));
 
-        var response = controller.getMusicByNameOrArtistWithFilter(NAME_MUSIC, NAME_TOKEN, TOKEN);
+        var response = controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME, NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -73,7 +62,7 @@ class MusicControllerTest {
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenThrow(new UnauthorizedAccessException());
 
         var exception = assertThrows(UnauthorizedAccessException.class,
-                () -> controller.getMusicByNameOrArtistWithFilter(NAME_MUSIC, NAME_TOKEN, TOKEN));
+                () -> controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME, NAME_TOKEN, TOKEN));
 
         assertNotNull(exception);
         assertEquals(UnauthorizedAccessException.MESSAGE, exception.getMessage());
