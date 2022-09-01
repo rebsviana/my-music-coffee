@@ -29,7 +29,7 @@ public class MusicController {
     public ResponseEntity<List<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
                                                                            @RequestHeader(value="name") String name,
                                                                            @RequestHeader(value="token") String token){
-        tokenAuthorizerService.verifyTokenAuthorizer(name, token);
+        //tokenAuthorizerService.verifyTokenAuthorizer(name, token);
         var listMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(listMusicDto);

@@ -29,7 +29,7 @@ public class PlaylistController {
                                                      @PathVariable("playlistId") String playlistId,
                                                      @RequestHeader(value="name") String name,
                                                      @RequestHeader(value="token") String token){
-        tokenAuthorizerService.verifyTokenAuthorizer(name, token);
+        //tokenAuthorizerService.verifyTokenAuthorizer(name, token);
         var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId);
 
         final var uri = ServletUriComponentsBuilder.fromCurrentRequest()

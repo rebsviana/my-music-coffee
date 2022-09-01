@@ -19,10 +19,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Playlists")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class Playlist {
 
     @Id
