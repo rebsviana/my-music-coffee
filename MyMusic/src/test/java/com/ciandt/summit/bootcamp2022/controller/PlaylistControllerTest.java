@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -28,6 +29,8 @@ class PlaylistControllerTest {
     public static final String ID_ARTIST = "123465";
     public static final String NAME_ARTIST = "Bruno";
     public static final String ID_PLAYLIST = "a39926f4-6acb-4497-884f-d4e5296ef652";
+    public static final String NAME_TOKEN = "Bruno";
+    public static final String TOKEN = "123456789";
 
     @InjectMocks
     private PlaylistController playlistController;
@@ -49,11 +52,11 @@ class PlaylistControllerTest {
     void whenSaveMusicInPlaylistThenReturnResponseEntity(){
         ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
 
-        when(tokenAuthorizerService.verifyTokenAuthorizer()).thenReturn(responseEntity);
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
         when(playlistService.saveMusicInPlaylist(musicDto ,ID_PLAYLIST)).thenReturn(playlistDto);
 
-        var response = playlistController.saveMusicInPlaylist(musicDto, ID_PLAYLIST);
+        var response = playlistController.saveMusicInPlaylist(musicDto, ID_PLAYLIST, NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
