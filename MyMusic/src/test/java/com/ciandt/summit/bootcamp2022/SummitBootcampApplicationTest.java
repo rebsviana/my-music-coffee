@@ -1,12 +1,13 @@
 package com.ciandt.summit.bootcamp2022;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-public class SummitBootcampApplicationTest{
+@SpringBootTest
+class SummitBootcampApplicationTest {
 
     @Test
     void main() {
         SummitBootcampApplication.main((new String[] {}));
     }
-
 }
