@@ -20,8 +20,6 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Autowired
     private PlaylistsRepository playlistsRepository;
     @Autowired
-    private MusicServiceImpl musicService;
-    @Autowired
     private ObjectMapper mapper;
 
     @Override
@@ -36,12 +34,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
         checkNotNull(playlistId,"Playlist doesn't exist");
-        checkNotNull(musicDto.getId(),"Payload body incorrect: id of music is null");
-        checkNotNull(musicDto.getName(),"Payload body incorrect: name of music is null");
-        checkNotNull(musicDto.getArtistId().getId(),"Payload body incorrect: id of artist is null");
-        checkNotNull(musicDto.getArtistId().getName(),"Payload body incorrect: name of artist is null");
 
-        musicService.getMusicById(musicDto.getId());
         Music music = Music.builder()
                 .name(musicDto.getName())
                 .id(musicDto.getId())
@@ -50,6 +43,7 @@ public class PlaylistServiceImpl implements PlaylistService {
                         .name(musicDto.getArtistId().getName())
                         .build()
                 ).build();
+
         Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
 
         playlist.getMusics().add(music);

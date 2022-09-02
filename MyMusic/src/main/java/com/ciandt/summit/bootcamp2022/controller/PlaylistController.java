@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/api/playlists", produces = "application/json")
 @Log4j2
@@ -27,7 +29,7 @@ public class PlaylistController {
 
     @ApiOperation(value = "Save music in playlist", notes = "Saved new music in playlist")
     @PostMapping("/{playlistId}/musicas")
-    public ResponseEntity<Void> saveMusicInPlaylist (@RequestBody MusicDto musicDto,
+    public ResponseEntity<Void> saveMusicInPlaylist (@Valid @RequestBody MusicDto musicDto,
                                                      @PathVariable("playlistId") String playlistId,
                                                      @RequestHeader(value="name") String userName,
                                                      @RequestHeader(value="token") String userToken){
