@@ -86,8 +86,6 @@ class PlaylistServiceImplTest {
     @Test
     @DisplayName("When save music in playlist then add music to the playlist")
     void whenSaveMusicInPlaylistThenAddMusicToThePlaylist() {
-        when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
-
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
 
         when(playlistService.getPlaylistById(anyString())).thenReturn(playlistDto);
@@ -104,7 +102,6 @@ class PlaylistServiceImplTest {
         assertEquals(playlistDto, response);
         assertEquals(PlaylistDto.class, response.getClass());
         assertEquals(PLAYLIST_ID, response.getId());
-        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).save(playlist);
         verify(mapper, times(2)).convertValue(playlist, PlaylistDto.class);
         verify(mapper, times(1)).convertValue(playlistDto, Playlist.class);
