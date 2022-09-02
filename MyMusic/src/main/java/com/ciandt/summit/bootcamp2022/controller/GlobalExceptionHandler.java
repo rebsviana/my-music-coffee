@@ -8,8 +8,11 @@ import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @ControllerAdvice
 @Log4j2
@@ -61,6 +64,19 @@ public class GlobalExceptionHandler {
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
                 .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+        checkNotNull(exception.getFieldError(), "Field error is null");
+        var message = exception.getFieldError().getDefaultMessage();
+        log.error("Method Argument Not Valid Exception: {}", message);
+        var errorDto =
+                ErrorDto.builder()
+                        .message(message)
+                        .error(HttpStatus.BAD_REQUEST)
+                        .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 }
