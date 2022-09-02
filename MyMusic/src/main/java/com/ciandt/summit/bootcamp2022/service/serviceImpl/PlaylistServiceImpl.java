@@ -20,6 +20,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Autowired
     private PlaylistsRepository playlistsRepository;
     @Autowired
+    private MusicServiceImpl musicService;
+    @Autowired
     private ObjectMapper mapper;
 
     @Override
@@ -34,6 +36,8 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
         checkNotNull(playlistId,"Playlist doesn't exist");
+
+        musicService.getMusicById(musicDto.getId());
 
         Music music = Music.builder()
                 .name(musicDto.getName())
