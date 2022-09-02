@@ -14,16 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_MUSIC;
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_PAYLOAD;
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_PLAYLIST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 class GlobalExceptionHandlerTest {
-
-    public static final String MESSAGE_BAD_REQUEST_MUSIC = "Music doesn't exist";
-    public static final String MESSAGE_BAD_REQUEST_PLAYLIST = "Playlist doesn't exist";
-    public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: id of music is null";
-
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
 

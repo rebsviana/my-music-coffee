@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 class TokenAuthorizerServiceTest {
-
     @Mock
     private TokenProviderService tokenProviderService;
 
