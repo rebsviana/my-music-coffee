@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
+
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_PLAYLIST;
 import static com.ciandt.summit.bootcamp2022.tests.Factory.PLAYLIST_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -71,7 +73,7 @@ class PlaylistServiceImplTest {
     @DisplayName("When get playlist by id and playlist doesn't exist then return BadRequestPlaylistException")
     void whenGetPlaylistByIdAndPlaylistDoesntExistThenReturnBadRequestPlaylistException() {
         when(playlistsRepository.findById(anyString()))
-                .thenThrow(new BadRequestPlaylistException("Playlist doesn't exist"));
+                .thenThrow(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_PLAYLIST));
 
         var exception = assertThrows(BadRequestPlaylistException.class,
                 () -> playlistService.getPlaylistById(ID_NOT_EXIST));
