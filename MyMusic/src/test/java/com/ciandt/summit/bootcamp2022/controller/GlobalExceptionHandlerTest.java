@@ -5,14 +5,22 @@ import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -97,5 +105,29 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
         assertEquals(MESSAGE_BAD_REQUEST_PAYLOAD, error.getBody().getMessage());
+    }
+
+    @Test
+    @Disabled
+    @DisplayName("When payload body incorrect then return NullPointerException")
+    void whenMethodArgumentNotValidThenReturnResponseEntity() throws NoSuchMethodException {
+        MethodParameter parameter = null;
+
+        FieldError fieldError = new FieldError("teste", "teste", "tewste");
+
+        ObjectError expectedError = new ObjectError("name", "message");
+
+        BindException bindException = new BindException(this, "order");
+
+        bindException.addError(expectedError);
+
+        MethodArgumentNotValidException exception = new MethodArgumentNotValidException(parameter, bindException);
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleMethodArgumentNotValidException(exception);
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MESSAGE_BAD_REQUEST_PAYLOAD, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }
