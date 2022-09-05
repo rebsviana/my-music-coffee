@@ -2,6 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
@@ -11,6 +12,8 @@ import com.ciandt.summit.bootcamp2022.service.PlaylistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,7 +29,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     public PlaylistDto getPlaylistById(String id) {
-        checkNotNull(id,"Id cannot be null");
+        checkNotNull(id,"Playlist cannot be null");
 
         var playlistEntity = playlistsRepository.findById(id)
                 .orElseThrow(PlaylistDoesntExistException::new);
@@ -55,5 +58,26 @@ public class PlaylistServiceImpl implements PlaylistService {
         playlist.getMusics().add(music);
 
         return mapper.convertValue(playlistsRepository.save(playlist), PlaylistDto.class);
+    }
+
+    @Override
+    public void deleteMusicFromPlaylist(String musicId, String playlistId) {
+        var musicDto = musicService.getMusicById(musicId);
+        Music music = Music.builder()
+                .name(musicDto.getName())
+                .id(musicDto.getId())
+                .artistId(Artist.builder()
+                        .id(musicDto.getArtistId().getId())
+                        .name(musicDto.getArtistId().getName())
+                        .build()
+                ).build();
+
+        Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
+
+        if(playlist.getMusics().stream().filter(musicObject -> Objects.equals(musicObject.getId(), music.getId())).findFirst().isEmpty())
+            throw new MusicDoesntExistException();
+
+        playlist.getMusics().remove(music);
+        playlistsRepository.save(playlist);
     }
 }
