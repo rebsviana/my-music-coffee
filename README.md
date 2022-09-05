@@ -43,7 +43,7 @@ It's an API that allows users to search for his favorites artists and musics and
 ### Features
 - [x]  Allow the user to search for new music in the database: 
 - [x]  Allow the user to pick a song from and add it to his playlist; 
-- [ ]  Allow the user to remove a song his playlist: 
+- [x]  Allow the user to remove a song his playlist: 
 - [ ]  Create two types of users: Premium and common.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -160,6 +160,22 @@ Run this example: POST http://localhost:8080/api/playlists/a39926f4-6acb-4497-88
     Location: http://localhost:8080/api/playlists/a39926f4-6acb-4497-884f-d4e5296ef652/musicas/12659604-a4a1-4c4c-8a5f-29fff1ad2ac5
 
     []
+    
+### Remove music from a playlist
+
+#### Request
+
+```
+DELETE http://localhost:8080/api/playlists/{playlistId}/musicas/{musicaId}
+
+Run this example: DELETE http://localhost:8080/api/playlists/a39926f4-6acb-4497-884f-d4e5296ef652/musicas/12659604-a4a1-4c4c-8a5f-29fff1ad2ac5
+```
+
+#### Response
+
+    HTTP/1.1 200 Ok
+    Status: 200 Ok
+    Music deleted successfully
 
 _For more examples, please refer to the [Documentation](https://docs.google.com/document/d/1fEzrdsFtBViF5x-4h2T7BrSUCHZqf9nVHXdaVnIRC4Q/edit?usp=sharing)_
 
