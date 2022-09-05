@@ -46,7 +46,7 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public MusicDto getMusicById(String id) {
-        checkNotNull(id, "Id cannot be null");
+        checkNotNull(id, "Music cannot be null");
 
         var musicEntity = musicRepository.findById(id)
                 .orElseThrow(MusicDoesntExistException::new);
