@@ -74,7 +74,10 @@ public class PlaylistServiceImpl implements PlaylistService {
 
         Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
 
-        if(playlist.getMusics().stream().filter(musicObject -> Objects.equals(musicObject.getId(), music.getId())).findFirst().isEmpty())
+        if(playlist.getMusics().stream()
+                .filter(musicObject -> Objects.equals(musicObject.getId(), music.getId()))
+                .findFirst()
+                .isEmpty())
             throw new MusicDoesntExistException();
 
         playlist.getMusics().remove(music);
