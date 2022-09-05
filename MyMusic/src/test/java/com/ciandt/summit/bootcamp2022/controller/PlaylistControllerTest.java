@@ -15,11 +15,15 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_ID;
 import static com.ciandt.summit.bootcamp2022.tests.Factory.NAME_TOKEN;
+import static com.ciandt.summit.bootcamp2022.tests.Factory.PLAYLIST_ID;
 import static com.ciandt.summit.bootcamp2022.tests.Factory.TOKEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -55,5 +59,22 @@ class PlaylistControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
+    }
+
+    @Test
+    @DisplayName("When delete music from playlist, then return Response Entity")
+    void whenDeleteMusicFromPlaylistThenReturnResponseEntity(){
+        ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
+
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
+
+        doNothing().when(playlistService).deleteMusicFromPlaylist(anyString(), anyString());
+
+        var response = playlistController.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, NAME_TOKEN, TOKEN);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals("Music deleted successfully", response.getBody());
     }
 }
