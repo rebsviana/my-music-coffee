@@ -23,7 +23,5 @@ public class Factory {
     public static Playlist createPlaylist() { return new Playlist(PLAYLIST_ID); }
     public static PlaylistDto createPlaylistDto() { return new PlaylistDto(PLAYLIST_ID); }
 
-    public static final String MESSAGE_BAD_REQUEST_MUSIC = "Music doesn't exist";
-    public static final String MESSAGE_BAD_REQUEST_PLAYLIST = "Playlist doesn't exist";
     public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: id of music is null";
 }

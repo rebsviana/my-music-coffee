@@ -2,7 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
-import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
+import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
 import com.ciandt.summit.bootcamp2022.tests.Factory;
@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_PLAYLIST;
 import static com.ciandt.summit.bootcamp2022.tests.Factory.PLAYLIST_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -70,17 +69,17 @@ class PlaylistServiceImplTest {
     }
 
     @Test
-    @DisplayName("When get playlist by id and playlist doesn't exist then return BadRequestPlaylistException")
-    void whenGetPlaylistByIdAndPlaylistDoesntExistThenReturnBadRequestPlaylistException() {
+    @DisplayName("When get playlist by id and playlist doesn't exist then return PlaylistDoesntExistException")
+    void whenGetPlaylistByIdAndPlaylistDoesntExistThenReturnPlaylistDoesntExistException() {
         when(playlistsRepository.findById(anyString()))
-                .thenThrow(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_PLAYLIST));
+                .thenThrow(new PlaylistDoesntExistException());
 
-        var exception = assertThrows(BadRequestPlaylistException.class,
+        var exception = assertThrows(PlaylistDoesntExistException.class,
                 () -> playlistService.getPlaylistById(ID_NOT_EXIST));
 
         assertNotNull(exception);
-        assertEquals(BadRequestPlaylistException.class, exception.getClass());
-        assertEquals("Playlist doesn't exist", exception.getMessage());
+        assertEquals(PlaylistDoesntExistException.class, exception.getClass());
+        assertEquals(PlaylistDoesntExistException.MESSAGE, exception.getMessage());
         verify(playlistsRepository, times(1)).findById(ID_NOT_EXIST);
         verify(mapper, times(0)).convertValue(playlist, PlaylistDto.class);
     }
