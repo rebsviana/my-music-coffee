@@ -62,11 +62,21 @@ public class PlaylistServiceImpl implements PlaylistService {
                         .name(musicDto.getArtistId().getName())
                         .build()
                 ).build();
-        Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
+
+        var playlistDto = getPlaylistById(playlistId);
+        var playlist = Playlist.builder()
+                .id(playlistDto.getId())
+                .musics(playlistDto.getMusics())
+                .build();
 
         playlist.getMusics().add(music);
 
-        return mapper.convertValue(playlistsRepository.save(playlist), PlaylistDto.class);
+        playlistsRepository.save(playlist);
+
+        return PlaylistDto.builder()
+                .id(playlist.getId())
+                .musics(playlist.getMusics())
+                .build();
     }
 
     @Override

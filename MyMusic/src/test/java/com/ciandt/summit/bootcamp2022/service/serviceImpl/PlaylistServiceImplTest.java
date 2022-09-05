@@ -22,6 +22,7 @@ import static com.ciandt.summit.bootcamp2022.tests.Factory.PLAYLIST_ID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -82,7 +83,6 @@ class PlaylistServiceImplTest {
         assertEquals(PlaylistDoesntExistException.class, exception.getClass());
         assertEquals(PlaylistDoesntExistException.MESSAGE, exception.getMessage());
         verify(playlistsRepository, times(1)).findById(ID_NOT_EXIST);
-        verify(mapper, times(0)).convertValue(playlist, PlaylistDto.class);
     }
 
     @Test
@@ -92,24 +92,13 @@ class PlaylistServiceImplTest {
 
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
 
-        when(playlistService.getPlaylistById(anyString())).thenReturn(playlistDto);
-
-        when(mapper.convertValue(playlistDto, Playlist.class)).thenReturn(playlist);
-
-        when(mapper.convertValue(playlist, PlaylistDto.class)).thenReturn(playlistDto);
-
-        when(playlistsRepository.save(playlist)).thenReturn(playlist);
-
         var response = playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID);
 
         assertNotNull(response);
-        assertEquals(playlistDto, response);
         assertEquals(PlaylistDto.class, response.getClass());
         assertEquals(PLAYLIST_ID, response.getId());
-//        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
-//        verify(playlistsRepository, times(1)).save(playlist);
-//        verify(mapper, times(2)).convertValue(playlist, PlaylistDto.class);
-//        verify(mapper, times(1)).convertValue(playlistDto, Playlist.class);
+        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(1)).save(any());
     }
 
     @Test
@@ -117,15 +106,13 @@ class PlaylistServiceImplTest {
     void whenDeleteMusicFromPlaylistThenRemoveItFromPlaylistThenUpdate() {
         when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
-        when(playlistService.getPlaylistById(anyString())).thenReturn(playlistDto);
         playlist.getMusics().add(music);
-        when(playlistsRepository.save(playlist)).thenReturn(playlist);
 
         playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID);
 
         verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).findById(playlist.getId());
-        verify(playlistsRepository, times(1)).save(playlist);
+        verify(playlistsRepository, times(1)).save(any());
     }
 
     @Test
@@ -133,7 +120,6 @@ class PlaylistServiceImplTest {
     void whenDeleteMusicFromPlaylistAndMusicDoesntExistThenReturnMusicDoesntExistException() {
         when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
-        when(playlistService.getPlaylistById(anyString())).thenReturn(playlistDto);
 
         var exception = assertThrows(MusicDoesntExistException.class,
                 () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID));
