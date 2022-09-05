@@ -33,7 +33,7 @@ public class PlaylistController {
                                                      @RequestHeader(value="name") String userName,
                                                      @RequestHeader(value="token") String userToken){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
-        // tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
         var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId);
 
@@ -52,7 +52,7 @@ public class PlaylistController {
                                                            @RequestHeader(value="name") String userName,
                                                            @RequestHeader(value="token") String userToken){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
-//        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
 
         playlistService.deleteMusicFromPlaylist(musicId,playlistId);
