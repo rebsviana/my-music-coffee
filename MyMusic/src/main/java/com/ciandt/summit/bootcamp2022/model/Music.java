@@ -1,6 +1,5 @@
 package com.ciandt.summit.bootcamp2022.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,9 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.OneToOne;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "Musicas")
@@ -33,14 +29,4 @@ public class Music {
     @OneToOne
     @JoinColumn(name = "Artistaid", referencedColumnName = "Id")
     private Artist artistId;
-
-    @ManyToMany(mappedBy = "musics")
-    @JsonIgnore
-    private Set<Playlist> playlists = new HashSet<>();
-
-    public Music(String id, String name, Artist artistId) {
-        this.id = id;
-        this.name = name;
-        this.artistId = artistId;
-    }
 }
