@@ -100,7 +100,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("When music doesnt in playlist then return MusicDoesntExistInPlaylistException")
+    @DisplayName("When music doesnt exist in playlist then return MusicDoesntExistInPlaylistException")
     void whenMusicDoesntExistInPlaylistExceptionThenReturnResponseEntity(){
 
         ResponseEntity<ErrorDto> error = globalExceptionHandler
