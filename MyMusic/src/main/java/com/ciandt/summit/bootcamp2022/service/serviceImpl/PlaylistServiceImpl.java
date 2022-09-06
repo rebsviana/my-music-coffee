@@ -7,10 +7,8 @@ import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
-import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
 import com.ciandt.summit.bootcamp2022.service.PlaylistService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +23,6 @@ public class PlaylistServiceImpl implements PlaylistService {
     private PlaylistsRepository playlistsRepository;
     @Autowired
     private MusicServiceImpl musicService;
-    @Autowired
-    private ObjectMapper mapper;
-
-    @Autowired
-    private MusicRepository musicRepository;
 
     @Override
     public PlaylistDto getPlaylistById(String id) {
@@ -43,7 +36,6 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .musics(playlistEntity.getMusics())
                 .build();
     }
-
 
     @Override
     public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
