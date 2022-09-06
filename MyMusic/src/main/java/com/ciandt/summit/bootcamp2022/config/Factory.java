@@ -35,4 +35,6 @@ public class Factory {
     public static PlaylistDto createPlaylistDto() { return new PlaylistDto(PLAYLIST_ID, new HashSet<Music>()); }
 
     public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: id of music is null";
+
+    private Factory(){}
 }
