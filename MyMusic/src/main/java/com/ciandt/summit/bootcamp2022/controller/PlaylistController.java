@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,5 +43,20 @@ public class PlaylistController {
                 .toUri();
 
         return ResponseEntity.created(uri).build();
+    }
+
+    @ApiOperation(value = "Delete music in playlist", notes = "Deleted music in playlist")
+    @DeleteMapping("/{playlistId}/musicas/{musicId}")
+    public ResponseEntity<String> deleteMusicFromPlaylist (@PathVariable String playlistId,
+                                                           @PathVariable String musicId,
+                                                           @RequestHeader(value="name") String userName,
+                                                           @RequestHeader(value="token") String userToken){
+        log.info("Starting the route save music in a playlist with id:" + playlistId);
+        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        log.info("Authorized user:" + userName);
+
+        playlistService.deleteMusicFromPlaylist(musicId,playlistId);
+
+        return ResponseEntity.ok("Music deleted successfully");
     }
 }

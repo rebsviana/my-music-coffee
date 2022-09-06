@@ -7,6 +7,7 @@ import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
+import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
 import com.ciandt.summit.bootcamp2022.service.PlaylistService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,14 +28,22 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private MusicRepository musicRepository;
+
     @Override
     public PlaylistDto getPlaylistById(String id) {
         checkNotNull(id,"Playlist cannot be null");
 
         var playlistEntity = playlistsRepository.findById(id)
                 .orElseThrow(PlaylistDoesntExistException::new);
-        return mapper.convertValue(playlistEntity, PlaylistDto.class);
+
+        return PlaylistDto.builder()
+                .id(playlistEntity.getId())
+                .musics(playlistEntity.getMusics())
+                .build();
     }
+
 
     @Override
     public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
@@ -53,11 +62,21 @@ public class PlaylistServiceImpl implements PlaylistService {
                         .name(musicDto.getArtistId().getName())
                         .build()
                 ).build();
-        Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
+
+        var playlistDto = getPlaylistById(playlistId);
+        var playlist = Playlist.builder()
+                .id(playlistDto.getId())
+                .musics(playlistDto.getMusics())
+                .build();
 
         playlist.getMusics().add(music);
 
-        return mapper.convertValue(playlistsRepository.save(playlist), PlaylistDto.class);
+        playlistsRepository.save(playlist);
+
+        return PlaylistDto.builder()
+                .id(playlist.getId())
+                .musics(playlist.getMusics())
+                .build();
     }
 
     @Override
@@ -72,15 +91,20 @@ public class PlaylistServiceImpl implements PlaylistService {
                         .build()
                 ).build();
 
-        Playlist playlist = mapper.convertValue(getPlaylistById(playlistId), Playlist.class);
+        var playlistDto = getPlaylistById(playlistId);
 
-        if(playlist.getMusics().stream()
+        var playlist = Playlist.builder()
+                        .id(playlistDto.getId())
+                        .musics(playlistDto.getMusics())
+                        .build();
+
+        var musicInPlaylist = playlist.getMusics()
+                .stream()
                 .filter(musicObject -> Objects.equals(musicObject.getId(), music.getId()))
                 .findFirst()
-                .isEmpty())
-            throw new MusicDoesntExistException();
+                .orElseThrow(MusicDoesntExistException::new);
 
-        playlist.getMusics().remove(music);
+        playlist.getMusics().remove(musicInPlaylist);
         playlistsRepository.save(playlist);
     }
 }
