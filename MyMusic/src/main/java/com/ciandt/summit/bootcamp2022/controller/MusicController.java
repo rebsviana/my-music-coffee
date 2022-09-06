@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
@@ -32,10 +33,10 @@ public class MusicController {
 
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 200, message = Factory.MSG_200_OK),
             @ApiResponse(code = 204, message = NoContentException.MESSAGE, response = Object.class),
             @ApiResponse(code = 400, message = MinLengthRequiredException.MESSAGE),
-            @ApiResponse(code = 500, message = "Internal error")
+            @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @GetMapping
     public ResponseEntity<List<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,

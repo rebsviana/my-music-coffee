@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.PlaylistServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
@@ -33,9 +34,9 @@ public class PlaylistController {
     @ApiOperation(value = "Save music in playlist", notes = "Saved new music in playlist")
     @ResponseStatus(value = HttpStatus.CREATED)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Music doesn't exist <br/> Playlist doesn't exist"),
-            @ApiResponse(code = 500, message = "Internal error")
+            @ApiResponse(code = 201, message = Factory.MSG_201_CREATED),
+            @ApiResponse(code = 400, message = Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" + Factory.MSG_400_PLAYLIST_DOESNT_EXIST),
+            @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @PostMapping("/{playlistId}/musicas")
     public ResponseEntity<Void> saveMusicInPlaylist (@RequestBody MusicDto musicDto,
@@ -57,9 +58,9 @@ public class PlaylistController {
 
     @ApiOperation(value = "Delete music in playlist", notes = "Deleted music in playlist")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Music deleted successfully", response = Object.class),
-            @ApiResponse(code = 400, message = "Music doesn't exist <br/> Playlist doesn't exist <br/> Music doesn't exist in playlist"),
-            @ApiResponse(code = 500, message = "Internal error")
+            @ApiResponse(code = 200, message = Factory.MSG_200_DELETE_SUCCESSFULLY, response = Object.class),
+            @ApiResponse(code = 400, message = Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" + Factory.MSG_400_PLAYLIST_DOESNT_EXIST +  "<br/>" + Factory.MSG_400_MUSIC_DOESNT_EXIST_IN_PLAYLIST),
+            @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @DeleteMapping("/{playlistId}/musicas/{musicId}")
     public ResponseEntity<String> deleteMusicFromPlaylist (@PathVariable String playlistId,
@@ -72,6 +73,6 @@ public class PlaylistController {
 
         playlistService.deleteMusicFromPlaylist(musicId,playlistId);
 
-        return ResponseEntity.ok("Music deleted successfully");
+        return ResponseEntity.ok(Factory.MSG_200_DELETE_SUCCESSFULLY);
     }
 }
