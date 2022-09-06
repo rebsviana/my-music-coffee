@@ -3,6 +3,7 @@ package com.ciandt.summit.bootcamp2022.controller;
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
@@ -87,7 +88,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("When playlist doesnt exist then return MusicDoesntExistException")
+    @DisplayName("When playlist doesnt exist then return PlaylistDoesntExistException")
     void whenPlaylistDoesntExistThenReturnResponseEntity(){
 
         ResponseEntity<ErrorDto> error = globalExceptionHandler
@@ -96,5 +97,17 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
         assertEquals(PlaylistDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When music doesnt exist in playlist then return MusicDoesntExistInPlaylistException")
+    void whenMusicDoesntExistInPlaylistExceptionThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleMusicDoesntExistInPlaylistException(new MusicDoesntExistInPlaylistException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MusicDoesntExistInPlaylistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }
