@@ -1,5 +1,8 @@
 package com.ciandt.summit.bootcamp2022.config.swagger;
 
+import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
+import lombok.Generated;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -12,6 +15,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.Arrays;
+
+@Generated
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

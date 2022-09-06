@@ -51,8 +51,6 @@ class MusicServiceImplTest {
         var list = service.getMusicByNameOrArtist("Harley");
 
         assertThat(list.get(0).getName(), containsString("Harley"));
-
-        //TODO: Buscar metodo para comparar se há pelo menos um dos dois
     }
 
     @Test

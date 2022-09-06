@@ -2,7 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
-import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
@@ -34,15 +34,11 @@ class PlaylistServiceImplTest {
     private MusicServiceImpl musicServiceImpl;
 
     @Mock
-    private ObjectMapper mapper;
-
-    @Mock
     private PlaylistsRepository playlistsRepository;
 
     @InjectMocks
     private PlaylistServiceImpl playlistService;
     private Playlist playlist;
-    private PlaylistDto playlistDto;
     private MusicDto musicDto;
     private Music music;
 
@@ -51,7 +47,6 @@ class PlaylistServiceImplTest {
     @BeforeEach
     void setup(){
         playlist = Factory.createPlaylist();
-        playlistDto = Factory.createPlaylistDto();
         musicDto = Factory.createMusicDto();
         music = Factory.createMusic();
     }
@@ -116,17 +111,17 @@ class PlaylistServiceImplTest {
     }
 
     @Test
-    @DisplayName("When delete music from playlist and music doesn't exist then return MusicDoesntExistException")
-    void whenDeleteMusicFromPlaylistAndMusicDoesntExistThenReturnMusicDoesntExistException() {
+    @DisplayName("When delete music from playlist and music doesn't exist then return MusicDoesntExistInPlaylistException")
+    void whenDeleteMusicFromPlaylistAndMusicDoesntExistThenReturnMusicDoesntExistInPlaylistException() {
         when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
 
-        var exception = assertThrows(MusicDoesntExistException.class,
+        var exception = assertThrows(MusicDoesntExistInPlaylistException.class,
                 () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID));
 
         assertNotNull(exception);
-        assertEquals(MusicDoesntExistException.class, exception.getClass());
-        assertEquals(MusicDoesntExistException.MESSAGE, exception.getMessage());
+        assertEquals(MusicDoesntExistInPlaylistException.class, exception.getClass());
+        assertEquals(MusicDoesntExistInPlaylistException.MESSAGE, exception.getMessage());
 
         verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).findById(playlist.getId());

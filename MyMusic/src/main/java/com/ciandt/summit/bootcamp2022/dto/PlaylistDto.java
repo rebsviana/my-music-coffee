@@ -21,8 +21,4 @@ public class PlaylistDto {
 
     @JsonIgnore
     Set<Music> musics;
-
-    public PlaylistDto(String id) {
-        this.id = id;
-    }
 }
