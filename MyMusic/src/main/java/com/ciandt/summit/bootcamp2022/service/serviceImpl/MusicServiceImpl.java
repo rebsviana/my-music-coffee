@@ -5,6 +5,7 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
+import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.service.MusicService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class MusicServiceImpl implements MusicService {
         if (musicEntity.isEmpty())
             throw new NoContentException();
 
-        return musicEntity
+        var musicDto = musicEntity
                 .map(music -> MusicDto.builder()
                         .artistId(ArtistDto.builder()
                                 .id(music.getArtistId().getId())
@@ -40,6 +41,8 @@ public class MusicServiceImpl implements MusicService {
                         .id(music.getId())
                         .name(music.getName())
                         .build());
+
+        return musicDto;
     }
 
     @Override
