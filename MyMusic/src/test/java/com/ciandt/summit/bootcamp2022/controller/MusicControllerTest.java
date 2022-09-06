@@ -4,7 +4,7 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
-import com.ciandt.summit.bootcamp2022.tests.Factory;
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_NAME;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.NAME_TOKEN;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.TOKEN;
+import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME;
+import static com.ciandt.summit.bootcamp2022.config.Factory.NAME_TOKEN;
+import static com.ciandt.summit.bootcamp2022.config.Factory.TOKEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,7 +44,7 @@ class MusicControllerTest {
     @Test
     @DisplayName("When search some music with filter then return response entity with list of MusicDto")
     void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto(){
-        ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
+        ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
