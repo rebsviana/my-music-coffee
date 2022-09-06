@@ -6,9 +6,11 @@ import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
+import lombok.Generated;
 
 import java.util.HashSet;
 
+@Generated
 public class Factory {
     public static final String MUSIC_ID = "12343";
     public static final String MUSIC_NAME = "Harley";
