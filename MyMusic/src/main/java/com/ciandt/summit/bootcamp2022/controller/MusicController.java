@@ -6,6 +6,8 @@ import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -28,14 +30,14 @@ public class MusicController {
 
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @GetMapping
-    public ResponseEntity<List<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
-                                                                           @RequestHeader(value="name") String userName,
-                                                                           @RequestHeader(value="token") String userToken){
+    public ResponseEntity<Page<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
+                                                                            @RequestHeader(value="name") String userName,
+                                                                            @RequestHeader(value="token") String userToken, Pageable pageable){
         log.info("Starting the route search new music with filter " + filterName);
         tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
-        var listMusicDto = musicService.getMusicByNameOrArtist(filterName);
+        var pageMusicDto = musicService.getMusicByNameOrArtist(filterName, pageable);
 
-        return ResponseEntity.ok(listMusicDto);
+        return ResponseEntity.ok(pageMusicDto);
     }
 }
