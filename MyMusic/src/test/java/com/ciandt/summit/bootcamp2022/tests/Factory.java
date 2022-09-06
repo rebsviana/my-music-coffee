@@ -7,8 +7,6 @@ import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 
 public class Factory {
