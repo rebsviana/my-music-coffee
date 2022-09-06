@@ -1,9 +1,11 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
-import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
+import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -44,9 +46,10 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
     }
-    @ExceptionHandler(value = BadRequestPlaylistException.class)
-    public ResponseEntity<ErrorDto> handleBadRequestPlaylistException(BadRequestPlaylistException exception) {
-        log.error("BadRequestPlaylistException: {}",exception.getMessage());
+
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<ErrorDto> handleNullPointerException(NullPointerException exception) {
+        log.error("NullPointerException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
@@ -54,9 +57,29 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
 
-    @ExceptionHandler(value = NullPointerException.class)
-    public ResponseEntity<ErrorDto> handleNullPointerException(NullPointerException exception) {
-        log.error("NullPointerException: {}",exception.getMessage());
+    @ExceptionHandler(value = MusicDoesntExistException.class)
+    public ResponseEntity<ErrorDto> handlerMusicDoesntExistException(MusicDoesntExistException exception) {
+        log.error("MusicDoesntExistException: {}",exception.getMessage());
+        var errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .error(HttpStatus.BAD_REQUEST)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(value = PlaylistDoesntExistException.class)
+    public ResponseEntity<ErrorDto> handlerPlaylistDoesntExistException(PlaylistDoesntExistException exception) {
+        log.error("PlaylistDoesntExistException: {}",exception.getMessage());
+        var errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .error(HttpStatus.BAD_REQUEST)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(value = MusicDoesntExistInPlaylistException.class)
+    public ResponseEntity<ErrorDto> handleMusicDoesntExistInPlaylistException(MusicDoesntExistInPlaylistException exception) {
+        log.error("MusicDoesntExistInPlaylistException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)

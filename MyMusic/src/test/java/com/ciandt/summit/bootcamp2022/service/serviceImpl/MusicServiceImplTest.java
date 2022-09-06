@@ -1,8 +1,8 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
-import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
@@ -51,8 +51,6 @@ class MusicServiceImplTest {
         var list = service.getMusicByNameOrArtist("Harley");
 
         assertThat(list.get(0).getName(), containsString("Harley"));
-
-        //TODO: Buscar metodo para comparar se há pelo menos um dos dois
     }
 
     @Test
@@ -98,16 +96,16 @@ class MusicServiceImplTest {
     }
 
     @Test
-    @DisplayName("When find music by id and music doesn't exist then return BadRequestPlaylistException")
-    void whenGetMusicByIdAndMusicDoesntExistThenReturnBadRequestPlaylistException() {
+    @DisplayName("When find music by id and music doesn't exist then return MusicDoesntExistException")
+    void whenGetMusicByIdAndMusicDoesntExistThenReturnMusicDoesntExistException() {
         when(musicRepository.findById(anyString()))
-                .thenThrow(new BadRequestPlaylistException("Music doesn't exist"));
+                .thenThrow(new MusicDoesntExistException());
 
-        var exception = assertThrows(BadRequestPlaylistException.class,
+        var exception = assertThrows(MusicDoesntExistException.class,
                 () -> service.getMusicById(MUSIC_ID));
 
         assertNotNull(exception);
-        assertEquals("Music doesn't exist", exception.getMessage());
-        assertEquals(BadRequestPlaylistException.class, exception.getClass());
+        assertEquals(MusicDoesntExistException.MESSAGE, exception.getMessage());
+        assertEquals(MusicDoesntExistException.class, exception.getClass());
     }
 }

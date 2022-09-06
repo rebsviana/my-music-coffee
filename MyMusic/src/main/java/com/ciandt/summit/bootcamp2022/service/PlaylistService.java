@@ -7,4 +7,6 @@ public interface PlaylistService {
     public PlaylistDto getPlaylistById(String id);
 
     public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId);
+
+    public void deleteMusicFromPlaylist(String musicId, String playlistId);
 }

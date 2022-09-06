@@ -1,9 +1,11 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
-import com.ciandt.summit.bootcamp2022.exceptions.BadRequestPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
+import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_MUSIC;
+import java.util.Objects;
+
 import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_PAYLOAD;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MESSAGE_BAD_REQUEST_PLAYLIST;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -34,7 +36,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
-        assertEquals(MinLengthRequiredException.MESSAGE, error.getBody().getMessage());
+        assertEquals(MinLengthRequiredException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
     @Test
@@ -46,7 +48,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, error.getStatusCode());
         assertEquals(204, error.getStatusCodeValue());
-        assertEquals(NoContentException.MESSAGE, error.getBody().getMessage());
+        assertEquals(NoContentException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
     @Test
@@ -58,31 +60,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, error.getStatusCode());
         assertEquals(401, error.getStatusCodeValue());
-        assertEquals(UnauthorizedAccessException.MESSAGE, error.getBody().getMessage());
-    }
-
-    @Test
-    @DisplayName("When music doesn't exist then return BadRequestPlaylistException")
-    void whenMusicDoesntExisThenReturnResponseEntity(){
-
-        ResponseEntity<ErrorDto> error = globalExceptionHandler
-                .handleBadRequestPlaylistException(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_MUSIC));
-
-        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
-        assertEquals(400, error.getStatusCodeValue());
-        assertEquals(MESSAGE_BAD_REQUEST_MUSIC, error.getBody().getMessage());
-    }
-
-    @Test
-    @DisplayName("When playlist doesn't exist then return BadRequestPlaylistException")
-    void whenPlaylistDoesntExistThenReturnResponseEntity(){
-
-        ResponseEntity<ErrorDto> error = globalExceptionHandler
-                .handleBadRequestPlaylistException(new BadRequestPlaylistException(MESSAGE_BAD_REQUEST_PLAYLIST));
-
-        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
-        assertEquals(400, error.getStatusCodeValue());
-        assertEquals(MESSAGE_BAD_REQUEST_PLAYLIST, error.getBody().getMessage());
+        assertEquals(UnauthorizedAccessException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
     @Test
@@ -94,6 +72,42 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
-        assertEquals(MESSAGE_BAD_REQUEST_PAYLOAD, error.getBody().getMessage());
+        assertEquals(MESSAGE_BAD_REQUEST_PAYLOAD, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When music doesnt exist then return MusicDoesntExistException")
+    void whenMusicDoesntExistThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handlerMusicDoesntExistException(new MusicDoesntExistException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MusicDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When playlist doesnt exist then return PlaylistDoesntExistException")
+    void whenPlaylistDoesntExistThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handlerPlaylistDoesntExistException(new PlaylistDoesntExistException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(PlaylistDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When music doesnt exist in playlist then return MusicDoesntExistInPlaylistException")
+    void whenMusicDoesntExistInPlaylistExceptionThenReturnResponseEntity(){
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleMusicDoesntExistInPlaylistException(new MusicDoesntExistInPlaylistException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(MusicDoesntExistInPlaylistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }
