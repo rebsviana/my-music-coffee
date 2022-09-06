@@ -2,7 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
-import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
@@ -102,7 +102,7 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .stream()
                 .filter(musicObject -> Objects.equals(musicObject.getId(), music.getId()))
                 .findFirst()
-                .orElseThrow(MusicDoesntExistException::new);
+                .orElseThrow(MusicDoesntExistInPlaylistException::new);
 
         playlist.getMusics().remove(musicInPlaylist);
         playlistsRepository.save(playlist);
