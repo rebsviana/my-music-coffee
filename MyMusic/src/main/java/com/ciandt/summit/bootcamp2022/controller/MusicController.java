@@ -33,11 +33,11 @@ public class MusicController {
     @GetMapping
     public ResponseEntity<Page<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
                                                                         @RequestHeader(value="name") String userName,
-                                                                        @RequestHeader(value="token") String userToken, Pageable pageable){
+                                                                        @RequestHeader(value="token") String userToken){
         log.info("Starting the route search new music with filter " + filterName);
         tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
-        var pageMusicDto = musicService.getMusicByNameOrArtist(filterName, pageable);
+        var pageMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(pageMusicDto);
     }

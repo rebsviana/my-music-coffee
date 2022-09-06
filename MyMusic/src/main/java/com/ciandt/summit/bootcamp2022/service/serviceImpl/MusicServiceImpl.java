@@ -10,8 +10,11 @@ import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.service.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -21,18 +24,18 @@ public class MusicServiceImpl implements MusicService {
     private final MusicRepository musicRepository;
 
     @Override
-    public Page<MusicDto> getMusicByNameOrArtist(String name, Pageable pageable) {
+    public Page<MusicDto> getMusicByNameOrArtist(String name) {
         checkNotNull(name, "Name cannot be null");
 
         if (name.length() < 3)
             throw new MinLengthRequiredException();
 
-        var musicEntity = musicRepository.findMusicByNameOrArtist(name, pageable);
+        var musicEntity = musicRepository.findMusicByNameOrArtist(name);
 
         if (musicEntity.isEmpty())
             throw new NoContentException();
 
-        var musicDto = musicEntity
+        var musicDto = musicEntity.stream()
                 .map(music -> MusicDto.builder()
                         .artistId(ArtistDto.builder()
                                 .id(music.getArtistId().getId())
@@ -40,9 +43,9 @@ public class MusicServiceImpl implements MusicService {
                                 .build())
                         .id(music.getId())
                         .name(music.getName())
-                        .build());
+                        .build()).collect(Collectors.toList());
 
-        return musicDto;
+        return new PageImpl<>(musicDto);
     }
 
     @Override

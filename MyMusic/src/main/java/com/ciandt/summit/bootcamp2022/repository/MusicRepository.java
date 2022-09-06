@@ -18,5 +18,5 @@ public interface MusicRepository extends JpaRepository<Music, String> {
                     "LIKE UPPER ('%' || :name || '%') OR UPPER(m.nome) LIKE UPPER ('%' || :name || '%') ORDER BY m.nome, a.nome"
             , nativeQuery = true
     )
-    Page<Music> findMusicByNameOrArtist(@Param("name") String name, Pageable pageable);
+    List<Music> findMusicByNameOrArtist(@Param("name") String name);
 }

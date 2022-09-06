@@ -6,6 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MusicService {
-    public Page<MusicDto> getMusicByNameOrArtist(String name, Pageable pageable);
+    public Page<MusicDto> getMusicByNameOrArtist(String name);
     public  MusicDto getMusicById(String id);
 }
