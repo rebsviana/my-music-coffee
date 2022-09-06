@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
@@ -31,9 +32,9 @@ public class MusicController {
 
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @GetMapping
-    public ResponseEntity<Page<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
-                                                                        @RequestHeader(value="name") String userName,
-                                                                        @RequestHeader(value="token") String userToken){
+    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
+                                                                                       @RequestHeader(value="name") String userName,
+                                                                                       @RequestHeader(value="token") String userToken){
         log.info("Starting the route search new music with filter " + filterName);
         tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);

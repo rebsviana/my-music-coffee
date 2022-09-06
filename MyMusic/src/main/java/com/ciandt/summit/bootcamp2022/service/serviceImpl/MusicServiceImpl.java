@@ -2,6 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
 import com.ciandt.summit.bootcamp2022.dto.ArtistDto;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
@@ -24,7 +25,7 @@ public class MusicServiceImpl implements MusicService {
     private final MusicRepository musicRepository;
 
     @Override
-    public Page<MusicDto> getMusicByNameOrArtist(String name) {
+    public PageDecoratorDto<MusicDto> getMusicByNameOrArtist(String name) {
         checkNotNull(name, "Name cannot be null");
 
         if (name.length() < 3)
@@ -45,7 +46,7 @@ public class MusicServiceImpl implements MusicService {
                         .name(music.getName())
                         .build()).collect(Collectors.toList());
 
-        return new PageImpl<>(musicDto);
+        return new PageDecoratorDto<>(new PageImpl<>(musicDto));
     }
 
     @Override
