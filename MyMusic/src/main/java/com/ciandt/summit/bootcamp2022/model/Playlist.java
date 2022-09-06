@@ -37,8 +37,4 @@ public class Playlist {
     )
     @JsonIgnore
     Set<Music> musics = new HashSet<>();
-
-    public Playlist(String id) {
-        this.id = id;
-    }
 }
