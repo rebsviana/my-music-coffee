@@ -13,9 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @ControllerAdvice
 @Log4j2
 public class GlobalExceptionHandler {
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     @ExceptionHandler(value = MinLengthRequiredException.class)
     public ResponseEntity<ErrorDto> handleMinRequiredException(MinLengthRequiredException exception) {
@@ -23,6 +28,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
@@ -33,6 +39,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.NO_CONTENT)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(errorDto);
     }
@@ -43,6 +50,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.UNAUTHORIZED)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorDto);
     }
@@ -53,6 +61,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
@@ -63,6 +72,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
@@ -73,6 +83,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
@@ -83,6 +94,7 @@ public class GlobalExceptionHandler {
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
     }
