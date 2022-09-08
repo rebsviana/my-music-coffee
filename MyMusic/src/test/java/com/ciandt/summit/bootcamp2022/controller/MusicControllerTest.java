@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
@@ -48,14 +50,14 @@ class MusicControllerTest {
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
-        when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(List.of(musicDto));
+        when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(new PageDecoratorDto<>(new PageImpl<>(List.of(musicDto))));
 
         var response = controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME, NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
-        assertEquals(List.of(musicDto), response.getBody());
+        assertEquals(PageDecoratorDto.class, response.getBody().getClass());
     }
 
     @Test

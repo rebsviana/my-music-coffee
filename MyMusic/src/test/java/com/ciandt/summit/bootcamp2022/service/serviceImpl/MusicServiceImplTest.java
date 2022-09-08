@@ -48,9 +48,9 @@ class MusicServiceImplTest {
         when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of(music));
 
-        var list = service.getMusicByNameOrArtist("Harley");
+        var list = service.getMusicByNameOrArtist(MUSIC_NAME);
 
-        assertThat(list.get(0).getName(), containsString("Harley"));
+        assertThat(list.getContent().get(0).getName(), containsString(MUSIC_NAME));
 
         //TODO: Buscar metodo para comparar se há pelo menos um dos dois
     }
