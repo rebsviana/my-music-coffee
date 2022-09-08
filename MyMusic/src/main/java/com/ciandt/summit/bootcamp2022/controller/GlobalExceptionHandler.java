@@ -3,6 +3,7 @@ package com.ciandt.summit.bootcamp2022.controller;
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
@@ -69,6 +70,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = PlaylistDoesntExistException.class)
     public ResponseEntity<ErrorDto> handlerPlaylistDoesntExistException(PlaylistDoesntExistException exception) {
         log.error("PlaylistDoesntExistException: {}",exception.getMessage());
+        var errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .error(HttpStatus.BAD_REQUEST)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(value = MusicDoesntExistInPlaylistException.class)
+    public ResponseEntity<ErrorDto> handleMusicDoesntExistInPlaylistException(MusicDoesntExistInPlaylistException exception) {
+        log.error("MusicDoesntExistInPlaylistException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)

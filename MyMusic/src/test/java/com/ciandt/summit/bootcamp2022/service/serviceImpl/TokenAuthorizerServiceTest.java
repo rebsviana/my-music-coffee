@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.service.serviceImpl;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.model.token.CreateAuthorizerRequest;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.TokenProviderService;
@@ -35,7 +36,7 @@ class TokenAuthorizerServiceTest {
     @Test
     @DisplayName("When verify token provider then return HttpStatus Created")
     void whenVerifyTokenProviderThenReturnResponseEntity() {
-        ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
+        ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
         when(tokenProviderService.createTokenAuthorizer(any(CreateAuthorizerRequest.class)))
                 .thenReturn(responseEntity);
@@ -45,7 +46,7 @@ class TokenAuthorizerServiceTest {
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
-        assertEquals("ok", response.getBody());
+        assertEquals(Factory.MSG_200_OK, response.getBody());
     }
 
     @Test

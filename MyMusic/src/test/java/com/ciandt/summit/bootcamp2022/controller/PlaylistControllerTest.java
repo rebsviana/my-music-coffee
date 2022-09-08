@@ -4,7 +4,7 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.PlaylistServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
-import com.ciandt.summit.bootcamp2022.tests.Factory;
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_ID;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.NAME_TOKEN;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.PLAYLIST_ID;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.TOKEN;
+import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.NAME_TOKEN;
+import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.TOKEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -48,7 +48,7 @@ class PlaylistControllerTest {
     @Test
     @DisplayName("When save music in a playlist, then return Response Entity")
     void whenSaveMusicInPlaylistThenReturnResponseEntity(){
-        ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
+        ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
@@ -64,7 +64,7 @@ class PlaylistControllerTest {
     @Test
     @DisplayName("When delete music from playlist, then return Response Entity")
     void whenDeleteMusicFromPlaylistThenReturnResponseEntity(){
-        ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
+        ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
@@ -75,6 +75,6 @@ class PlaylistControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
-        assertEquals("Music deleted successfully", response.getBody());
+        assertEquals(Factory.MSG_200_DELETE_SUCCESSFULLY, response.getBody());
     }
 }

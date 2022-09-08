@@ -1,11 +1,16 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.model.Music;
+import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,6 +36,12 @@ public class MusicController {
     private TokenAuthorizerService tokenAuthorizerService;
 
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = Factory.MSG_200_OK),
+            @ApiResponse(code = 204, message = NoContentException.MESSAGE, response = Object.class),
+            @ApiResponse(code = 400, message = MinLengthRequiredException.MESSAGE),
+            @ApiResponse(code = 500, message = Factory.MSG_500)
+    })
     @GetMapping
     public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
                                                                                        @RequestHeader(value="name") String userName,

@@ -6,7 +6,7 @@ import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
-import com.ciandt.summit.bootcamp2022.tests.Factory;
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,10 +15,10 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.ARTIST_ID;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.ARTIST_NAME;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_ID;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_NAME;
+import static com.ciandt.summit.bootcamp2022.config.Factory.ARTIST_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.ARTIST_NAME;
+import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,8 +51,6 @@ class MusicServiceImplTest {
         var list = service.getMusicByNameOrArtist(MUSIC_NAME);
 
         assertThat(list.getContent().get(0).getName(), containsString(MUSIC_NAME));
-
-        //TODO: Buscar metodo para comparar se há pelo menos um dos dois
     }
 
     @Test
