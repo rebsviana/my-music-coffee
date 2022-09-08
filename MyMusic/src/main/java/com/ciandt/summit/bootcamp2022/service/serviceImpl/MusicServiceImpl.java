@@ -9,6 +9,7 @@ import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.service.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,8 @@ public class MusicServiceImpl implements MusicService {
     private final MusicRepository musicRepository;
 
     @Override
-    public List<MusicDto> getMusicByNameOrArtist(String name) {
+    @Cacheable(value= "cacheSearchMusic")
+    public List<MusicDto> getMusicByNameOrArtist(String name) throws InterruptedException {
         checkNotNull(name, "Name cannot be null");
 
         if (name.length() < 3)
@@ -31,6 +33,8 @@ public class MusicServiceImpl implements MusicService {
 
         if (musicEntity.isEmpty())
             throw new NoContentException();
+
+        Thread.sleep(2000);
 
         return musicEntity.stream()
                 .map(music -> MusicDto.builder()

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class MusicController {
 
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @GetMapping
+    @Cacheable("test")
     public ResponseEntity<List<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
                                                                            @RequestHeader(value="name") String userName,
-                                                                           @RequestHeader(value="token") String userToken){
+                                                                           @RequestHeader(value="token") String userToken) throws InterruptedException {
         log.info("Starting the route search new music with filter " + filterName);
         tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);

@@ -43,7 +43,7 @@ class MusicControllerTest {
 
     @Test
     @DisplayName("When search some music with filter then return response entity with list of MusicDto")
-    void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto(){
+    void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto() throws InterruptedException {
         ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);

@@ -44,7 +44,7 @@ class MusicServiceImplTest {
 
     @Test
     @DisplayName("When find music by name or artist then return list of MusicDto")
-    void whenFindMusicByNameOrArtistThenReturnListOfMusicDto() {
+    void whenFindMusicByNameOrArtistThenReturnListOfMusicDto() throws InterruptedException {
         when(musicRepository.findMusicByNameOrArtist(anyString()))
                 .thenReturn(List.of(music));
 

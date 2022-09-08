@@ -4,6 +4,6 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 
 import java.util.List;
 public interface MusicService {
-    public List<MusicDto> getMusicByNameOrArtist(String name);
+    public List<MusicDto> getMusicByNameOrArtist(String name) throws InterruptedException;
     public  MusicDto getMusicById(String id);
 }
