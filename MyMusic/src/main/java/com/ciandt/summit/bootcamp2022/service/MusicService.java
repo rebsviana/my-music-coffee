@@ -6,6 +6,6 @@ import org.springframework.cache.annotation.Cacheable;
 
 public interface MusicService {
     @Cacheable(value= "searchMusic")
-    public PageDecoratorDto<MusicDto> getMusicByNameOrArtist(String name) throws InterruptedException;
+    public PageDecoratorDto<MusicDto> getMusicByNameOrArtist(String name);
     public  MusicDto getMusicById(String id);
 }
