@@ -16,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static com.ciandt.summit.bootcamp2022.config.Factory.MESSAGE_BAD_REQUEST_PAYLOAD;
@@ -27,6 +29,8 @@ class GlobalExceptionHandlerTest {
     @InjectMocks
     private GlobalExceptionHandler globalExceptionHandler;
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
     @Test
     @DisplayName("When argument size is less than three then return MinLengthRequiredException ")
     void whenLenghtLessThenThreeThenReturnResponseEntity(){
@@ -36,6 +40,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(MinLengthRequiredException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
@@ -48,6 +53,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, error.getStatusCode());
         assertEquals(204, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(NoContentException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
@@ -60,6 +66,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.UNAUTHORIZED, error.getStatusCode());
         assertEquals(401, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(UnauthorizedAccessException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
@@ -72,6 +79,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(MESSAGE_BAD_REQUEST_PAYLOAD, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
@@ -84,6 +92,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(MusicDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
@@ -96,6 +105,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(PlaylistDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 
@@ -108,6 +118,7 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
         assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(MusicDoesntExistInPlaylistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }

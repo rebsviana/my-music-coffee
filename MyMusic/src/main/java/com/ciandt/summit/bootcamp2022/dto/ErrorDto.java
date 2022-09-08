@@ -12,4 +12,5 @@ public class ErrorDto {
 
         private String message;
         private HttpStatus error;
+        private String dateTime;
 }
