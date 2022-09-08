@@ -9,7 +9,6 @@ import com.ciandt.summit.bootcamp2022.repository.MusicRepository;
 import com.ciandt.summit.bootcamp2022.service.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import springfox.documentation.annotations.Cacheable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +21,6 @@ public class MusicServiceImpl implements MusicService {
     private final MusicRepository musicRepository;
 
     @Override
-    @Cacheable(value= "cacheSearchMusic")
     public List<MusicDto> getMusicByNameOrArtist(String name) throws InterruptedException {
         checkNotNull(name, "Name cannot be null");
 
