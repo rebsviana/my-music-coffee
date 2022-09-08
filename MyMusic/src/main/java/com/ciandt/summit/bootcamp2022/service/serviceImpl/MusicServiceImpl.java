@@ -33,6 +33,8 @@ public class MusicServiceImpl implements MusicService {
         if (musicEntity.isEmpty())
             throw new NoContentException();
 
+        Thread.sleep(5000);
+
         var musicDto = musicEntity.stream()
                 .map(music -> MusicDto.builder()
                         .artistId(ArtistDto.builder()

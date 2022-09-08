@@ -45,7 +45,7 @@ class MusicControllerTest {
 
     @Test
     @DisplayName("When search some music with filter then return response entity with list of MusicDto")
-    void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto(){
+    void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto() {
         ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
