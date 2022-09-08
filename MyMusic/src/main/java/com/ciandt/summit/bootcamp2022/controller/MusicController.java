@@ -3,7 +3,6 @@ package com.ciandt.summit.bootcamp2022.controller;
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
-import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
@@ -13,16 +12,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/api/v1/music", produces = "application/json")
@@ -35,6 +31,9 @@ public class MusicController {
     @Autowired
     private TokenAuthorizerService tokenAuthorizerService;
 
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Factory.MSG_200_OK),
@@ -43,12 +42,9 @@ public class MusicController {
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @GetMapping
-    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
-                                                                                       @RequestHeader(value="name") String userName,
-                                                                                       @RequestHeader(value="token") String userToken){
+    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName){
         log.info("Starting the route search new music with filter " + filterName);
-        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
-        log.info("Authorized user:" + userName);
+        tokenAuthorizerService.verifyTokenAuthorizer(httpServletRequest.getHeader("name"), httpServletRequest.getHeader("token"));
         var pageMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(pageMusicDto);
