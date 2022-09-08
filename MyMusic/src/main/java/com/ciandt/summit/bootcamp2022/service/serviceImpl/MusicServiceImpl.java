@@ -41,7 +41,8 @@ public class MusicServiceImpl implements MusicService {
                                 .build())
                         .id(music.getId())
                         .name(music.getName())
-                        .build()).collect(Collectors.toList());
+                        .build())
+                .collect(Collectors.toList());
 
         return new PageDecoratorDto<>(new PageImpl<>(musicDto));
     }
