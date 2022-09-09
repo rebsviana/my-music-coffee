@@ -4,6 +4,7 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
@@ -52,9 +53,8 @@ public class PlaylistServiceImpl implements PlaylistService {
 
         var user = userRepository.findById(userId).orElseThrow(UserDoesntExistException::new);
 
-        //TODO: Fix exception
-        if (Objects.equals(user.getPlaylistId().getId(), playlistId))
-            throw new PlaylistDoesntExistException();
+        if (!Objects.equals(user.getPlaylistId().getId(), playlistId))
+            throw new PlaylistDoesntExistOnThisUserException();
 
         musicService.getMusicById(musicDto.getId());
         Music music = Music.builder()
