@@ -4,10 +4,12 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
+import com.ciandt.summit.bootcamp2022.repository.UserRepository;
 import com.ciandt.summit.bootcamp2022.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Autowired
     private MusicServiceImpl musicService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public PlaylistDto getPlaylistById(String id) {
         checkNotNull(id,"Playlist cannot be null");
@@ -38,12 +43,18 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId) {
+    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId, String userId) {
         checkNotNull(playlistId,"Playlist is null");
         checkNotNull(musicDto.getId(),"Payload body incorrect: id of music is null");
         checkNotNull(musicDto.getName(),"Payload body incorrect: name of music is null");
         checkNotNull(musicDto.getArtistId().getId(),"Payload body incorrect: id of artist is null");
         checkNotNull(musicDto.getArtistId().getName(),"Payload body incorrect: name of artist is null");
+
+        var user = userRepository.findById(userId).orElseThrow(UserDoesntExistException::new);
+
+        //TODO: Fix exception
+        if (Objects.equals(user.getPlaylistId().getId(), playlistId))
+            throw new PlaylistDoesntExistException();
 
         musicService.getMusicById(musicDto.getId());
         Music music = Music.builder()
