@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.model;
 
+import com.ciandt.summit.bootcamp2022.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class User {
 
     @Column(name = "Nickname")
     private String nickname;
+
+    @Column(name = "UserType")
+    private UserType userType;
 
     @OneToOne
     @JoinColumn(name = "Playlistid", referencedColumnName = "Id")

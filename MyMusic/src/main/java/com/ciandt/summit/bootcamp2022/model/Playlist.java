@@ -3,11 +3,13 @@ package com.ciandt.summit.bootcamp2022.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
@@ -27,6 +29,7 @@ public class Playlist {
 
     @Id
     @Column(name = "Id")
+    @GeneratedValue(generator = "UUID")
     private String id;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
