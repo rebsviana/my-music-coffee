@@ -7,6 +7,7 @@ import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistExcep
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserAlreadyExistsException;
 import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -134,5 +135,18 @@ class GlobalExceptionHandlerTest {
         assertEquals(400, error.getStatusCodeValue());
         assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(UserDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When user already exists then return UserDoesntExistException")
+    void whenUserAlreadyExistsThenReturnResponseEntity() {
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleUserAlreadyExistsException(new UserAlreadyExistsException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
+        assertEquals(UserAlreadyExistsException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }
