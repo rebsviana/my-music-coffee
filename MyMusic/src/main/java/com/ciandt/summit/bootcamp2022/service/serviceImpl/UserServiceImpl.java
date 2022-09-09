@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     private PlaylistsRepository playlistsRepository;
     private UserRepository userRepository;
 
-    public void saveUser(UserDto userDto){
+    public UserDto saveUser(UserDto userDto){
         checkNotNull(userDto, "User is null");
         checkNotNull(userDto.getName(), "Payload body incorrect: name is null");
         checkNotNull(userDto.getNickname(), "Payload body incorrect: nickname is null");
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
         userDto.setPlaylistId(PlaylistDto.builder().id(playlist.getId()).build());
 
-        userRepository.save(
+        var userSave = userRepository.save(
                 User.builder()
                        .name(userDto.getName())
                        .nickname(userDto.getNickname())
@@ -33,5 +33,15 @@ public class UserServiceImpl implements UserService {
                        .playlistId(playlist)
                        .build()
         );
+
+        return UserDto.builder()
+                .id(userSave.getId())
+                .name(userSave.getName())
+                .nickname(userSave.getNickname())
+                .userType(userSave.getUserType())
+                .playlistId(PlaylistDto.builder()
+                        .id(userSave.getPlaylistId().getId())
+                        .build())
+                .build();
     }
 }
