@@ -196,8 +196,8 @@ Run this example: POST http://localhost:8080/api/user
 
 #### Response
 
-    HTTP/1.1 200 Ok
-    Status: 200 Ok
+    HTTP/1.1 201 Created
+    Status: 201 Created
     User created successfully
 
 ### Search user
