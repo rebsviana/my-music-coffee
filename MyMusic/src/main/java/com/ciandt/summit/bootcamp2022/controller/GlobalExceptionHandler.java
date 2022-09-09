@@ -7,6 +7,7 @@ import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistExcep
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,6 +92,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MusicDoesntExistInPlaylistException.class)
     public ResponseEntity<ErrorDto> handleMusicDoesntExistInPlaylistException(MusicDoesntExistInPlaylistException exception) {
         log.error("MusicDoesntExistInPlaylistException: {}",exception.getMessage());
+        var errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+    @ExceptionHandler(value = UserDoesntExistException.class)
+    public ResponseEntity<ErrorDto> handleUserDoesntExistException(UserDoesntExistException exception) {
+        log.error("UserDoesntExistException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)
