@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
+import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
@@ -148,5 +149,18 @@ class GlobalExceptionHandlerTest {
         assertEquals(400, error.getStatusCodeValue());
         assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(UserAlreadyExistsException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When a free user save the sixth music in the playlist then return MaxMusicCapacityForFreeUserException")
+    void whenFreeUserSaveSixthMusicInThePlaylistThenReturnMaxMusicCapacity() {
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleMaxMusicCapacityForFreeUserException(new MaxMusicCapacityForFreeUserException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
+        assertEquals(MaxMusicCapacityForFreeUserException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }
