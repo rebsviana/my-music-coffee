@@ -35,7 +35,14 @@ public class PlaylistController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = Factory.MSG_201_CREATED),
-            @ApiResponse(code = 400, message = Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" + Factory.MSG_400_PLAYLIST_DOESNT_EXIST),
+            @ApiResponse(code = 400, message =
+                    Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" +
+                    Factory.MSG_400_PLAYLIST_DOESNT_EXIST + "<br/>" +
+                    Factory.MESSAGE_BAD_REQUEST_PAYLOAD + "<br/>" +
+                    Factory.MSG_400_USER_DOESNT_EXIST + "<br/>" +
+                    Factory.MSG_400_PLAYLIST_DOESNT_EXIST_ON_USER + "<br/>" +
+                    Factory.MSG_400_MAX_MUSIC_CAPACITY_USER_COMMON + "<br/>"
+            ),
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @PostMapping("/{playlistId}/{nickname}/music")
