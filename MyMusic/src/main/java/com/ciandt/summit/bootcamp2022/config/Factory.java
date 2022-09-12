@@ -33,7 +33,7 @@ public class Factory {
     public static final String MSG_400_MUSIC_DOESNT_EXIST = "Music doesn't exist";
     public static final String MSG_400_PLAYLIST_DOESNT_EXIST = "Playlist doesn't exist";
     public static final String MSG_400_MUSIC_DOESNT_EXIST_IN_PLAYLIST = "Music doesn't exist in playlist";
-    public static final String MSG_400_USER_ALREADY_EXIST = "Music already exists";
+    public static final String MSG_400_USER_ALREADY_EXIST = "User already exists";
     public static final String MSG_200_USER_CREATED_SUCCESSFULLY = "User created successfully";
 
     public static Artist createArtist() { return new Artist(ARTIST_ID, ARTIST_NAME); }

@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.ciandt.summit.bootcamp2022.config.Factory.MSG_200_USER_CREATED_SUCCESSFULLY;
-
 @RestController
 @RequestMapping(value = "/api/user", produces = "application/json")
 @Log4j2
@@ -32,9 +30,9 @@ public class UserController {
     private TokenAuthorizerService tokenAuthorizerService;
 
     @ApiOperation(value = "Save user", notes = "Saved new user")
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.OK)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = Factory.MSG_201_CREATED),
+            @ApiResponse(code = 200, message = Factory.MSG_200_USER_CREATED_SUCCESSFULLY),
             @ApiResponse(code = 400, message = Factory.MSG_400_USER_ALREADY_EXIST),
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
@@ -48,7 +46,7 @@ public class UserController {
 
         userServiceImpl.saveUser(userDto);
 
-        return ResponseEntity.ok(MSG_200_USER_CREATED_SUCCESSFULLY);
+        return ResponseEntity.ok(Factory.MSG_200_USER_CREATED_SUCCESSFULLY);
     }
 
 

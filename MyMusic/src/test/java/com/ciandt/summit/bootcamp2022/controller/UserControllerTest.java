@@ -14,7 +14,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import static com.ciandt.summit.bootcamp2022.config.Factory.NAME_TOKEN;
 import static com.ciandt.summit.bootcamp2022.config.Factory.TOKEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,18 +24,13 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 class UserControllerTest {
-
     @InjectMocks
     private UserController userController;
-
     @Mock
     private UserServiceImpl userServiceImpl;
-
     @Mock
     private TokenAuthorizerService tokenAuthorizerService;
-
     private UserDto userDto;
-
 
     @BeforeEach
     public void setUp() {
@@ -45,7 +39,7 @@ class UserControllerTest {
 
     @Test
     @DisplayName("When save user then return response entity")
-    void WhenSaveUserThenReturnResponseEntity() {
+    void whenSaveUserThenReturnResponseEntity() {
         ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_USER_CREATED_SUCCESSFULLY, HttpStatus.OK);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
@@ -58,5 +52,4 @@ class UserControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
     }
-
 }
