@@ -1,8 +1,10 @@
 package com.ciandt.summit.bootcamp2022.service.impl;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
+import com.ciandt.summit.bootcamp2022.enums.UserType;
 import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
@@ -10,13 +12,13 @@ import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserEx
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
-import com.ciandt.summit.bootcamp2022.config.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.util.Optional;
 
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
@@ -92,8 +94,29 @@ class PlaylistServiceImplTest {
     }
 
     @Test
-    @DisplayName("When save music in playlist then add music to the playlist")
-    void whenSaveMusicInPlaylistThenAddMusicToThePlaylist() {
+    @DisplayName("When user common save music in playlist then add music to the playlist")
+    void whenUserCommonSaveMusicInPlaylistThenAddMusicToThePlaylist() {
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
+
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
+
+        when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
+
+        var response = playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID, USER_NICKNAME);
+
+        assertNotNull(response);
+        assertEquals(PlaylistDto.class, response.getClass());
+        assertEquals(PLAYLIST_ID, response.getId());
+        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(1)).save(any());
+        verify(userServiceImpl, times(1)).getUserByNickname(anyString());
+    }
+
+    @Test
+    @DisplayName("When user premium save music in playlist then add music to the playlist")
+    void whenUserPremiumSaveMusicInPlaylistThenAddMusicToThePlaylist() {
+        userDto.setUserType(UserType.PREMIUM);
+
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
 
         when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
