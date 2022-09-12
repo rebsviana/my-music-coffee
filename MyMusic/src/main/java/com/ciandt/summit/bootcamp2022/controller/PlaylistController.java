@@ -38,17 +38,17 @@ public class PlaylistController {
             @ApiResponse(code = 400, message = Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" + Factory.MSG_400_PLAYLIST_DOESNT_EXIST),
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
-    @PostMapping("/{playlistId}/{userId}/music")
+    @PostMapping("/{playlistId}/{nickname}/music")
     public ResponseEntity<Void> saveMusicInPlaylist (@RequestBody MusicDto musicDto,
                                                      @PathVariable String playlistId,
-                                                     @PathVariable String userId,
+                                                     @PathVariable String nickname,
                                                      @RequestHeader(value="name") String userName,
                                                      @RequestHeader(value="token") String userToken){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
         tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
 
-        var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId, userId);
+        var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId, nickname);
 
         final var uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
