@@ -11,6 +11,7 @@ import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.model.User;
 import lombok.Generated;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 @Generated
@@ -24,6 +25,7 @@ public class Factory {
     public static final String ARTIST_ID = "1344";
     public static final String ARTIST_NAME = "David";
     public static final String PLAYLIST_ID = "123456";
+    public static final String PLAYLIST_ID_NONEXISTENT = "789456";
     public static final String NAME_TOKEN = "Bruno";
     public static final String TOKEN = "123456789";
     public static final String MSG_500 = "Internal Error";
@@ -41,6 +43,7 @@ public class Factory {
     public static MusicDto createMusicDto() { return new MusicDto(MUSIC_ID, MUSIC_NAME, createArtistDto()); }
     public static UserDto createUserDto() { return new UserDto(USER_ID, USER_NAME, USER_NICKNAME, USER_TYPE, createPlaylistDto()); }
     public static Playlist createPlaylist() { return new Playlist(PLAYLIST_ID, new HashSet<Music>());}
+    public static Playlist createPlaylistWithMusics() { return new Playlist(PLAYLIST_ID, new HashSet<Music>(Arrays.asList(createMusic(), createMusic(), createMusic(), createMusic(), createMusic())));}
     public static PlaylistDto createPlaylistDto() { return new PlaylistDto(PLAYLIST_ID, new HashSet<Music>()); }
 
     public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: id of music is null";
