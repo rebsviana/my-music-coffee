@@ -40,7 +40,7 @@ public class User {
     @Column(name = "Nickname")
     private String nickname;
 
-    @Column(name = "UserType")
+    @Column(name = "Usertype")
     @Enumerated(EnumType.STRING)
     private UserType userType;
 

@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByNickname(String nickname){
         checkNotNull(nickname, "Nickname cannot be null");
 
-        User user = userRepository.findByNickname(nickname);
+        var user = userRepository.findByNickname(nickname);
 
         if(user == null)
             throw new UserAlreadyExistsException();
@@ -45,7 +45,9 @@ public class UserServiceImpl implements UserService {
 
         var playlist = playlistsRepository.save(new Playlist());
 
-        userDto.setPlaylistId(PlaylistDto.builder().id(playlist.getId()).build());
+        userDto.setPlaylistId(PlaylistDto.builder()
+                .id(playlist.getId())
+                .build());
 
         var userSave = userRepository.save(
                 User.builder()
