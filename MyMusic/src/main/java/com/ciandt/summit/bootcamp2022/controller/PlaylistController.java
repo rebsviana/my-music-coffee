@@ -58,7 +58,7 @@ public class PlaylistController {
 
     @ApiOperation(value = "Delete music in playlist", notes = "Deleted music in playlist")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Factory.MSG_200_DELETE_SUCCESSFULLY, response = Object.class),
+            @ApiResponse(code = 200, message = Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY, response = Object.class),
             @ApiResponse(code = 400, message = Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" + Factory.MSG_400_PLAYLIST_DOESNT_EXIST +  "<br/>" + Factory.MSG_400_MUSIC_DOESNT_EXIST_IN_PLAYLIST),
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
@@ -73,6 +73,6 @@ public class PlaylistController {
 
         playlistService.deleteMusicFromPlaylist(musicId,playlistId);
 
-        return ResponseEntity.ok(Factory.MSG_200_DELETE_SUCCESSFULLY);
+        return ResponseEntity.ok(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY);
     }
 }

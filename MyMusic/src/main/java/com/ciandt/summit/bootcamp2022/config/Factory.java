@@ -28,11 +28,13 @@ public class Factory {
     public static final String TOKEN = "123456789";
     public static final String MSG_500 = "Internal Error";
     public static final String MSG_200_OK = "OK";
-    public static final String MSG_200_DELETE_SUCCESSFULLY = "Music deleted successfully";
+    public static final String MSG_200_MUSIC_DELETE_SUCCESSFULLY = "Music deleted successfully";
     public static final String MSG_201_CREATED = "Created";
     public static final String MSG_400_MUSIC_DOESNT_EXIST = "Music doesn't exist";
     public static final String MSG_400_PLAYLIST_DOESNT_EXIST = "Playlist doesn't exist";
     public static final String MSG_400_MUSIC_DOESNT_EXIST_IN_PLAYLIST = "Music doesn't exist in playlist";
+    public static final String MSG_400_USER_ALREADY_EXIST = "Music already exists";
+    public static final String MSG_200_USER_CREATED_SUCCESSFULLY = "User created successfully";
 
     public static Artist createArtist() { return new Artist(ARTIST_ID, ARTIST_NAME); }
     public static Music createMusic(){ return new Music(MUSIC_ID, MUSIC_NAME, createArtist()); }
