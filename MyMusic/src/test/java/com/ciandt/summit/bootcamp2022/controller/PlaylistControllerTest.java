@@ -2,8 +2,8 @@ package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
-import com.ciandt.summit.bootcamp2022.service.serviceImpl.PlaylistServiceImpl;
-import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
+import com.ciandt.summit.bootcamp2022.service.impl.PlaylistServiceImpl;
+import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
