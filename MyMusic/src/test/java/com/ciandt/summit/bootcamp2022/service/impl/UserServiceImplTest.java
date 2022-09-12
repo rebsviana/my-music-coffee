@@ -2,6 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.impl;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
+import com.ciandt.summit.bootcamp2022.exceptions.UserAlreadyExistsException;
 import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.model.User;
@@ -32,7 +33,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-class UserServiceImplTest {
+class UserServiceImplTest{
     @Mock
     private PlaylistsRepository playlistsRepository;
     @Mock
@@ -54,11 +55,11 @@ class UserServiceImplTest {
     @Test
     @DisplayName("When save new user then return UserDto")
     void whenSaveNewUserThenReturnUserDto(){
+        when(userRepository.findByNickname(anyString())).thenReturn(null);
+
         when(playlistsRepository.save(any())).thenReturn(playlist);
 
         when(userRepository.save(any())).thenReturn(user);
-
-        when(userRepository.findByNickname(anyString())).thenReturn(null);
 
         var response = userServiceImpl.saveUser(userDto);
 
@@ -97,6 +98,20 @@ class UserServiceImplTest {
         assertNotNull(response);
         assertEquals(UserDoesntExistException.class, response.getClass());
         assertEquals(UserDoesntExistException.MESSAGE, response.getMessage());
+        verify(userRepository, times(1)).findByNickname(anyString());
+    }
+
+    @Test
+    @DisplayName("When verify user by nickname the return UserAlreadyExistsException")
+    void whenVerifyUserByNicknameThenReturnUserAlreadyExistsException() {
+        when(userRepository.findByNickname(anyString())).thenReturn(user);
+
+        var response = assertThrows(UserAlreadyExistsException.class,
+                () -> userServiceImpl.verifyUserByNickname(USER_NICKNAME));
+
+        assertNotNull(response);
+        assertEquals(UserAlreadyExistsException.class, response.getClass());
+        assertEquals(UserAlreadyExistsException.MESSAGE, response.getMessage());
         verify(userRepository, times(1)).findByNickname(anyString());
     }
 }

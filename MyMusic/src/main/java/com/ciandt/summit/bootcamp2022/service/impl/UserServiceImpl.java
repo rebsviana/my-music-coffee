@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    private void verifyUserByNickname(String nickname){
+    public void verifyUserByNickname(String nickname){
         checkNotNull(nickname, "Nickname cannot be null");
 
         var user = userRepository.findByNickname(nickname);

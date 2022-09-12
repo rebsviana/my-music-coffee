@@ -20,6 +20,7 @@ import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.NAME_TOKEN;
 import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.TOKEN;
+import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -52,9 +53,9 @@ class PlaylistControllerTest {
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
 
-        when(playlistService.saveMusicInPlaylist(musicDto ,ID_PLAYLIST)).thenReturn(playlistDto);
+        when(playlistService.saveMusicInPlaylist(musicDto ,ID_PLAYLIST, USER_NICKNAME)).thenReturn(playlistDto);
 
-        var response = playlistController.saveMusicInPlaylist(musicDto, ID_PLAYLIST, NAME_TOKEN, TOKEN);
+        var response = playlistController.saveMusicInPlaylist(musicDto, ID_PLAYLIST,USER_NICKNAME, NAME_TOKEN, TOKEN);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
