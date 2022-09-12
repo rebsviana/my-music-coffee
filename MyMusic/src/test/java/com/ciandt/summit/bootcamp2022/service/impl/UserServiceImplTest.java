@@ -87,7 +87,6 @@ class UserServiceImplTest{
         assertEquals(PLAYLIST_ID, response.getPlaylistId().getId());
         verify(userRepository, times(1)).findByNickname(anyString());
     }
-
     @Test
     @DisplayName("When get user by nickname the return UserDoesntExistException")
     void whenGetUserByNicknameTheReturnUserDoesntExistException() {

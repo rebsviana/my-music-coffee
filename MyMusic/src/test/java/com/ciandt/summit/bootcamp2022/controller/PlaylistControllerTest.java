@@ -76,6 +76,6 @@ class PlaylistControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
-        assertEquals(Factory.MSG_200_DELETE_SUCCESSFULLY, response.getBody());
+        assertEquals(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY, response.getBody());
     }
 }
