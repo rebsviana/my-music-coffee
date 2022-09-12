@@ -1,12 +1,15 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
+import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserAlreadyExistsException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -120,5 +123,44 @@ class GlobalExceptionHandlerTest {
         assertEquals(400, error.getStatusCodeValue());
         assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(MusicDoesntExistInPlaylistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When user doesnt exist then return UserDoesntExistException")
+    void whenUserDoesntExistThenReturnResponseEntity() {
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleUserDoesntExistException(new UserDoesntExistException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
+        assertEquals(UserDoesntExistException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When user already exists then return UserDoesntExistException")
+    void whenUserAlreadyExistsThenReturnResponseEntity() {
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleUserAlreadyExistsException(new UserAlreadyExistsException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
+        assertEquals(UserAlreadyExistsException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When a free user save the sixth music in the playlist then return MaxMusicCapacityForFreeUserException")
+    void whenFreeUserSaveSixthMusicInThePlaylistThenReturnMaxMusicCapacity() {
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handleMaxMusicCapacityForFreeUserException(new MaxMusicCapacityForFreeUserException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
+        assertEquals(MaxMusicCapacityForFreeUserException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }
