@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID_NONEXISTENT;
 import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -44,29 +45,21 @@ class PlaylistServiceImplTest {
 
     @InjectMocks
     private PlaylistServiceImpl playlistService;
+
     private Playlist playlist;
-    private PlaylistDto playlistDto;
+
+    private Playlist playlistWithMusics;
     private MusicDto musicDto;
     private Music music;
-    private Music music2;
-    private Music music3;
-    private Music music4;
-    private Music music5;
     private UserDto userDto;
-
-    public static final String ID_NOT_EXIST = "789456";
 
     @BeforeEach
     void setup(){
         playlist = Factory.createPlaylist();
+        playlistWithMusics = Factory.createPlaylistWithMusics();
         musicDto = Factory.createMusicDto();
-        userDto = Factory.createUserDto();
-
         music = Factory.createMusic();
-        music2 = Factory.createMusic();
-        music3 = Factory.createMusic();
-        music4 = Factory.createMusic();
-        music5 = Factory.createMusic();
+        userDto = Factory.createUserDto();
     }
 
     @Test
@@ -90,12 +83,12 @@ class PlaylistServiceImplTest {
                 .thenThrow(new PlaylistDoesntExistException());
 
         var exception = assertThrows(PlaylistDoesntExistException.class,
-                () -> playlistService.getPlaylistById(ID_NOT_EXIST));
+                () -> playlistService.getPlaylistById(PLAYLIST_ID_NONEXISTENT));
 
         assertNotNull(exception);
         assertEquals(PlaylistDoesntExistException.class, exception.getClass());
         assertEquals(PlaylistDoesntExistException.MESSAGE, exception.getMessage());
-        verify(playlistsRepository, times(1)).findById(ID_NOT_EXIST);
+        verify(playlistsRepository, times(1)).findById(PLAYLIST_ID_NONEXISTENT);
     }
 
     @Test
@@ -139,13 +132,12 @@ class PlaylistServiceImplTest {
     @Test
     @DisplayName("When a free user save the sixth music in the playlist then return MaxMusicCapacityForFreeUserException")
     void whenSaveMusicInPlaylistThenMaxMusicCapacityForFreeUserException() {
-        playlist.getMusics().add(music);
-        playlist.getMusics().add(music2);
-        playlist.getMusics().add(music3);
-        playlist.getMusics().add(music4);
-        playlist.getMusics().add(music5);
+        userDto.setPlaylistId(PlaylistDto.builder()
+                .id(playlistWithMusics.getId())
+                .musics(playlistWithMusics.getMusics())
+                .build());
 
-        when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlistWithMusics));
 
         when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
 
