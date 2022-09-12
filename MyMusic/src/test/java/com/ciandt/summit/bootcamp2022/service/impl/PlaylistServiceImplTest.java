@@ -45,9 +45,13 @@ class PlaylistServiceImplTest {
     @InjectMocks
     private PlaylistServiceImpl playlistService;
     private Playlist playlist;
+    private PlaylistDto playlistDto;
     private MusicDto musicDto;
     private Music music;
-
+    private Music music2;
+    private Music music3;
+    private Music music4;
+    private Music music5;
     private UserDto userDto;
 
     public static final String ID_NOT_EXIST = "789456";
@@ -56,8 +60,13 @@ class PlaylistServiceImplTest {
     void setup(){
         playlist = Factory.createPlaylist();
         musicDto = Factory.createMusicDto();
-        music = Factory.createMusic();
         userDto = Factory.createUserDto();
+
+        music = Factory.createMusic();
+        music2 = Factory.createMusic();
+        music3 = Factory.createMusic();
+        music4 = Factory.createMusic();
+        music5 = Factory.createMusic();
     }
 
     @Test
@@ -131,17 +140,17 @@ class PlaylistServiceImplTest {
     @DisplayName("When a free user save the sixth music in the playlist then return MaxMusicCapacityForFreeUserException")
     void whenSaveMusicInPlaylistThenMaxMusicCapacityForFreeUserException() {
         playlist.getMusics().add(music);
-        playlist.getMusics().add(music);
-        playlist.getMusics().add(music);
-        playlist.getMusics().add(music);
-        playlist.getMusics().add(music);
+        playlist.getMusics().add(music2);
+        playlist.getMusics().add(music3);
+        playlist.getMusics().add(music4);
+        playlist.getMusics().add(music5);
 
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
 
         when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
 
         var response = assertThrows(MaxMusicCapacityForFreeUserException.class,
-                () ->playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID, USER_NICKNAME));
+                () -> playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID, USER_NICKNAME));
 
         assertNotNull(response);
         assertEquals(MaxMusicCapacityForFreeUserException.class, response.getClass());

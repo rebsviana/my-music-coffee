@@ -18,7 +18,7 @@ public class Factory {
     public static final String USER_ID = "12347";
     public static final String USER_NAME = "Mariana";
     public static final String USER_NICKNAME = "marianan";
-    public static final UserType USER_TYPE = UserType.PREMIUM;
+    public static final UserType USER_TYPE = UserType.COMMON;
     public static final String MUSIC_ID = "12343";
     public static final String MUSIC_NAME = "Harley";
     public static final String ARTIST_ID = "1344";
