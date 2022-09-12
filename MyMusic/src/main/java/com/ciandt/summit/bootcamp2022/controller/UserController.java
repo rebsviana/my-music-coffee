@@ -39,7 +39,7 @@ public class UserController {
     @ApiOperation(value = "Save user", notes = "Saved new user")
     @ResponseStatus(value = HttpStatus.OK)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Factory.MSG_200_USER_CREATED_SUCCESSFULLY),
+            @ApiResponse(code = 200, message = Factory.MSG_200_USER_CREATED_SUCCESSFULLY, response = Object.class),
             @ApiResponse(code = 400, message = Factory.MSG_400_USER_ALREADY_EXIST),
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
@@ -59,8 +59,8 @@ public class UserController {
     @ApiOperation(value = "Get user", notes = "Get user by nickname")
     @ResponseStatus(value = HttpStatus.OK)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Factory.MSG_200_USER_CREATED_SUCCESSFULLY),
-            @ApiResponse(code = 400, message = Factory.MSG_400_USER_ALREADY_EXIST),
+            @ApiResponse(code = 200, message = Factory.MSG_200_OK),
+            @ApiResponse(code = 400, message = Factory.MSG_400_USER_DOESNT_EXIST),
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @GetMapping("/{nickname}")
@@ -68,7 +68,7 @@ public class UserController {
                                                               @RequestHeader(value="name") String userName,
                                                               @RequestHeader(value="token") String userToken){
         log.info("Starting the route get user");
-        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        //tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
 
         var response = userServiceImpl.getUserByNickname(nickname);
