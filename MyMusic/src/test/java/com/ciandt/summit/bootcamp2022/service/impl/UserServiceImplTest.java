@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.service.serviceImpl;
+package com.ciandt.summit.bootcamp2022.service.impl;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
@@ -90,7 +90,7 @@ class UserServiceImplTest {
     @Test
     @DisplayName("When get user by nickname the return UserAlreadyExistsException")
     void whenGetUserByNicknameTheReturnUserAlreadyExistsException() {
-        when(userRepository.findByNickname(anyString())).thenThrow(new UserAlreadyExistsException());
+        when(userRepository.findByNickname(anyString())).thenReturn(null);
 
         var response = assertThrows(UserAlreadyExistsException.class,
                 () -> userServiceImpl.getUserByNickname(USER_NICKNAME));
