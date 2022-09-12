@@ -2,15 +2,15 @@ package com.ciandt.summit.bootcamp2022.service.impl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
+import com.ciandt.summit.bootcamp2022.enums.UserType;
+import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserException;
-import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Artist;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
-import com.ciandt.summit.bootcamp2022.repository.UserRepository;
 import com.ciandt.summit.bootcamp2022.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     private MusicServiceImpl musicService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserServiceImpl userService;
 
     @Override
     public PlaylistDto getPlaylistById(String id) {
@@ -44,17 +44,23 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId, String userId) {
-        checkNotNull(playlistId,"Playlist is null");
+    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId, String nickname) {
+        checkNotNull(playlistId,"Playlist cannot be null");
+        checkNotNull(nickname,"Nickname cannot be null");
         checkNotNull(musicDto.getId(),"Payload body incorrect: id of music is null");
         checkNotNull(musicDto.getName(),"Payload body incorrect: name of music is null");
         checkNotNull(musicDto.getArtistId().getId(),"Payload body incorrect: id of artist is null");
         checkNotNull(musicDto.getArtistId().getName(),"Payload body incorrect: name of artist is null");
 
-        var user = userRepository.findById(userId).orElseThrow(UserDoesntExistException::new);
+        var playlistDto = getPlaylistById(playlistId);
+
+        var user = userService.getUserByNickname(nickname);
 
         if (!Objects.equals(user.getPlaylistId().getId(), playlistId))
             throw new PlaylistDoesntExistOnThisUserException();
+
+        if (user.getUserType().equals(UserType.COMMON) && user.getPlaylistId().getMusics().size() >= 5)
+            throw new MaxMusicCapacityForFreeUserException();
 
         musicService.getMusicById(musicDto.getId());
         Music music = Music.builder()
@@ -66,7 +72,6 @@ public class PlaylistServiceImpl implements PlaylistService {
                         .build()
                 ).build();
 
-        var playlistDto = getPlaylistById(playlistId);
         var playlist = Playlist.builder()
                 .id(playlistDto.getId())
                 .musics(playlistDto.getMusics())
