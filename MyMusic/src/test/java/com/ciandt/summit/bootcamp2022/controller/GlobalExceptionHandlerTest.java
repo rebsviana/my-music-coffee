@@ -7,6 +7,7 @@ import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.exceptions.UserAlreadyExistsException;
 import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
@@ -162,5 +163,18 @@ class GlobalExceptionHandlerTest {
         assertEquals(400, error.getStatusCodeValue());
         assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
         assertEquals(MaxMusicCapacityForFreeUserException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
+    }
+
+    @Test
+    @DisplayName("When user save the music and playlist doesn't exist on this user then return PlaylistDoesntExistOnThisUserException")
+    void whenUserSaveMusicAndPlaylistDoesntExistOnThisUserThenReturnPlaylistDoesntExistOnThisUserException() {
+
+        ResponseEntity<ErrorDto> error = globalExceptionHandler
+                .handlePlaylistDoesntExistOnThisUserException(new PlaylistDoesntExistOnThisUserException());
+
+        assertEquals(HttpStatus.BAD_REQUEST, error.getStatusCode());
+        assertEquals(400, error.getStatusCodeValue());
+        assertEquals(formatter.format(LocalDateTime.now()), Objects.requireNonNull(error.getBody()).getDateTime());
+        assertEquals(PlaylistDoesntExistOnThisUserException.MESSAGE, Objects.requireNonNull(error.getBody()).getMessage());
     }
 }

@@ -6,7 +6,7 @@ import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 public interface PlaylistService {
     public PlaylistDto getPlaylistById(String id);
 
-    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId);
+    public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId, String nickname);
 
     public void deleteMusicFromPlaylist(String musicId, String playlistId);
 }

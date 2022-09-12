@@ -3,17 +3,23 @@ package com.ciandt.summit.bootcamp2022.service.impl;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UserAlreadyExistsException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.model.User;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
 import com.ciandt.summit.bootcamp2022.repository.UserRepository;
 import com.ciandt.summit.bootcamp2022.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private PlaylistsRepository playlistsRepository;
+    @Autowired
     private UserRepository userRepository;
 
     public UserDto getUserByNickname(String nickname){
@@ -21,8 +27,8 @@ public class UserServiceImpl implements UserService {
 
         var user = userRepository.findByNickname(nickname);
 
-        if(user == null)
-            throw new UserAlreadyExistsException();
+        if (user == null)
+            throw new UserDoesntExistException();
 
         return UserDto.builder()
                 .id(user.getId())
@@ -35,13 +41,14 @@ public class UserServiceImpl implements UserService {
                         .build())
                 .build();
     }
+
     public UserDto saveUser(UserDto userDto){
         checkNotNull(userDto, "User is null");
         checkNotNull(userDto.getName(), "Payload body incorrect: name is null");
         checkNotNull(userDto.getNickname(), "Payload body incorrect: nickname is null");
         checkNotNull(userDto.getUserType(), "Payload body incorrect: user type is null");
 
-        getUserByNickname(userDto.getNickname());
+        verifyUserByNickname(userDto.getNickname());
 
         var playlist = playlistsRepository.save(new Playlist());
 
@@ -67,5 +74,14 @@ public class UserServiceImpl implements UserService {
                         .id(userSave.getPlaylistId().getId())
                         .build())
                 .build();
+    }
+
+    public void verifyUserByNickname(String nickname){
+        checkNotNull(nickname, "Nickname cannot be null");
+
+        var user = userRepository.findByNickname(nickname);
+
+        if (user != null)
+            throw new UserAlreadyExistsException();
     }
 }
