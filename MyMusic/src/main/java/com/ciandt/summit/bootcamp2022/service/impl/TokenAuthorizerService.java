@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.service.serviceImpl;
+package com.ciandt.summit.bootcamp2022.service.impl;
 
 import com.ciandt.summit.bootcamp2022.model.token.CreateAuthorizerRequest;
 import com.ciandt.summit.bootcamp2022.model.token.CreateAuthorizerRequestData;

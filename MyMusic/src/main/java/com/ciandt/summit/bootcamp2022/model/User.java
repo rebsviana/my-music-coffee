@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.model;
 
+import com.ciandt.summit.bootcamp2022.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -36,6 +39,10 @@ public class User {
 
     @Column(name = "Nickname")
     private String nickname;
+
+    @Column(name = "Usertype")
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     @OneToOne
     @JoinColumn(name = "Playlistid", referencedColumnName = "Id")
