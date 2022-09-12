@@ -2,7 +2,7 @@ package com.ciandt.summit.bootcamp2022.service.impl;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
-import com.ciandt.summit.bootcamp2022.exceptions.UserAlreadyExistsException;
+import com.ciandt.summit.bootcamp2022.exceptions.UserDoesntExistException;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.model.User;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
@@ -58,7 +58,7 @@ class UserServiceImplTest {
 
         when(userRepository.save(any())).thenReturn(user);
 
-        when(userRepository.findByNickname(anyString())).thenReturn(user);
+        when(userRepository.findByNickname(anyString())).thenReturn(null);
 
         var response = userServiceImpl.saveUser(userDto);
 
@@ -86,18 +86,17 @@ class UserServiceImplTest {
         assertEquals(PLAYLIST_ID, response.getPlaylistId().getId());
         verify(userRepository, times(1)).findByNickname(anyString());
     }
-
     @Test
-    @DisplayName("When get user by nickname the return UserAlreadyExistsException")
-    void whenGetUserByNicknameTheReturnUserAlreadyExistsException() {
+    @DisplayName("When get user by nickname the return UserDoesntExistException")
+    void whenGetUserByNicknameTheReturnUserDoesntExistException() {
         when(userRepository.findByNickname(anyString())).thenReturn(null);
 
-        var response = assertThrows(UserAlreadyExistsException.class,
+        var response = assertThrows(UserDoesntExistException.class,
                 () -> userServiceImpl.getUserByNickname(USER_NICKNAME));
 
         assertNotNull(response);
-        assertEquals(UserAlreadyExistsException.class, response.getClass());
-        assertEquals(UserAlreadyExistsException.MESSAGE, response.getMessage());
+        assertEquals(UserDoesntExistException.class, response.getClass());
+        assertEquals(UserDoesntExistException.MESSAGE, response.getMessage());
         verify(userRepository, times(1)).findByNickname(anyString());
     }
 }

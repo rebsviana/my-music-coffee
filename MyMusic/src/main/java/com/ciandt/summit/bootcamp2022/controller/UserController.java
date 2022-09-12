@@ -48,7 +48,4 @@ public class UserController {
 
         return ResponseEntity.ok(Factory.MSG_200_USER_CREATED_SUCCESSFULLY);
     }
-
-
-
 }
