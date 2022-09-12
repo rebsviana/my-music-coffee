@@ -2,8 +2,11 @@ package com.ciandt.summit.bootcamp2022.service.impl;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
+import com.ciandt.summit.bootcamp2022.dto.UserDto;
+import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
+import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserException;
 import com.ciandt.summit.bootcamp2022.model.Music;
 import com.ciandt.summit.bootcamp2022.model.Playlist;
 import com.ciandt.summit.bootcamp2022.repository.PlaylistsRepository;
@@ -18,6 +21,7 @@ import java.util.Optional;
 
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,11 +39,16 @@ class PlaylistServiceImplTest {
     @Mock
     private PlaylistsRepository playlistsRepository;
 
+    @Mock
+    private UserServiceImpl userServiceImpl;
+
     @InjectMocks
     private PlaylistServiceImpl playlistService;
     private Playlist playlist;
     private MusicDto musicDto;
     private Music music;
+
+    private UserDto userDto;
 
     public static final String ID_NOT_EXIST = "789456";
 
@@ -48,6 +57,7 @@ class PlaylistServiceImplTest {
         playlist = Factory.createPlaylist();
         musicDto = Factory.createMusicDto();
         music = Factory.createMusic();
+        userDto = Factory.createUserDto();
     }
 
     @Test
@@ -82,17 +92,64 @@ class PlaylistServiceImplTest {
     @Test
     @DisplayName("When save music in playlist then add music to the playlist")
     void whenSaveMusicInPlaylistThenAddMusicToThePlaylist() {
-        when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
-
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
 
-        var response = playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID);
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
+
+        when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
+
+        var response = playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID, USER_NICKNAME);
 
         assertNotNull(response);
         assertEquals(PlaylistDto.class, response.getClass());
         assertEquals(PLAYLIST_ID, response.getId());
         verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).save(any());
+        verify(userServiceImpl, times(1)).getUserByNickname(anyString());
+    }
+
+    @Test
+    @DisplayName("When save music in playlist and playlist doesnt exist on this user then PlaylistDoesntExistOnThisUserException")
+    void whenSaveMusicInPlaylistThenPlaylistDoesntExistOnThisUserException() {
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
+
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
+
+        var response = assertThrows(PlaylistDoesntExistOnThisUserException.class,
+                () ->playlistService.saveMusicInPlaylist(musicDto, "798456132", USER_NICKNAME));
+
+        assertNotNull(response);
+        assertEquals(PlaylistDoesntExistOnThisUserException.class, response.getClass());
+        assertEquals(PlaylistDoesntExistOnThisUserException.MESSAGE, response.getMessage());
+        verify(musicServiceImpl, times(0)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(0)).save(any());
+        verify(userServiceImpl, times(1)).getUserByNickname(anyString());
+        verify(playlistsRepository, times(1)).findById(anyString());
+    }
+
+    @Test
+    @DisplayName("When a free user save the sixth music in the playlist then return MaxMusicCapacityForFreeUserException")
+    void whenSaveMusicInPlaylistThenMaxMusicCapacityForFreeUserException() {
+        playlist.getMusics().add(music);
+        playlist.getMusics().add(music);
+        playlist.getMusics().add(music);
+        playlist.getMusics().add(music);
+        playlist.getMusics().add(music);
+
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlist));
+
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
+
+        var response = assertThrows(MaxMusicCapacityForFreeUserException.class,
+                () ->playlistService.saveMusicInPlaylist(musicDto, PLAYLIST_ID, USER_NICKNAME));
+
+        assertNotNull(response);
+        assertEquals(MaxMusicCapacityForFreeUserException.class, response.getClass());
+        assertEquals(MaxMusicCapacityForFreeUserException.MESSAGE, response.getMessage());
+        verify(musicServiceImpl, times(0)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(0)).save(any());
+        verify(userServiceImpl, times(1)).getUserByNickname(anyString());
+        verify(playlistsRepository, times(1)).findById(anyString());
     }
 
     @Test
