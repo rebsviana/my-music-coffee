@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
 
 
 @RestController
@@ -46,15 +45,9 @@ public class MusicController {
     @GetMapping
     public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName) {
         log.info("Starting the route search new music with filter " + filterName);
+        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        log.info("User authenticated successfully");
 
-        var authorizationEncode = request.getHeader("Authorization").substring(7);
-        var anything = Base64.getDecoder().decode(authorizationEncode);
-        var authorization = new String(anything);
-        var user = authorization.substring(0, authorization.indexOf(":"));
-        var password = authorization.substring(authorization.indexOf(":") + 1);
-
-        tokenAuthorizerService.verifyTokenAuthorizer(user, password);
-        log.info("Authorized user:" + user);
         var pageMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(pageMusicDto);
