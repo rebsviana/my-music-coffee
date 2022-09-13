@@ -14,10 +14,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+
 
 @RestController
 @RequestMapping(value = "/api/v1/music", produces = "application/json")
@@ -30,6 +34,9 @@ public class MusicController {
     @Autowired
     private TokenAuthorizerService tokenAuthorizerService;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @ApiOperation(value = "Get some music with filter", notes = "Returns a list of music")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Factory.MSG_200_OK),
@@ -38,12 +45,16 @@ public class MusicController {
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @GetMapping
-    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName,
-                                                                                       @RequestHeader(value="name") String userName,
-                                                                                       @RequestHeader(value="token") String userToken) {
+    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName) throws UnsupportedEncodingException {
         log.info("Starting the route search new music with filter " + filterName);
-        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
-        log.info("Authorized user:" + userName);
+
+        var anything = Base64.getDecoder().decode(request.getHeader("Authorization").substring(6));
+        var pass = new String(anything);
+        var user = pass.substring(0, pass.indexOf(":"));
+        var password = pass.substring(pass.indexOf(":") + 1);
+
+        tokenAuthorizerService.verifyTokenAuthorizer(user, password);
+        log.info("Authorized user:" + user);
         var pageMusicDto = musicService.getMusicByNameOrArtist(filterName);
 
         return ResponseEntity.ok(pageMusicDto);
