@@ -68,11 +68,11 @@ public class UserController {
                                                               @RequestHeader(value="name") String userName,
                                                               @RequestHeader(value="token") String userToken){
         log.info("Starting the route get user");
-        //tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
         log.info("Authorized user:" + userName);
 
-        var response = userServiceImpl.getUserByNickname(nickname);
-        List<UserDto> userDtoList = Collections.singletonList(response);
+        var userDto = userServiceImpl.getUserByNickname(nickname);
+        List<UserDto> userDtoList = Collections.singletonList(userDto);
 
         return ResponseEntity.ok(new PageDecoratorDto<>(new PageImpl<>(userDtoList)));
     }
