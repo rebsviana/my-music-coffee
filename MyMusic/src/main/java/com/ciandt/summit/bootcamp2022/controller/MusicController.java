@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 
@@ -45,13 +44,14 @@ public class MusicController {
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @GetMapping
-    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName) throws UnsupportedEncodingException {
+    public ResponseEntity<PageDecoratorDto<MusicDto>> getMusicByNameOrArtistWithFilter(@RequestParam("filtro") String filterName) {
         log.info("Starting the route search new music with filter " + filterName);
 
-        var anything = Base64.getDecoder().decode(request.getHeader("Authorization").substring(6));
-        var pass = new String(anything);
-        var user = pass.substring(0, pass.indexOf(":"));
-        var password = pass.substring(pass.indexOf(":") + 1);
+        var authorizationEncode = request.getHeader("Authorization").substring(7);
+        var anything = Base64.getDecoder().decode(authorizationEncode);
+        var authorization = new String(anything);
+        var user = authorization.substring(0, authorization.indexOf(":"));
+        var password = authorization.substring(authorization.indexOf(":") + 1);
 
         tokenAuthorizerService.verifyTokenAuthorizer(user, password);
         log.info("Authorized user:" + user);
