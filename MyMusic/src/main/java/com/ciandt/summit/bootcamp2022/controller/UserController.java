@@ -13,10 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/api/user", produces = "application/json")
@@ -29,6 +30,9 @@ public class UserController {
     @Autowired
     private TokenAuthorizerService tokenAuthorizerService;
 
+    @Autowired
+    private HttpServletRequest request;
+
     @ApiOperation(value = "Save user", notes = "Saved new user")
     @ResponseStatus(value = HttpStatus.OK)
     @ApiResponses(value = {
@@ -37,12 +41,10 @@ public class UserController {
             @ApiResponse(code = 500, message = Factory.MSG_500)
     })
     @PostMapping
-    public ResponseEntity<String> saveUser(@RequestBody UserDto userDto,
-                                           @RequestHeader(value="name") String userName,
-                                           @RequestHeader(value="token") String userToken){
+    public ResponseEntity<String> saveUser(@RequestBody UserDto userDto){
         log.info("Starting the route save user");
-        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
-        log.info("Authorized user:" + userName);
+        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        log.info("User authenticated successfully");
 
         userServiceImpl.saveUser(userDto);
 

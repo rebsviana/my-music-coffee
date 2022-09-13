@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "/api/playlists", produces = "application/json")
@@ -30,6 +31,8 @@ public class PlaylistController {
     private PlaylistServiceImpl playlistService;
     @Autowired
     private TokenAuthorizerService tokenAuthorizerService;
+    @Autowired
+    private HttpServletRequest request;
 
     @ApiOperation(value = "Save music in playlist", notes = "Saved new music in playlist")
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -48,12 +51,10 @@ public class PlaylistController {
     @PostMapping("/{playlistId}/{nickname}/music")
     public ResponseEntity<Void> saveMusicInPlaylist (@RequestBody MusicDto musicDto,
                                                      @PathVariable String playlistId,
-                                                     @PathVariable String nickname,
-                                                     @RequestHeader(value="name") String userName,
-                                                     @RequestHeader(value="token") String userToken){
+                                                     @PathVariable String nickname){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
-        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
-        log.info("Authorized user:" + userName);
+        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        log.info("User authenticated successfully");
 
         var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId, nickname);
 
@@ -73,12 +74,10 @@ public class PlaylistController {
     })
     @DeleteMapping("/{playlistId}/musicas/{musicId}")
     public ResponseEntity<String> deleteMusicFromPlaylist (@PathVariable String playlistId,
-                                                           @PathVariable String musicId,
-                                                           @RequestHeader(value="name") String userName,
-                                                           @RequestHeader(value="token") String userToken){
+                                                           @PathVariable String musicId){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
-        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
-        log.info("Authorized user:" + userName);
+        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        log.info("User authenticated successfully");
 
         playlistService.deleteMusicFromPlaylist(musicId,playlistId);
 
