@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 @RestController
 @RequestMapping("/api/v1/token")
 public class TokenController {
@@ -32,7 +35,11 @@ public class TokenController {
             logger.info("Recebido requisição para criação de token para chave: "+ data.getName());
             String token = createTokenUseCase.execute(data.getName());
             logger.info("Token gerado com sucesso");
-            return new ResponseEntity<>(token, HttpStatus.CREATED);
+
+            String tokenAndName = data.getName()+":"+token;
+            String encodeToken = Base64.getEncoder().encodeToString(tokenAndName.getBytes(StandardCharsets.UTF_8));
+
+            return new ResponseEntity<>(encodeToken, HttpStatus.CREATED);
         } catch (Exception e) {
             logger.error("Erro na requisição: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
