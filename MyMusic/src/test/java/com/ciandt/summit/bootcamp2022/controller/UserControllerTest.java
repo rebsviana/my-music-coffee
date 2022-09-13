@@ -14,8 +14,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import static com.ciandt.summit.bootcamp2022.config.Factory.NAME_TOKEN;
-import static com.ciandt.summit.bootcamp2022.config.Factory.TOKEN;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -30,6 +32,8 @@ class UserControllerTest {
     private UserServiceImpl userServiceImpl;
     @Mock
     private TokenAuthorizerService tokenAuthorizerService;
+    @Mock
+    private HttpServletRequest request;
     private UserDto userDto;
 
     @BeforeEach
@@ -42,11 +46,13 @@ class UserControllerTest {
     void whenSaveUserThenReturnResponseEntity() {
         ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_USER_CREATED_SUCCESSFULLY, HttpStatus.OK);
 
-        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(responseEntity);
 
         when(userServiceImpl.saveUser(userDto)).thenReturn(userDto);
 
-        var response = userController.saveUser(userDto, NAME_TOKEN, TOKEN);
+        when(request.getHeader("Authorization")).thenReturn(AUTHORIZATION_BAERER);
+
+        var response = userController.saveUser(userDto);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

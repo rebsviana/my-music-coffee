@@ -1,10 +1,10 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.service.impl.PlaylistServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
-import com.ciandt.summit.bootcamp2022.config.Factory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
+
+import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
-import static com.ciandt.summit.bootcamp2022.config.Factory.NAME_TOKEN;
 import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
-import static com.ciandt.summit.bootcamp2022.config.Factory.TOKEN;
 import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,6 +38,8 @@ class PlaylistControllerTest {
     private PlaylistServiceImpl playlistService;
     @Mock
     private TokenAuthorizerService tokenAuthorizerService;
+    @Mock
+    private HttpServletRequest request;
     private MusicDto musicDto;
     private PlaylistDto playlistDto;
 
@@ -51,11 +54,13 @@ class PlaylistControllerTest {
     void whenSaveMusicInPlaylistThenReturnResponseEntity(){
         ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
-        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(responseEntity);
 
         when(playlistService.saveMusicInPlaylist(musicDto ,ID_PLAYLIST, USER_NICKNAME)).thenReturn(playlistDto);
 
-        var response = playlistController.saveMusicInPlaylist(musicDto, ID_PLAYLIST,USER_NICKNAME, NAME_TOKEN, TOKEN);
+        when(request.getHeader("Authorization")).thenReturn(AUTHORIZATION_BAERER);
+
+        var response = playlistController.saveMusicInPlaylist(musicDto, ID_PLAYLIST,USER_NICKNAME);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -67,11 +72,13 @@ class PlaylistControllerTest {
     void whenDeleteMusicFromPlaylistThenReturnResponseEntity(){
         ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
-        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(responseEntity);
 
         doNothing().when(playlistService).deleteMusicFromPlaylist(anyString(), anyString());
 
-        var response = playlistController.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, NAME_TOKEN, TOKEN);
+        when(request.getHeader("Authorization")).thenReturn(AUTHORIZATION_BAERER);
+
+        var response = playlistController.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
