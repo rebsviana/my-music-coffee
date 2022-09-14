@@ -77,9 +77,15 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .musics(playlistDto.getMusics())
                 .build();
 
-        playlist.getMusics().add(music);
-
-        playlistsRepository.save(playlist);
+        if (playlist.getMusics()
+                .stream()
+                .filter(m -> m.getId().equals(music.getId()))
+                .findFirst()
+                .isEmpty()) {
+            playlist.getMusics().add(music);
+            playlistsRepository.save(playlist);
+            //TODO: criar exception para musica que ja existe
+        }
 
         return PlaylistDto.builder()
                 .id(playlist.getId())
