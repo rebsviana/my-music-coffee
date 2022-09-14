@@ -4,10 +4,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Builder
 @AllArgsConstructor
 @Getter
+@Setter
 public class MusicDto {
 
     @ApiModelProperty(example = "29613f16-5019-4573-9732-8213e8bec672")
