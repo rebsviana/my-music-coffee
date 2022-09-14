@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +51,30 @@ public class UserController {
         tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
-        userServiceImpl.saveUser(userDto);
+        var userDto = userServiceImpl.getUserByNickname(nickname);
+        List<UserDto> userDtoList = Collections.singletonList(userDto);
 
-        return ResponseEntity.ok(Factory.MSG_200_USER_CREATED_SUCCESSFULLY);
+        return ResponseEntity.ok(new PageDecoratorDto<>(new PageImpl<>(userDtoList)));
+    }
+
+    @ApiOperation(value = "Get user", notes = "Get user by nickname")
+    @ResponseStatus(value = HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = Factory.MSG_200_OK),
+            @ApiResponse(code = 400, message = Factory.MSG_400_USER_DOESNT_EXIST),
+            @ApiResponse(code = 500, message = Factory.MSG_500)
+    })
+    @GetMapping("/{nickname}")
+    public ResponseEntity<PageDecoratorDto<UserDto>> getUserByNickname(@PathVariable String nickname,
+                                                              @RequestHeader(value="name") String userName,
+                                                              @RequestHeader(value="token") String userToken){
+        log.info("Starting the route get user");
+        tokenAuthorizerService.verifyTokenAuthorizer(userName, userToken);
+        log.info("Authorized user:" + userName);
+
+        var userDto = userServiceImpl.getUserByNickname(nickname);
+        List<UserDto> userDtoList = Collections.singletonList(userDto);
+
+        return ResponseEntity.ok(new PageDecoratorDto<>(new PageImpl<>(userDtoList)));
     }
 }

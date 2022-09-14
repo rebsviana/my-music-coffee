@@ -1,6 +1,7 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
 import com.ciandt.summit.bootcamp2022.service.impl.UserServiceImpl;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -44,7 +46,7 @@ class UserControllerTest {
     @Test
     @DisplayName("When save user then return response entity")
     void whenSaveUserThenReturnResponseEntity() {
-        ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_USER_CREATED_SUCCESSFULLY, HttpStatus.OK);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(Factory.MSG_200_USER_CREATED_SUCCESSFULLY, HttpStatus.OK);
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(responseEntity);
 
@@ -54,8 +56,10 @@ class UserControllerTest {
 
         var response = userController.saveUser(userDto);
 
+        var response = userController.getUserByNickname(USER_NICKNAME, NAME_TOKEN, TOKEN);
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(PageDecoratorDto.class, response.getBody().getClass());
     }
 }
