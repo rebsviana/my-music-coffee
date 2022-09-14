@@ -1,7 +1,7 @@
 package com.ciandt.summit.bootcamp2022.dto;
 
 import com.ciandt.summit.bootcamp2022.enums.UserType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,19 +13,19 @@ import lombok.Setter;
 @Setter
 public class UserDto {
 
-    @ApiModelProperty(example = "dd444a81-9588-4e6b-9d3d-1f1036a6eaa1")
+    @Schema(example = "dd444a81-9588-4e6b-9d3d-1f1036a6eaa1")
     String id;
 
-    @ApiModelProperty(example = "Mariana Lima")
+    @Schema(example = "Mariana Lima")
     String name;
 
-    @ApiModelProperty(example = "mariana")
+    @Schema(example = "mariana")
     String nickname;
 
-    @ApiModelProperty(example = "PREMIUM")
+    @Schema(example = "PREMIUM")
     UserType userType;
 
-    @ApiModelProperty(example = "a39926f4-6acb-4497-884f-d4e5296ef652")
+    @Schema(implementation = PlaylistDto.class)
     PlaylistDto playlistId;
 }
 

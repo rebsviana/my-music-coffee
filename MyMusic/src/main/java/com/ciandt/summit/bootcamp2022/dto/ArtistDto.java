@@ -1,6 +1,5 @@
 package com.ciandt.summit.bootcamp2022.dto;
 
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

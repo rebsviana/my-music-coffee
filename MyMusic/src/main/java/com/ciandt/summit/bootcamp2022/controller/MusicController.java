@@ -5,16 +5,15 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
-import com.ciandt.summit.bootcamp2022.model.Music;
+import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.impl.MusicServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.ciandt.summit.bootcamp2022.config.Factory.musicDtoExample;
-
 
 @RestController
 @RequestMapping(value = "/api/v1/music", produces = "application/json")
 @SecurityRequirement(name = "bearerAuth")
 @Log4j2
+@Tag(name = "Music")
 public class MusicController {
 
     @Autowired
@@ -48,6 +46,7 @@ public class MusicController {
             @ApiResponse(responseCode = "200", description = Factory.MSG_200_OK, content = @Content(mediaType = "application/json", schema = @Schema(implementation = MusicDto.class))),
             @ApiResponse(responseCode = "204", description = NoContentException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "400", description = MinLengthRequiredException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "401", description = UnauthorizedAccessException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = Factory.MSG_500, content = @Content(schema = @Schema(hidden = true))),
     })
     @GetMapping

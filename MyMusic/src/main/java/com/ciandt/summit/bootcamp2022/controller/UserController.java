@@ -2,19 +2,21 @@ package com.ciandt.summit.bootcamp2022.controller;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
+import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
 import com.ciandt.summit.bootcamp2022.service.impl.UserServiceImpl;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping(value = "/api/user", produces = "application/json")
 @Log4j2
+@Tag(name = "User")
 public class UserController {
 
     @Autowired
@@ -33,12 +36,11 @@ public class UserController {
     @Autowired
     private HttpServletRequest request;
 
-    @ApiOperation(value = "Save user", notes = "Saved new user")
-    @ResponseStatus(value = HttpStatus.OK)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Factory.MSG_200_USER_CREATED_SUCCESSFULLY),
-            @ApiResponse(code = 400, message = Factory.MSG_400_USER_ALREADY_EXIST),
-            @ApiResponse(code = 500, message = Factory.MSG_500)
+    @Operation(summary = "Save new user", security = @SecurityRequirement(name = "bearerAuth"), responses = {
+            @ApiResponse(responseCode = "200", description = Factory.MSG_200_USER_CREATED_SUCCESSFULLY, content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "400", description = Factory.MSG_400_USER_ALREADY_EXIST, content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "401", description = UnauthorizedAccessException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "500", description = Factory.MSG_500, content = @Content(schema = @Schema(hidden = true))),
     })
     @PostMapping
     public ResponseEntity<String> saveUser(@RequestBody UserDto userDto){

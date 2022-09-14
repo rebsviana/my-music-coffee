@@ -1,4 +1,4 @@
-package com.ciandt.summit.bootcamp2022.config.swagger;
+package com.ciandt.summit.bootcamp2022.config.openapi;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
