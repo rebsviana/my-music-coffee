@@ -24,6 +24,8 @@ public class Factory {
     public static final UserType USER_TYPE = UserType.COMMON;
     public static final String MUSIC_ID = "12659604-a4a1-4c4c-8a5f-29fff1ad2ac5";
     public static final String MUSIC_ID_NONEXISTENT = "789456";
+    public static final String MUSIC_NAME_MIN_LENGTH = "Jo";
+    public static final String MUSIC_NAME_NO_CONTENT = "Reb's Song";
     public static final String MUSIC_ID_NONEXISTENT_IN_PLAYLIST = "3a253ef0-81ea-4a87-80a6-1a80bbea9fe4";
     public static final String MUSIC_NAME = "24K Magic";
     public static final String ARTIST_ID = "88ac7b00-9489-49ae-a5b1-79d3ba7fc2e6";

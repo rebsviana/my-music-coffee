@@ -19,6 +19,7 @@ import static com.ciandt.summit.bootcamp2022.config.Factory.ARTIST_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.ARTIST_NAME;
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME;
+import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME_MIN_LENGTH;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,7 +58,7 @@ class MusicServiceImplTest {
     @DisplayName("When the name has less than three characters then return MinLengthRequiredException")
     void whenGetMusicByNameOrArtistThenReturnMinLengthRequiredException() {
         var exception = assertThrows(MinLengthRequiredException.class,
-                () -> service.getMusicByNameOrArtist("aa"));
+                () -> service.getMusicByNameOrArtist(MUSIC_NAME_MIN_LENGTH));
 
         assertNotNull(exception);
         assertEquals(MinLengthRequiredException.MESSAGE, exception.getMessage());
