@@ -53,10 +53,9 @@ public class UserController {
         tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
-        var userDto = userServiceImpl.getUserByNickname(nickname);
-        List<UserDto> userDtoList = Collections.singletonList(userDto);
+        userServiceImpl.saveUser(userDto);
 
-        return ResponseEntity.ok(new PageDecoratorDto<>(new PageImpl<>(userDtoList)));
+        return ResponseEntity.ok(Factory.MSG_200_USER_CREATED_SUCCESSFULLY);
     }
 
     @Operation(summary = "Get user by nickname", security = @SecurityRequirement(name = "bearerAuth"), responses = {
