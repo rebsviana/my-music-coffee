@@ -17,10 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
 import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;

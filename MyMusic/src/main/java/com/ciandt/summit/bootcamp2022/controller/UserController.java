@@ -34,10 +34,8 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
-
     @Autowired
     private TokenAuthorizerService tokenAuthorizerService;
-
     @Autowired
     private HttpServletRequest request;
 

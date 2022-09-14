@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
-
 
 @RestController
 @RequestMapping(value = "/api/v1/music", produces = "application/json")
@@ -34,13 +32,10 @@ public class MusicController {
 
     @Autowired
     private MusicServiceImpl musicService;
-
     @Autowired
     private TokenAuthorizerService tokenAuthorizerService;
-
     @Autowired
     private HttpServletRequest request;
-
 
     @Operation(summary = "Get some music with filter", security = @SecurityRequirement(name = "bearerAuth"), responses = {
             @ApiResponse(responseCode = "200", description = Factory.MSG_200_OK, content = @Content(mediaType = "application/json", schema = @Schema(implementation = MusicDto.class))),

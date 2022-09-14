@@ -5,7 +5,6 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
 import com.ciandt.summit.bootcamp2022.service.impl.PlaylistServiceImpl;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(value = "/api/playlists", produces = "application/json")
+@RequestMapping(value = "/api/playlists")
 @Log4j2
 @Tag(name = "Playlists")
 public class PlaylistController {
@@ -69,7 +67,8 @@ public class PlaylistController {
 
     @Operation(summary = "Delete music from playlist", security = @SecurityRequirement(name = "bearerAuth"), responses = {
             @ApiResponse(responseCode = "200", description = Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY, content = @Content(schema = @Schema(hidden = true))),
-            @ApiResponse(responseCode = "400", description = Factory.MSG_400_MUSIC_DOESNT_EXIST, content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "400", description = Factory.MSG_400_MUSIC_DOESNT_EXIST + "<br/>" +
+                    Factory.MSG_400_MUSIC_DOESNT_EXIST_IN_PLAYLIST, content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "401", description = UnauthorizedAccessException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = Factory.MSG_500, content = @Content(schema = @Schema(hidden = true))),
     })

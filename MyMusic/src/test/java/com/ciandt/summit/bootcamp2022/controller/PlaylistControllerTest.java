@@ -15,9 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import javax.servlet.http.HttpServletRequest;
-
 import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
