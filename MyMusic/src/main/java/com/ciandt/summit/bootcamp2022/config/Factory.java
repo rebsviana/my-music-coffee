@@ -24,6 +24,8 @@ public class Factory {
     public static final UserType USER_TYPE = UserType.COMMON;
     public static final String MUSIC_ID = "12659604-a4a1-4c4c-8a5f-29fff1ad2ac5";
     public static final String MUSIC_ID_NONEXISTENT = "789456";
+    public static final String MUSIC_NAME_MIN_LENGTH = "Jo";
+    public static final String MUSIC_NAME_NO_CONTENT = "Reb's Song";
     public static final String MUSIC_ID_NONEXISTENT_IN_PLAYLIST = "3a253ef0-81ea-4a87-80a6-1a80bbea9fe4";
     public static final String MUSIC_NAME = "24K Magic";
     public static final String ARTIST_ID = "88ac7b00-9489-49ae-a5b1-79d3ba7fc2e6";
@@ -38,13 +40,16 @@ public class Factory {
     public static final String MSG_200_OK = "OK";
     public static final String MSG_200_MUSIC_DELETE_SUCCESSFULLY = "Music deleted successfully";
     public static final String MSG_201_CREATED = "Created";
+    public static final String MSG_204_NO_RESULT = "No results found!";
     public static final String MSG_400_MUSIC_DOESNT_EXIST = "Music doesn't exist";
     public static final String MSG_400_PLAYLIST_DOESNT_EXIST = "Playlist doesn't exist";
     public static final String MSG_400_MUSIC_DOESNT_EXIST_IN_PLAYLIST = "Music doesn't exist in playlist";
     public static final String MSG_400_USER_ALREADY_EXIST = "User already exists";
+    public static final String MSG_401_NO_RIGHTS = "You have not the rights to access this function!";
     public static final String MSG_200_USER_CREATED_SUCCESSFULLY = "User created successfully";
     public static final String MSG_400_USER_DOESNT_EXIST = "User doesn't exist";
     public static final String MSG_400_PLAYLIST_DOESNT_EXIST_ON_USER = "Playlist doesn't exist";
+    public static final String MSG_400_NAME_HAVE_LESS_THAN_THREE_CHARACTERS = "Playlist doesn't exist";
     public static final String MSG_400_MAX_MUSIC_CAPACITY_USER_COMMON = "Capacity of five musics in playlist reached for common user";
 
     public static Artist createArtist() { return new Artist(ARTIST_ID, ARTIST_NAME); }
