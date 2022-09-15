@@ -50,7 +50,7 @@ public class Factory {
     public static final String MSG_200_USER_CREATED_SUCCESSFULLY = "User created successfully";
     public static final String MSG_400_USER_DOESNT_EXIST = "User doesn't exist";
     public static final String MSG_400_PLAYLIST_DOESNT_EXIST_ON_USER = "Playlist doesn't exist";
-    public static final String MSG_400_NAME_HAVE_LESS_THAN_THREE_CHARACTERS = "Playlist doesn't exist";
+    public static final String MSG_400_NAME_HAVE_LESS_THAN_THREE_CHARACTERS = "The name must have three or more than three characters";
     public static final String MSG_400_MAX_MUSIC_CAPACITY_USER_COMMON = "Capacity of five musics in playlist reached for common user";
     public static final String MSG_400_MUSIC_ALREADY_EXIST_IN_THIS_PLAYLIST = "Music already exists in this playlist";
 
