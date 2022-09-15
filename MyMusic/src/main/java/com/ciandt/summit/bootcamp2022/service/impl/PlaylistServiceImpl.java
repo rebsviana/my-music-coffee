@@ -1,5 +1,6 @@
 package com.ciandt.summit.bootcamp2022.service.impl;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.enums.UserType;
@@ -95,7 +96,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public void deleteMusicFromPlaylist(String musicId, String playlistId) {
+    public String deleteMusicFromPlaylist(String musicId, String playlistId) {
         var musicDto = musicService.getMusicById(musicId);
         Music music = Music.builder()
                 .name(musicDto.getName())
@@ -121,5 +122,6 @@ public class PlaylistServiceImpl implements PlaylistService {
 
         playlist.getMusics().remove(musicInPlaylist);
         playlistsRepository.save(playlist);
+        return Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY;
     }
 }

@@ -8,5 +8,5 @@ public interface PlaylistService {
 
     public PlaylistDto saveMusicInPlaylist(MusicDto musicDto, String playlistId, String nickname);
 
-    public void deleteMusicFromPlaylist(String musicId, String playlistId);
+    public String deleteMusicFromPlaylist(String musicId, String playlistId);
 }
