@@ -41,7 +41,7 @@ class UserServiceImplTest {
 
         var user = userServiceImpl.getUserByNickname(USER_NICKNAME);
 
-        assertEquals(user.getNickname(), USER_NICKNAME);
+        assertEquals(USER_NICKNAME, user.getNickname());
     }
 
     @Test
