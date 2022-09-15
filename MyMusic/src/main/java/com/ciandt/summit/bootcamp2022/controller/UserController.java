@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> saveUser(@RequestBody UserDto userDto){
         log.info("Starting the route save user");
-        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        //tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
         userServiceImpl.saveUser(userDto);
@@ -65,7 +65,7 @@ public class UserController {
     @GetMapping("/{nickname}")
     public ResponseEntity<PageDecoratorDto<UserDto>> getUserByNickname(@PathVariable String nickname){
         log.info("Starting the route save user");
-        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        //tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
         var userDto = userServiceImpl.getUserByNickname(nickname);
