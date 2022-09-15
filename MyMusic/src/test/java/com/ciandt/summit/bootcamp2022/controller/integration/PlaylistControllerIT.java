@@ -68,6 +68,4 @@ public class PlaylistControllerIT {
 
         result.andExpect(status().isOk());
     }
-
-
 }

@@ -1,34 +1,21 @@
 package com.ciandt.summit.bootcamp2022.controller.integration;
 
 import com.ciandt.summit.bootcamp2022.config.Factory;
-import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
-import com.ciandt.summit.bootcamp2022.dto.UserDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import javax.transaction.Transactional;
-
-import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
-import static com.ciandt.summit.bootcamp2022.config.Factory.USER_ID;
+import static com.ciandt.summit.bootcamp2022.config.Factory.USER_ID_EXISTENT;
 import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -58,7 +45,15 @@ public class UserControllerIT {
 
     @Test
     @DisplayName("When get user by nickname then return ResponseEntity with List of UserDto")
-    void whenGetUserByNicknameThenReturnResponseEntityWithListUserDto() {
+    void whenGetUserByNicknameThenReturnResponseEntityWithListUserDto() throws Exception {
 
+        ResultActions result =
+                mockMvc.perform(get("/api/user/{USER_NICKNAME}", USER_NICKNAME));
+
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.data").exists());
+        result.andExpect(jsonPath("$.data[0].name").value("mariana"));
+        result.andExpect(jsonPath("$.data[0].nickname").value("mariana"));
+        result.andExpect(jsonPath("$.data[0].userType").value("COMMON"));
     }
 }
