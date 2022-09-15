@@ -52,7 +52,7 @@ public class PlaylistController {
                                                      @PathVariable String playlistId,
                                                      @PathVariable String nickname){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
-        //tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
         var savedPlaylist = playlistService.saveMusicInPlaylist(musicDto, playlistId, nickname);
@@ -76,7 +76,7 @@ public class PlaylistController {
     public ResponseEntity<String> deleteMusicFromPlaylist (@PathVariable String playlistId,
                                                            @PathVariable String musicId){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
-        //tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
+        tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
         playlistService.deleteMusicFromPlaylist(musicId,playlistId);
