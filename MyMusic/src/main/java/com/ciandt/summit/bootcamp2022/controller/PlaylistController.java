@@ -79,8 +79,8 @@ public class PlaylistController {
         tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
-        playlistService.deleteMusicFromPlaylist(musicId,playlistId);
+        var message = playlistService.deleteMusicFromPlaylist(musicId,playlistId);
 
-        return ResponseEntity.ok(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY);
+        return ResponseEntity.ok(message);
     }
 }

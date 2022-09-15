@@ -52,10 +52,6 @@ public class UserServiceImpl implements UserService {
 
         var playlist = playlistsRepository.save(new Playlist());
 
-        userDto.setPlaylistId(PlaylistDto.builder()
-                .id(playlist.getId())
-                .build());
-
         var userSave = userRepository.save(
                 User.builder()
                        .name(userDto.getName())

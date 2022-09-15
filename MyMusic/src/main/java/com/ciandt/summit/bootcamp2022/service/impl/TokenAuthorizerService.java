@@ -23,8 +23,8 @@ public class TokenAuthorizerService {
             var authorizationEncode = requestAuthorization.substring(7);
             var authorizationDecode = Base64.getDecoder().decode(authorizationEncode);
             var authorization = new String(authorizationDecode);
-            var user = authorization.substring(0, authorization.indexOf(":"));
-            var password = authorization.substring(authorization.indexOf(":") + 1);
+            var user = authorization.split(":")[0];
+            var password = authorization.split(":")[1];
 
             log.info("Starting integration with API Token Provider Service");
 
