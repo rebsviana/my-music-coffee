@@ -52,6 +52,7 @@ public class Factory {
     public static final String MSG_400_PLAYLIST_DOESNT_EXIST_ON_USER = "Playlist doesn't exist";
     public static final String MSG_400_NAME_HAVE_LESS_THAN_THREE_CHARACTERS = "Playlist doesn't exist";
     public static final String MSG_400_MAX_MUSIC_CAPACITY_USER_COMMON = "Capacity of five musics in playlist reached for common user";
+    public static final String MSG_400_MUSIC_ALREADY_EXIST_IN_THIS_PLAYLIST = "Music already exists in this playlist";
 
     public static Artist createArtist() { return new Artist(ARTIST_ID, ARTIST_NAME); }
     public static Music createMusic(){ return new Music(MUSIC_ID, MUSIC_NAME, createArtist()); }
@@ -62,6 +63,7 @@ public class Factory {
     public static UserDto createUserDto() { return new UserDto(USER_ID, USER_NAME, USER_NICKNAME, USER_TYPE, createPlaylistDto()); }
     public static UserDto createUserDtoNonExistent() { return new UserDto(null, USER_NAME, USER_NICKNAME_NONEXISTENT, USER_TYPE, null); }
     public static Playlist createPlaylist() { return new Playlist(PLAYLIST_ID, new HashSet<Music>());}
+    public static Playlist createPlaylistWithOneMusic() { return new Playlist(PLAYLIST_ID, new HashSet<Music>(Arrays.asList(createMusic())));}
     public static Playlist createPlaylistWithMusics() { return new Playlist(PLAYLIST_ID, new HashSet<Music>(Arrays.asList(createMusic(), createMusic(), createMusic(), createMusic(), createMusic())));}
     public static PlaylistDto createPlaylistDto() { return new PlaylistDto(PLAYLIST_ID, new HashSet<Music>()); }
     public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: name of music is null";

@@ -4,6 +4,7 @@ import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.enums.UserType;
 import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicAlreadyExistsInThisPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserException;
@@ -84,8 +85,8 @@ public class PlaylistServiceImpl implements PlaylistService {
                 .isEmpty()) {
             playlist.getMusics().add(music);
             playlistsRepository.save(playlist);
-            //TODO: criar exception para musica que ja existe
         }
+        else throw new MusicAlreadyExistsInThisPlaylistException();
 
         return PlaylistDto.builder()
                 .id(playlist.getId())
