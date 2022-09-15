@@ -24,7 +24,7 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public PageDecoratorDto<MusicDto> getMusicByNameOrArtist(String name) {
 
-        if (name.length() < 3)
+        if (name.length() <= 2)
             throw new MinLengthRequiredException();
 
         var musicEntity = musicRepository.findMusicByNameOrArtist(name);
