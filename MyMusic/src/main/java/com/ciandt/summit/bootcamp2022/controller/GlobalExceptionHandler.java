@@ -3,6 +3,7 @@ package com.ciandt.summit.bootcamp2022.controller;
 import com.ciandt.summit.bootcamp2022.dto.ErrorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MinLengthRequiredException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicAlreadyExistsInThisPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.NoContentException;
@@ -137,6 +138,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = PlaylistDoesntExistOnThisUserException.class)
     public ResponseEntity<ErrorDto> handlePlaylistDoesntExistOnThisUserException(PlaylistDoesntExistOnThisUserException exception) {
         log.error("PlaylistDoesntExistOnThisUserException: {}",exception.getMessage());
+        var errorDto = ErrorDto.builder()
+                .message(exception.getMessage())
+                .error(HttpStatus.BAD_REQUEST)
+                .dateTime(formatter.format(LocalDateTime.now()))
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDto);
+    }
+
+    @ExceptionHandler(value = MusicAlreadyExistsInThisPlaylistException.class)
+    public ResponseEntity<ErrorDto> handleMusicAlreadyExistsInThisPlaylistException(MusicAlreadyExistsInThisPlaylistException exception) {
+        log.error("MusicAlreadyExistsInThisPlaylistException: {}",exception.getMessage());
         var errorDto = ErrorDto.builder()
                 .message(exception.getMessage())
                 .error(HttpStatus.BAD_REQUEST)

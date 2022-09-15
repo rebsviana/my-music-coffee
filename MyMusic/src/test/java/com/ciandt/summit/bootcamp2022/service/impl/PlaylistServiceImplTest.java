@@ -6,6 +6,7 @@ import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
 import com.ciandt.summit.bootcamp2022.dto.UserDto;
 import com.ciandt.summit.bootcamp2022.enums.UserType;
 import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
+import com.ciandt.summit.bootcamp2022.exceptions.MusicAlreadyExistsInThisPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicDoesntExistInPlaylistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistException;
 import com.ciandt.summit.bootcamp2022.exceptions.PlaylistDoesntExistOnThisUserException;
@@ -54,6 +55,8 @@ class PlaylistServiceImplTest {
     private MusicDto musicDto;
     private Music music;
     private UserDto userDto;
+    private Playlist playlistWithOneMusic;
+    private MusicDto sameMusicToSave;
 
     @BeforeEach
     void setup(){
@@ -62,6 +65,8 @@ class PlaylistServiceImplTest {
         musicDto = Factory.createMusicDto();
         music = Factory.createMusic();
         userDto = Factory.createUserDto();
+        playlistWithOneMusic = Factory.createPlaylistWithOneMusic();
+        sameMusicToSave = Factory.createMusicDto();
     }
 
     @Test
@@ -171,6 +176,30 @@ class PlaylistServiceImplTest {
         assertEquals(MaxMusicCapacityForFreeUserException.class, response.getClass());
         assertEquals(MaxMusicCapacityForFreeUserException.MESSAGE, response.getMessage());
         verify(musicServiceImpl, times(0)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(0)).save(any());
+        verify(userServiceImpl, times(1)).getUserByNickname(anyString());
+        verify(playlistsRepository, times(1)).findById(anyString());
+    }
+
+    @Test
+    @DisplayName("When user save the music and music already exist in this playlist then return MusicAlreadyExistsInThisPlaylistException")
+    void whenSaveMusicInPlaylistThenMusicAlreadyExistsInThisPlaylistException() {
+        userDto.setPlaylistId(PlaylistDto.builder()
+                .id(playlistWithOneMusic.getId())
+                .musics(playlistWithOneMusic.getMusics())
+                .build());
+
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlistWithOneMusic));
+
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
+
+        var response = assertThrows(MusicAlreadyExistsInThisPlaylistException.class,
+                () -> playlistService.saveMusicInPlaylist(sameMusicToSave, PLAYLIST_ID, USER_NICKNAME));
+
+        assertNotNull(response);
+        assertEquals(MusicAlreadyExistsInThisPlaylistException.class, response.getClass());
+        assertEquals(MusicAlreadyExistsInThisPlaylistException.MESSAGE, response.getMessage());
+        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(0)).save(any());
         verify(userServiceImpl, times(1)).getUserByNickname(anyString());
         verify(playlistsRepository, times(1)).findById(anyString());
