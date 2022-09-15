@@ -28,7 +28,7 @@
       </ul>
     </li>
     <li><a href="#routes">Routes</a></li>
-    <li><a href="#Contat">Contact</a></li>
+    <li><a href="#Contact">Contact</a></li>
   </ol>
 </details>
 <hr>
@@ -44,7 +44,7 @@ It's an API that allows users to search for his favorites artists and musics and
 - [x]  Allow the user to search for new music in the database: 
 - [x]  Allow the user to pick a song from and add it to his playlist; 
 - [x]  Allow the user to remove a song his playlist: 
-- [ ]  Create two types of users: Premium and common.
+- [x]  Create two types of users: Premium and common.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
