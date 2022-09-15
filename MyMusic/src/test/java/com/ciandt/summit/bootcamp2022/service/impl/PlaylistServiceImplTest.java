@@ -55,6 +55,8 @@ class PlaylistServiceImplTest {
     private MusicDto musicDto;
     private Music music;
     private UserDto userDto;
+    private Playlist playlistWithOneMusic;
+    private MusicDto sameMusicToSave;
 
     @BeforeEach
     void setup(){
@@ -63,6 +65,8 @@ class PlaylistServiceImplTest {
         musicDto = Factory.createMusicDto();
         music = Factory.createMusic();
         userDto = Factory.createUserDto();
+        playlistWithOneMusic = Factory.createPlaylistWithOneMusic();
+        sameMusicToSave = Factory.createMusicDto();
     }
 
     @Test
@@ -180,14 +184,10 @@ class PlaylistServiceImplTest {
     @Test
     @DisplayName("When user save the music and music already exist in this playlist then return MusicAlreadyExistsInThisPlaylistException")
     void whenSaveMusicInPlaylistThenMusicAlreadyExistsInThisPlaylistException() {
-        var playlistWithOneMusic = Factory.createPlaylistWithOneMusic();
-
         userDto.setPlaylistId(PlaylistDto.builder()
                 .id(playlistWithOneMusic.getId())
                 .musics(playlistWithOneMusic.getMusics())
                 .build());
-
-        var sameMusicToSave = Factory.createMusicDto();
 
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.of(playlistWithOneMusic));
 
