@@ -23,7 +23,6 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public PageDecoratorDto<MusicDto> getMusicByNameOrArtist(String name) {
-        checkNotNull(name, "Name cannot be null");
 
         if (name.length() < 3)
             throw new MinLengthRequiredException();
