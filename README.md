@@ -139,9 +139,9 @@ Run this example: GET http://localhost:8080/api/v1/music?filtro=bruno
 #### Request
 
 ```
-POST http://localhost:8080/api/playlists/{playlistId}/musicas
+POST http://localhost:8080/api/playlists/{playlistId}/{userId}/music
 
-Run this example: POST http://localhost:8080/api/playlists/a39926f4-6acb-4497-884f-d4e5296ef652/musicas
+Run this example: POST http://localhost:8080/api/playlists/a39926f4-6acb-4497-884f-d4e5296ef652/dd444a81-9588-4e6b-9d3d-1f1036a6eaa1/music
 
  {
  "id": "12659604-a4a1-4c4c-8a5f-29fff1ad2ac5",
@@ -176,6 +176,55 @@ Run this example: DELETE http://localhost:8080/api/playlists/a39926f4-6acb-4497-
     HTTP/1.1 200 Ok
     Status: 200 Ok
     Music deleted successfully
+
+
+### Create new user
+
+#### Request
+
+```
+POST http://localhost:8080/api/user
+
+Run this example: POST http://localhost:8080/api/user
+
+{
+   "name": "Joao",
+   "nickname": "joao",
+   "userType": "PREMIUM"
+}
+```
+
+#### Response
+
+    HTTP/1.1 201 Created
+    Status: 201 Created
+    User created successfully
+
+### Search user
+
+#### Request
+
+```
+GET http://localhost:8080/api/user/{userId}
+
+Run this example: GET http://localhost:8080/api/user/dd444a81-9588-4e6b-9d3d-1f1036a6eaa1
+```
+
+#### Response
+
+    HTTP/1.1 200 OK
+    Status: 200 OK
+    Content-Type: application/json
+
+    {
+       "data": [
+       {
+            "id": "dd444a81-9588-4e6b-9d3d-1f1036a6eaa1",
+            "name": "mariana",
+            "nickname": "mariana",
+            "userType": "PREMIUM"
+      }
+    ]}
 
 _For more examples, please refer to the [Documentation](https://docs.google.com/document/d/1fEzrdsFtBViF5x-4h2T7BrSUCHZqf9nVHXdaVnIRC4Q/edit?usp=sharing)_
 

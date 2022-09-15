@@ -1,10 +1,11 @@
 package com.ciandt.summit.bootcamp2022.controller;
 
+import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
 import com.ciandt.summit.bootcamp2022.exceptions.UnauthorizedAccessException;
-import com.ciandt.summit.bootcamp2022.service.serviceImpl.MusicServiceImpl;
-import com.ciandt.summit.bootcamp2022.service.serviceImpl.TokenAuthorizerService;
-import com.ciandt.summit.bootcamp2022.tests.Factory;
+import com.ciandt.summit.bootcamp2022.service.impl.MusicServiceImpl;
+import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.MUSIC_NAME;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.NAME_TOKEN;
-import static com.ciandt.summit.bootcamp2022.tests.Factory.TOKEN;
+import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
+import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -34,6 +36,8 @@ class MusicControllerTest {
     private MusicServiceImpl musicService;
     @Mock
     private TokenAuthorizerService tokenAuthorizerService;
+    @Mock
+    private HttpServletRequest request;
     private MusicDto musicDto;
 
     @BeforeEach
@@ -43,28 +47,30 @@ class MusicControllerTest {
 
     @Test
     @DisplayName("When search some music with filter then return response entity with list of MusicDto")
-    void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto(){
-        ResponseEntity<String> responseEntity= new ResponseEntity<>("ok", HttpStatus.CREATED);
+    void whenGetMusicByNameOrArtistWithFilterThenReturnReponseEntityWithListMusicDto() {
+        ResponseEntity<String> responseEntity= new ResponseEntity<>(Factory.MSG_200_OK, HttpStatus.CREATED);
 
-        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenReturn(responseEntity);
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(responseEntity);
 
-        when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(List.of(musicDto));
+        when(musicService.getMusicByNameOrArtist(anyString())).thenReturn(new PageDecoratorDto<>(new PageImpl<>(List.of(musicDto))));
 
-        var response = controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME, NAME_TOKEN, TOKEN);
+        var response = controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
-        assertEquals(List.of(musicDto), response.getBody());
+        assertEquals(PageDecoratorDto.class, response.getBody().getClass());
     }
 
     @Test
     @DisplayName("When search some music with filter and token unauthorized then return UnauthorizedAccessException")
     void whenGetMusicByNameOrArtistWithFilterThenReturnUnauthorizedAccessException(){
-        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString(), anyString())).thenThrow(new UnauthorizedAccessException());
+        when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenThrow(new UnauthorizedAccessException());
+
+        when(request.getHeader("Authorization")).thenReturn(AUTHORIZATION_BAERER);
 
         var exception = assertThrows(UnauthorizedAccessException.class,
-                () -> controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME, NAME_TOKEN, TOKEN));
+                () -> controller.getMusicByNameOrArtistWithFilter(MUSIC_NAME));
 
         assertNotNull(exception);
         assertEquals(UnauthorizedAccessException.MESSAGE, exception.getMessage());

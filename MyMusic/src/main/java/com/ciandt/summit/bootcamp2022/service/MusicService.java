@@ -1,9 +1,11 @@
 package com.ciandt.summit.bootcamp2022.service;
 
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
+import com.ciandt.summit.bootcamp2022.dto.PageDecoratorDto;
+import org.springframework.cache.annotation.Cacheable;
 
-import java.util.List;
 public interface MusicService {
-    public List<MusicDto> getMusicByNameOrArtist(String name);
+    @Cacheable(value= "searchMusic")
+    public PageDecoratorDto<MusicDto> getMusicByNameOrArtist(String name);
     public  MusicDto getMusicById(String id);
 }
