@@ -3,6 +3,7 @@ package com.ciandt.summit.bootcamp2022.service.impl;
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.dto.MusicDto;
 import com.ciandt.summit.bootcamp2022.dto.PlaylistDto;
+import com.ciandt.summit.bootcamp2022.dto.UserDto;
 import com.ciandt.summit.bootcamp2022.enums.UserType;
 import com.ciandt.summit.bootcamp2022.exceptions.MaxMusicCapacityForFreeUserException;
 import com.ciandt.summit.bootcamp2022.exceptions.MusicAlreadyExistsInThisPlaylistException;
@@ -56,10 +57,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
         var playlistDto = getPlaylistById(playlistId);
 
-        var user = userService.getUserByNickname(nickname);
-
-        if (!Objects.equals(user.getPlaylistId().getId(), playlistId))
-            throw new PlaylistDoesntExistOnThisUserException();
+        var user = getUserDto(playlistId, nickname);
 
         if (user.getUserType().equals(UserType.COMMON) && user.getPlaylistId().getMusics().size() >= 5)
             throw new MaxMusicCapacityForFreeUserException();
@@ -96,7 +94,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
-    public String deleteMusicFromPlaylist(String musicId, String playlistId) {
+    public String deleteMusicFromPlaylist(String musicId, String playlistId, String nickname) {
         var musicDto = musicService.getMusicById(musicId);
         Music music = Music.builder()
                 .name(musicDto.getName())
@@ -108,6 +106,8 @@ public class PlaylistServiceImpl implements PlaylistService {
                 ).build();
 
         var playlistDto = getPlaylistById(playlistId);
+
+        getUserDto(playlistId, nickname);
 
         var playlist = Playlist.builder()
                         .id(playlistDto.getId())
@@ -123,5 +123,14 @@ public class PlaylistServiceImpl implements PlaylistService {
         playlist.getMusics().remove(musicInPlaylist);
         playlistsRepository.save(playlist);
         return Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY;
+    }
+
+    private UserDto getUserDto(String playlistId, String nickname) {
+        var user = userService.getUserByNickname(nickname);
+
+        if (!Objects.equals(user.getPlaylistId().getId(), playlistId))
+            throw new PlaylistDoesntExistOnThisUserException();
+
+        return user;
     }
 }

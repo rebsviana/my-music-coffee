@@ -20,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
@@ -29,6 +30,7 @@ import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -52,6 +54,7 @@ class PlaylistServiceImplTest {
     private Playlist playlist;
 
     private Playlist playlistWithMusics;
+    private Playlist playlistWithOneMusicNonExistent;
     private MusicDto musicDto;
     private Music music;
     private UserDto userDto;
@@ -60,6 +63,7 @@ class PlaylistServiceImplTest {
 
     @BeforeEach
     void setup(){
+        playlistWithOneMusicNonExistent = Factory.createPlaylistWithOneMusicNonExistent();
         playlist = Factory.createPlaylist();
         playlistWithMusics = Factory.createPlaylistWithMusics();
         musicDto = Factory.createMusicDto();
@@ -210,10 +214,12 @@ class PlaylistServiceImplTest {
     void whenDeleteMusicFromPlaylistThenRemoveItFromPlaylistThenUpdate() {
         when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
         when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
         playlist.getMusics().add(music);
 
-        playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID);
+        var message = playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, USER_NICKNAME);
 
+        assertEquals(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY, message);
         verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).findById(playlist.getId());
         verify(playlistsRepository, times(1)).save(any());
@@ -223,14 +229,36 @@ class PlaylistServiceImplTest {
     @DisplayName("When delete music from playlist and music doesn't exist then return MusicDoesntExistInPlaylistException")
     void whenDeleteMusicFromPlaylistAndMusicDoesntExistThenReturnMusicDoesntExistInPlaylistException() {
         when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
-        when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlistWithOneMusicNonExistent));
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
 
         var exception = assertThrows(MusicDoesntExistInPlaylistException.class,
-                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID));
+                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, USER_NICKNAME));
 
         assertNotNull(exception);
         assertEquals(MusicDoesntExistInPlaylistException.class, exception.getClass());
         assertEquals(MusicDoesntExistInPlaylistException.MESSAGE, exception.getMessage());
+
+        verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
+        verify(playlistsRepository, times(1)).findById(playlist.getId());
+        verify(playlistsRepository, times(0)).save(playlist);
+    }
+
+    @Test
+    @DisplayName("When delete music from playlist and playlist doesn't exist on this user then return PlaylistDoesntExistOnThisUserException")
+    void whenDeleteMusicFromPlaylistAndPlaylistDoesntExistOnThisUserThenPlaylistDoesntExistOnThisUserException() {
+        when(musicServiceImpl.getMusicById(anyString())).thenReturn(musicDto);
+        when(playlistsRepository.findById(anyString())).thenReturn(Optional.ofNullable(playlist));
+        when(userServiceImpl.getUserByNickname(anyString())).thenReturn(userDto);
+
+        userDto.setPlaylistId(PlaylistDto.builder().id("12345").build());
+
+        var exception = assertThrows(PlaylistDoesntExistOnThisUserException.class,
+                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, USER_NICKNAME));
+
+        assertNotNull(exception);
+        assertEquals(PlaylistDoesntExistOnThisUserException.class, exception.getClass());
+        assertEquals(PlaylistDoesntExistOnThisUserException.MESSAGE, exception.getMessage());
 
         verify(musicServiceImpl, times(1)).getMusicById(musicDto.getId());
         verify(playlistsRepository, times(1)).findById(playlist.getId());

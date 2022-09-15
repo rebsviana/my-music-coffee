@@ -73,11 +73,11 @@ class PlaylistControllerTest {
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(responseEntity);
 
-        when(playlistService.deleteMusicFromPlaylist(anyString(), anyString())).thenReturn(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY);
+        when(playlistService.deleteMusicFromPlaylist(anyString(), anyString(), anyString())).thenReturn(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY);
 
         when(request.getHeader("Authorization")).thenReturn(AUTHORIZATION_BAERER);
 
-        var response = playlistController.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID);
+        var response = playlistController.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, USER_NICKNAME);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
