@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,10 +30,6 @@ class TokenAuthorizerServiceTest {
     @InjectMocks
     private TokenAuthorizerService tokenAuthorizerService;
 
-    public static final String NAME_TOKEN = "Bruno";
-
-    public static final String TOKEN = "kl4Gcpc+e+m2uJ+MgEpOSkAOrR/wlu75srgGH0UUyJRulXmf5jeX/xalLosGqI9s";
-
     @Test
     @DisplayName("When verify token provider then return HttpStatus Created")
     void whenVerifyTokenProviderThenReturnResponseEntity() {
@@ -41,7 +38,7 @@ class TokenAuthorizerServiceTest {
         when(tokenProviderService.createTokenAuthorizer(any(CreateAuthorizerRequest.class)))
                 .thenReturn(responseEntity);
 
-        var response = tokenAuthorizerService.verifyTokenAuthorizer(NAME_TOKEN, TOKEN);
+        var response = tokenAuthorizerService.verifyTokenAuthorizer(AUTHORIZATION_BAERER);
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -56,7 +53,7 @@ class TokenAuthorizerServiceTest {
                 .thenThrow(new UnauthorizedAccessException());
 
         var exception = assertThrows(UnauthorizedAccessException.class,
-                () -> tokenAuthorizerService.verifyTokenAuthorizer(NAME_TOKEN, TOKEN));
+                () -> tokenAuthorizerService.verifyTokenAuthorizer(AUTHORIZATION_BAERER));
 
         assertNotNull(exception);
         assertEquals(UnauthorizedAccessException.MESSAGE, exception.getMessage());
