@@ -26,8 +26,7 @@ public class Factory {
     public static final String ARTIST_NAME = "David";
     public static final String PLAYLIST_ID = "123456";
     public static final String PLAYLIST_ID_NONEXISTENT = "789456";
-    public static final String NAME_TOKEN = "Bruno";
-    public static final String TOKEN = "123456789";
+    public static final String AUTHORIZATION_BAERER = "Bearer bHVhbmE6dndlT0FiOENOL2hjQUl4cnpLa1NvbXkwS2wzdDhVYnpJbGM5YVdwQ1lieGllS2UwR2phYWg5bjM2dytSbkIyZg==";
     public static final String MSG_500 = "Internal Error";
     public static final String MSG_200_OK = "OK";
     public static final String MSG_200_MUSIC_DELETE_SUCCESSFULLY = "Music deleted successfully";
