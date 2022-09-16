@@ -3,7 +3,6 @@ package com.ciandt.summit.bootcamp2022.controller.integration;
 import com.ciandt.summit.bootcamp2022.config.Factory;
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -13,37 +12,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import javax.transaction.Transactional;
-
-import static com.ciandt.summit.bootcamp2022.config.Factory.AUTHORIZATION_BAERER;
 import static com.ciandt.summit.bootcamp2022.config.Factory.ID_MUSIC_TANATO;
-import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_ID;
-import static com.ciandt.summit.bootcamp2022.config.Factory.MUSIC_NAME;
-import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID;
 import static com.ciandt.summit.bootcamp2022.config.Factory.PLAYLIST_ID_WITH_MUSIC;
-import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
 import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME_WITH_MUSIC;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PlaylistControllerIT {
+class PlaylistControllerIT {
 
     @Autowired
     ObjectMapper objectMapper;
@@ -52,10 +39,6 @@ public class PlaylistControllerIT {
 
     @MockBean
     private TokenAuthorizerService tokenAuthorizerService;
-
-    @BeforeEach
-    void setup() {
-    }
 
     @Order(1)
     @Test

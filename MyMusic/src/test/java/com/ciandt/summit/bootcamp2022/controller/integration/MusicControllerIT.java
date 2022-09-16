@@ -1,7 +1,6 @@
 package com.ciandt.summit.bootcamp2022.controller.integration;
 
 import com.ciandt.summit.bootcamp2022.service.impl.TokenAuthorizerService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class MusicControllerIT {
+class MusicControllerIT {
 
     @Autowired
     private HttpServletRequest request;

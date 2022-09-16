@@ -37,8 +37,6 @@ public class Factory {
     public static final String PLAYLIST_ID_WITH_MUSIC = "40c9ec48-f6b1-4532-b2bc-93b8c1cc460a";
     public static final String USER_NICKNAME_WITH_MUSIC = "tanato";
     public static final String ID_MUSIC_TANATO = "6ba583e2-0c21-4059-ac64-51caa336b3a2";
-
-
     public static final String AUTHORIZATION_BAERER = "Bearer bHVhbmE6dndlT0FiOENOL2hjQUl4cnpLa1NvbXkwS2wzdDhVYnpJbGM5YVdwQ1lieGllS2UwR2phYWg5bjM2dytSbkIyZg==";
     public static final String MSG_500 = "Internal Error";
     public static final String MSG_200_OK = "OK";

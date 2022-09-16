@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import javax.transaction.Transactional;
 import static com.ciandt.summit.bootcamp2022.config.Factory.USER_NICKNAME;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class UserControllerIT {
+class UserControllerIT {
 
     @Autowired
     ObjectMapper objectMapper;
@@ -40,8 +39,6 @@ public class UserControllerIT {
     @Test
     @DisplayName("When save new user then return UserDto")
     void whenSaveNewUserThenReturnUserDto() throws Exception {
-
-
         String jsonBody = objectMapper.writeValueAsString(Factory.createUserDtoNonExistent());
 
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(ResponseEntity.ok("Ok"));
@@ -57,7 +54,6 @@ public class UserControllerIT {
     @Test
     @DisplayName("When get user by nickname then return ResponseEntity with List of UserDto")
     void whenGetUserByNicknameThenReturnResponseEntityWithListUserDto() throws Exception {
-
         ResultActions result =
                 mockMvc.perform(get("/api/user/{USER_NICKNAME}", USER_NICKNAME));
 
