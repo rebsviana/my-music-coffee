@@ -64,6 +64,7 @@ public class Factory {
     public static UserDto createUserDtoNonExistent() { return new UserDto(null, USER_NAME, USER_NICKNAME_NONEXISTENT, USER_TYPE, null); }
     public static Playlist createPlaylist() { return new Playlist(PLAYLIST_ID, new HashSet<Music>());}
     public static Playlist createPlaylistWithOneMusic() { return new Playlist(PLAYLIST_ID, new HashSet<Music>(Arrays.asList(createMusic())));}
+    public static Playlist createPlaylistWithOneMusicNonExistent() { return new Playlist(PLAYLIST_ID, new HashSet<Music>(Arrays.asList(new Music(MUSIC_ID_NONEXISTENT_IN_PLAYLIST, MUSIC_NAME, createArtist()))));}
     public static Playlist createPlaylistWithMusics() { return new Playlist(PLAYLIST_ID, new HashSet<Music>(Arrays.asList(createMusic(), createMusic(), createMusic(), createMusic(), createMusic())));}
     public static PlaylistDto createPlaylistDto() { return new PlaylistDto(PLAYLIST_ID, new HashSet<Music>()); }
     public static final String MESSAGE_BAD_REQUEST_PAYLOAD = "Payload body incorrect: name of music is null";
