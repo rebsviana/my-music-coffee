@@ -62,7 +62,7 @@ class PlaylistControllerIT {
     void whenDeleteMusicFromPlaylistThenReturnResponseEntity() throws Exception {
         when(tokenAuthorizerService.verifyTokenAuthorizer(anyString())).thenReturn(ResponseEntity.ok("Ok"));
         ResultActions result =
-                mockMvc.perform(delete("/api/playlists/{playlistId}/musicas/{musicaId}", PLAYLIST_ID_WITH_MUSIC, ID_MUSIC_TANATO));
+                mockMvc.perform(delete("/api/playlists/{playlistId}/{nickname}/{musicId}", PLAYLIST_ID_WITH_MUSIC,USER_NICKNAME_WITH_MUSIC, ID_MUSIC_TANATO));
 
         result.andExpect(status().isOk());
     }
