@@ -72,14 +72,15 @@ public class PlaylistController {
             @ApiResponse(responseCode = "401", description = UnauthorizedAccessException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = Factory.MSG_500, content = @Content(schema = @Schema(hidden = true))),
     })
-    @DeleteMapping("/{playlistId}/musicas/{musicId}")
+    @DeleteMapping("/{playlistId}/{nickname}/{musicId}")
     public ResponseEntity<String> deleteMusicFromPlaylist (@PathVariable String playlistId,
-                                                           @PathVariable String musicId){
+                                                           @PathVariable String musicId,
+                                                           @PathVariable String nickname){
         log.info("Starting the route save music in a playlist with id:" + playlistId);
         tokenAuthorizerService.verifyTokenAuthorizer(request.getHeader("Authorization"));
         log.info("User authenticated successfully");
 
-        var message = playlistService.deleteMusicFromPlaylist(musicId,playlistId);
+        var message = playlistService.deleteMusicFromPlaylist(musicId,playlistId, nickname);
 
         return ResponseEntity.ok(message);
     }

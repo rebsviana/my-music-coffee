@@ -140,8 +140,9 @@ class PlaylistServiceImplTest {
     @Order(9)
     @DisplayName("When delete music in playlist by id then deleted music")
     void whenDeleteMusicFromPlaylistThenDeletedMusic() {
-        playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID);
+        var message = playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID, USER_NICKNAME);
 
+        assertEquals(Factory.MSG_200_MUSIC_DELETE_SUCCESSFULLY, message);
         assertFalse(repository.findById(PLAYLIST_ID).get().getMusics().contains(MUSIC_ID));
     }
 
@@ -150,7 +151,7 @@ class PlaylistServiceImplTest {
     @DisplayName("When delete music in playlist and playlist id doesn't exist then PlaylistDoesntExistException")
     void whenDeleteMusicFromPlaylistThenPlaylistDoesntExist() {
        var exception = assertThrows(PlaylistDoesntExistException.class,
-               () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID_NONEXISTENT));
+               () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID, PLAYLIST_ID_NONEXISTENT, USER_NICKNAME));
 
         assertEquals(PlaylistDoesntExistException.class, exception.getClass());
     }
@@ -160,7 +161,7 @@ class PlaylistServiceImplTest {
     @DisplayName("When delete music in playlist and music id doesn't exist then MusicDoesntExistException")
     void whenDeleteMusicFromPlaylistThenMusicDoesntExist() {
         var exception = assertThrows(MusicDoesntExistException.class,
-                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID_NONEXISTENT, PLAYLIST_ID));
+                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID_NONEXISTENT, PLAYLIST_ID, USER_NICKNAME));
 
         assertEquals(MusicDoesntExistException.class, exception.getClass());
     }
@@ -170,7 +171,7 @@ class PlaylistServiceImplTest {
     @DisplayName("When delete music in playlist and music doesn't exist in playlist then MusicDoesntExistInPlaylistException")
     void whenDeleteMusicFromPlaylistThenMusicInPlaylistDoesntExist() {
         var exception = assertThrows(MusicDoesntExistInPlaylistException.class,
-                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID_NONEXISTENT_IN_PLAYLIST, PLAYLIST_ID));
+                () -> playlistService.deleteMusicFromPlaylist(MUSIC_ID_NONEXISTENT_IN_PLAYLIST, PLAYLIST_ID, USER_NICKNAME));
 
         assertEquals(MusicDoesntExistInPlaylistException.class, exception.getClass());
     }
