@@ -72,7 +72,7 @@ public class PlaylistController {
             @ApiResponse(responseCode = "401", description = UnauthorizedAccessException.MESSAGE, content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "500", description = Factory.MSG_500, content = @Content(schema = @Schema(hidden = true))),
     })
-    @DeleteMapping("/{playlistId}/musicas/{musicId}")
+    @DeleteMapping("/{playlistId}/{nickname}/{musicId}")
     public ResponseEntity<String> deleteMusicFromPlaylist (@PathVariable String playlistId,
                                                            @PathVariable String musicId,
                                                            @PathVariable String nickname){
